@@ -4,13 +4,13 @@ public class Product {
 	
 	private String id;
 	private String name;
-	private float size;
+	private String size;
 	private String icon;
 	private String version;
 	private String link;
 	private String description;
 	
-	public Product(String id,String name, float size,String icon, String version, String link,String description){
+	public Product(String id,String name, String size,String icon, String version, String link,String description){
 		this.id=id;
 		this.name = name;
 		this.size = size;
@@ -32,10 +32,10 @@ public class Product {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public float getSize() {
+	public String getSize() {
 		return size;
 	}
-	public void setSize(float size) {
+	public void setSize(String size) {
 		this.size = size;
 	}
 	public String getIcon() {
