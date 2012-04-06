@@ -9,8 +9,10 @@ import com.eli.manager.pojo.App;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -72,10 +74,23 @@ public class AppDetail extends Activity{
 			}
 //			Drawable drawable = Drawable.createFromStream(new URL(item[3]).openStream(),null);
 //			icon.setImageDrawable(drawable);
-
+			btInstall.setOnClickListener(download());
+			btUpdate.setOnClickListener(download());
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
+	}
+	
+	public OnClickListener download(){
+		OnClickListener clickListener = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(link));
+				startActivity(intent);
+				finish();
+			}
+		};
+		return clickListener;
 	}
 
     private ArrayList<App> getInstalledApps(boolean getSysPackages) {
