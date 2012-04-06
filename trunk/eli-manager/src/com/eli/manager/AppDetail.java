@@ -60,9 +60,9 @@ public class AppDetail extends Activity{
 			//item = { name,icon,description,link,size,Vname};
 			tvAppName.setText(item[0].toString());
 			tvAppPkg.setText(intent.getExtras().getString("pkg"));
-			tvSize.setText("Size: "+item[4].toString());
-			tvVersion.setText("Version: "+item[5].toString());
-			tvDescription.setText("Description: "+item[2].toString());
+			tvSize.setText(item[4].toString());
+			tvVersion.setText(item[5].toString());
+			tvDescription.setText(item[2].toString());
 			link = item[3].toString();
 			versionCode = intent.getExtras().getInt("verCode");
 			
