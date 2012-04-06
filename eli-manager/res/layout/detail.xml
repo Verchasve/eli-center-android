@@ -50,7 +50,7 @@
         android:width="200dp"/>
 
     <Button
-        android:id="@+id/Button02"
+        android:id="@+id/btInstall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -58,7 +58,7 @@
         android:width="200dp" />
 
     <Button
-        android:id="@+id/Button01"
+        android:id="@+id/btUpdated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
