@@ -2,60 +2,67 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 	<h:head>
 		<title>Demo</title>
 	</h:head>
 	<h:body>
-		<table>
-			<tr>
-				<th>Application Name</th>
-				<th>Package</th>
-				<th>Size (KB)</th>
-				<th>Version Name</th>
-				<th>Version Code</th>
-				<th>Last Update</th>
-			</tr>
-			<tr>
-				<td>ELI MANAGER</td>
-				<td>com.sun.canh.muoi</td>
-				<td>1,202</td>
-				<td>1.2.0</td>
-				<td>5</td>
-				<td>2012/2/3 5:20</td>
-			</tr>
-			<tr>
-				<td>ELI MANAGER</td>
-				<td>com.sun.canh.muoi</td>
-				<td>1,202</td>
-				<td>1.2.0</td>
-				<td>5</td>
-				<td>2012/2/3 5:20</td>
-			</tr>
-			<tr>
-				<td>ELI MANAGER</td>
-				<td>com.sun.canh.muoi</td>
-				<td>1,202</td>
-				<td>1.2.0</td>
-				<td>5</td>
-				<td>2012/2/3 5:20</td>
-			</tr>
-			<tr>
-				<td>ELI MANAGER</td>
-				<td>com.sun.canh.muoi</td>
-				<td>1,202</td>
-				<td>1.2.0</td>
-				<td>5</td>
-				<td>2012/2/3 5:20</td>
-			</tr>
-			<tr>
-				<td>ELI MANAGER</td>
-				<td>com.sun.canh.muoi</td>
-				<td>1,202</td>
-				<td>1.2.0</td>
-				<td>5</td>
-				<td>2012/2/3 5:20</td>
-			</tr>
-		</table>
+		<f:event type="postAddToView" listener="#{getData.onload}" />
+		<h:form id="form1">
+			<table style="border: 1px solid #ddd; width: 800px" cellspacing="2px">
+				<tr style="background: #ccc">
+					<th>ID</th>
+					<th style="height: 30px">Application Name</th>
+					<th>Package</th>
+					<th>Size (KB)</th>
+					<th>Version Name</th>
+					<th>Version Code</th>
+					<th>Last Update</th>
+				</tr>
+				<ui:repeat var="item" value="#{getData.listItem}">
+					<tr>
+						<td><h:outputText value="#{item.id}"/></td>
+						<td>
+							<h:commandLink value="#{item.name}" actionListener="#{getData.select}">
+								<f:attribute name="item" value="#{item}"></f:attribute>
+							</h:commandLink>
+						</td>
+						<td><h:outputText value="#{item.packageName}"/></td>
+						<td><h:outputText value="#{item.size}"/></td>
+						<td><h:outputText value="#{item.version}"/></td>
+						<td><h:outputText value="#{item.version_code}"/></td>
+						<td><h:outputText value="#{item.lastUpdate}"/></td>
+					</tr>
+				</ui:repeat>
+			</table>
+			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update'}">
+				<h:outputText value="Application name"/>
+				<h:inputText value="#{getData.item.name}"/>
+				
+				<h:outputText value="Package name"/>
+				<h:inputText value="#{getData.item.packageName}"/>
+				
+				<h:outputText value="Size"/>
+				<h:inputText value="#{getData.item.size}"/>
+				
+				<h:outputText value="Version name"/>
+				<h:inputText value="#{getData.item.version}"/>
+				
+				<h:outputText value="Version code"/>
+				<h:inputText value="#{getData.item.version_code}"/>
+				
+				<h:outputText value="Link"/>
+				<h:inputText value="#{getData.item.link}"/>
+				
+				<h:outputText value="Description"/>
+				<h:inputText value="#{getData.item.description}"/>
+				
+				<h:commandButton value="Update" action="#{getData.update}"/>
+				
+				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
+				<t:inputFileUpload value="#{getData.fileUpload}"/>
+			</h:panelGrid>
+		</h:form>
 	</h:body>
 </html>
