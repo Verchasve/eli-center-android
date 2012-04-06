@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<product>
+	<item>
+	    <id>Item1</id>
+		<name>Eli Camera</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item2</id>
+		<name>Eli Camera 1</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item3</id>
+		<name>Eli Camera 2</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item4</id>
+		<name>Eli Camera 3</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item5</id>
+		<name>Eli Camera 4</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item6</id>
+		<name>Eli Camera 5</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item7</id>
+		<name>Eli Camera 6</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+	    <id>Item8</id>
+		<name>Eli Camera 7</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+	<item>
+		<id>Item9</id>
+		<name>Eli Camera 8</name>
+		<package>com.canh.com</package>
+		<size>5000</size>
+		<icon>http://earlrogers.com/keys2009/icon_camera.gif</icon>
+		<version>1.1</version>
+		<version-code>1</version-code>
+		<link>http://14.63.212.204/eli-android-center/data/app/demo.apk</link>
+		<description>Phần mềm quan sát camera</description>
+		<lastupdate>2012/2/23 3:20</lastupdate>
+	</item>
+</product>
