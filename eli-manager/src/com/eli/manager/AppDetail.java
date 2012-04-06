@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -28,6 +31,8 @@ public class AppDetail extends Activity{
 	String link;
 	int versionCode = 0;
 	Button btUpdate,btInstall,btUpdated;	
+	ProgressDialog mProgressDialog;
+	public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +90,21 @@ public class AppDetail extends Activity{
 		}
 	}
 	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+        case DIALOG_DOWNLOAD_PROGRESS:
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Downloading file..");
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+            return mProgressDialog;
+        default:
+            return null;
+        }
+	}
+
 	public OnClickListener download(){
 		OnClickListener clickListener = new OnClickListener() {
 			@Override
@@ -96,8 +116,33 @@ public class AppDetail extends Activity{
 //				startActivity(intent);
 //				startActivity(intentInstall);
 //				finish();
-				
-				
+				downloading();
+			}
+		};
+		return clickListener;
+	}
+	
+	public void downloading(){
+		new AsyncTask<String, String, String>(){
+
+			@Override
+		    protected void onPreExecute() {
+		        super.onPreExecute();
+		        showDialog(DIALOG_DOWNLOAD_PROGRESS);
+		    }
+			
+			protected void onProgressUpdate(String... progress) {
+		         mProgressDialog.setProgress(Integer.parseInt(progress[0]));
+		    }
+		 
+		    @Override
+		    protected void onPostExecute(String unused) {
+		        dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
+		        finish();
+		    }
+			
+			@Override
+			protected String doInBackground(String... arg0) {
 				try{
 					URL url = new URL(link);
 			        HttpURLConnection c = (HttpURLConnection) url.openConnection();
@@ -117,19 +162,25 @@ public class AppDetail extends Activity{
 			        InputStream is = c.getInputStream();
 
 			        byte[] buffer = new byte[1024];
-			        int len1 = 0;
-			        while ((len1 = is.read(buffer)) != -1) {
-			            fos.write(buffer, 0, len1);
-			        }
-			        fos.close();
-			        is.close();
 			        
+			        long total = 0;
+			        int count;
+			        int lenghtOfFile = c.getContentLength();
+			        while ((count = is.read(buffer)) != -1) {
+			            total += count;
+			            publishProgress(""+(int)((total*100)/lenghtOfFile));
+			            fos.write(buffer, 0, count);
+			        }
+			 
+			        fos.flush();
+			        fos.close();
+			        is.close();			        
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
+				return null;
 			}
-		};
-		return clickListener;
+		}.execute("");
 	}
 
     private ArrayList<App> getInstalledApps(boolean getSysPackages) {
