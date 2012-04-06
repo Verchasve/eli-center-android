@@ -1,6 +1,5 @@
 package com.eli.manager;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,13 +9,16 @@ import com.eli.manager.pojo.App;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class AppDetail extends Activity{
 	private static ArrayList<App> listProgram;
 	ImageView icon;
+	TextView tvAppName,tvAppPkg,tvSize,tvVersion,tvDescription;
+	String link;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,10 +28,22 @@ public class AppDetail extends Activity{
 				listProgram = getInstalledApps(false);
 			}
 			
+			tvAppName = (TextView) findViewById(R.id.tvAppName);
+			tvAppPkg = (TextView) findViewById(R.id.tvAppPkg);
+			tvSize = (TextView) findViewById(R.id.tvSize);
+			tvVersion = (TextView) findViewById(R.id.tvVersion);
+			tvDescription = (TextView) findViewById(R.id.tvDescription);
+			
 			//icon = (ImageView)findViewById(R.id.icon);
 			Intent intent = getIntent();
 			String[] item = intent.getExtras().getStringArray("item");
-			
+			//item = { name,icon,description,link,size,Vname};
+			tvAppName.setText(item[0].toString());
+			tvAppPkg.setText(intent.getExtras().getString("pkg"));
+			tvSize.setText("Size: "+item[4].toString());
+			tvVersion.setText("Version: "+item[5].toString());
+			tvDescription.setText("Description: "+item[2].toString());
+			link = item[3].toString();
 //			Drawable drawable = Drawable.createFromStream(new URL(item[3]).openStream(),null);
 //			icon.setImageDrawable(drawable);
 
