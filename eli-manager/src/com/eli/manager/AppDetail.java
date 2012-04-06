@@ -13,9 +13,11 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -109,13 +111,6 @@ public class AppDetail extends Activity{
 		OnClickListener clickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-//				Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(link));
-//				startActivity(intent);
-//				Intent intentInstall = new Intent(Intent.ACTION_VIEW);
-//				intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
-//				startActivity(intent);
-//				startActivity(intentInstall);
-//				finish();
 				downloading();
 			}
 		};
@@ -138,7 +133,6 @@ public class AppDetail extends Activity{
 		    @Override
 		    protected void onPostExecute(String unused) {
 		        dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
-		        finish();
 		    }
 			
 			@Override
@@ -150,7 +144,6 @@ public class AppDetail extends Activity{
 			        c.setDoOutput(true);
 			        c.connect();
 			       
-					System.out.println("FUCK HUY: "+ url.getFile());
 					File file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
 					if(!file.exists()){
 						file.createNewFile();
@@ -174,7 +167,11 @@ public class AppDetail extends Activity{
 			 
 			        fos.flush();
 			        fos.close();
-			        is.close();			        
+			        is.close();			  
+        
+					Intent intentInstall = new Intent(Intent.ACTION_VIEW);
+					intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
+					startActivity(intentInstall);
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
