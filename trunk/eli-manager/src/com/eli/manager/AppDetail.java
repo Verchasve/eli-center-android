@@ -1,21 +1,22 @@
 package com.eli.manager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.eli.manager.pojo.App;
-
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.eli.manager.pojo.App;
 
 public class AppDetail extends Activity{
 	private static ArrayList<App> listProgram;
@@ -87,6 +88,10 @@ public class AppDetail extends Activity{
 			public void onClick(View v) {
 				Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(link));
 				startActivity(intent);
+				Intent intentInstall = new Intent(Intent.ACTION_VIEW);
+				intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
+				startActivity(intent);
+				startActivity(intentInstall);
 				finish();
 			}
 		};
