@@ -144,8 +144,13 @@ public class AppDetail extends Activity{
 			        c.setRequestMethod("GET");
 			        c.setDoOutput(true);
 			        c.connect();
-			       
-					File file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
+			        
+			        File file = new File(Environment.getExternalStorageDirectory() + "/download/");
+					if(!file.exists()){
+						file.mkdir();
+					}
+			        
+					file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
 					if(!file.exists()){
 						file.createNewFile();
 					}
