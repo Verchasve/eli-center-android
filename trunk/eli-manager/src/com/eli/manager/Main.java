@@ -30,7 +30,9 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
+		list_product = (ListView) findViewById(R.id.list_product);
 		processing(this);
+		setEventClick();
 	}
 	
 	public void processing(Context con){
@@ -44,7 +46,6 @@ public class Main extends Activity {
 			
 			@Override
 			protected Void doInBackground(String... params) {
-				list_product = (ListView) findViewById(R.id.list_product);
 				appAdapter = new AppAdapter(context, R.layout.display);
 				getProduct();
 				return null;
@@ -54,7 +55,6 @@ public class Main extends Activity {
 			protected void onPostExecute(Void arg) {
 			    if (progress.isShowing()){
 			    	list_product.setAdapter(appAdapter);
-			    	setEventClick();
 			    	progress.dismiss();
 			    }
 			}
