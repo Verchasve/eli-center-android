@@ -20,6 +20,10 @@
         <activity
             android:name=".AppDetail"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.eli.manager.APPDETAIL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 </manifest>

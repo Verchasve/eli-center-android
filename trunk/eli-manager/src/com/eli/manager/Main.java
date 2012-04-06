@@ -68,7 +68,7 @@ public class Main extends Activity {
 					int position, long id) {
 				App app = (App) list.getItemAtPosition(position);
 				String[] item = { app.getAppname(),app.getIcon(),app.getDescription(),app.getLink(),app.getAppsize()};
-				Intent intent = new Intent("com.installandroid.PRODUCTDETAIL");
+				Intent intent = new Intent("com.eli.manager.APPDETAIL");
 				intent.putExtra("item", item);
 				intent.putExtra("pkg", app.getPname());
 				intent.putExtra("verCode", app.getVersionCode());
