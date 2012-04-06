@@ -145,17 +145,18 @@ public class AppDetail extends Activity{
 			        c.setDoOutput(true);
 			        c.connect();
 			        
-			        File file = new File(Environment.getExternalStorageDirectory() + "/download/");
+			        
+			        File file = new File(Environment.getExternalStorageDirectory() + "/elicenter/");
 					if(!file.exists()){
 						file.mkdir();
 					}
 			        
-					file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
+					file = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
 					if(!file.exists()){
 						file.createNewFile();
 					}
 					
-					File outputFile = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
+					File outputFile = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
 			        FileOutputStream fos = new FileOutputStream(outputFile);
 
 			        InputStream is = c.getInputStream();
