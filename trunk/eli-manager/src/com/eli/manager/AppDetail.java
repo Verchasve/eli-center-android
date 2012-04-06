@@ -1,13 +1,16 @@
 package com.eli.manager;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
@@ -93,11 +96,34 @@ public class AppDetail extends Activity{
 //				startActivity(intent);
 //				startActivity(intentInstall);
 //				finish();
+				
+				
 				try{
-					File file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.txt");
+					URL url = new URL(link);
+			        HttpURLConnection c = (HttpURLConnection) url.openConnection();
+			        c.setRequestMethod("GET");
+			        c.setDoOutput(true);
+			        c.connect();
+			       
+					System.out.println("FUCK HUY: "+ url.getFile());
+					File file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
 					if(!file.exists()){
 						file.createNewFile();
 					}
+					
+					File outputFile = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk");
+			        FileOutputStream fos = new FileOutputStream(outputFile);
+
+			        InputStream is = c.getInputStream();
+
+			        byte[] buffer = new byte[1024];
+			        int len1 = 0;
+			        while ((len1 = is.read(buffer)) != -1) {
+			            fos.write(buffer, 0, len1);
+			        }
+			        fos.close();
+			        is.close();
+			        
 				}catch (Exception e) {
 					e.printStackTrace();
 				}
