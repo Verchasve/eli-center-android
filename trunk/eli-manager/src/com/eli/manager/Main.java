@@ -96,8 +96,8 @@ public class Main extends Activity {
 						pkg = xmlPullParser.nextText();
 					} else if (xmlPullParser.getName().equals("size")) {
 						size = xmlPullParser.nextText();
-					} else if (xmlPullParser.getName().equals("icon")) {
-						icon = xmlPullParser.nextText();
+//					} else if (xmlPullParser.getName().equals("icon")) {
+//						icon = xmlPullParser.nextText();
 					} else if (xmlPullParser.getName().equals("version")) {
 						version = xmlPullParser.nextText();
 					} else if (xmlPullParser.getName().equals("version-code")) {
@@ -110,7 +110,7 @@ public class Main extends Activity {
 						app.setAppname(name);
 						app.setPname(pkg);
 						app.setAppsize(size);
-						app.setIcon(icon);
+						//app.setIcon(icon);
 						app.setVersionName(version);
 						app.setVersionCode(versionCode);
 						app.setLink(link);
