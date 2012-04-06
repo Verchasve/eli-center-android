@@ -32,7 +32,7 @@ public class AppAdapter extends ArrayAdapter<App>{
 		
 		App app = getItem(position);
 		name.setText(app.getAppname());
-		version.setText("version : " + app.getVersionName());
+		version.setText("Version : " + app.getVersionName());
 //		try{
 //			Drawable drawable = Drawable.createFromStream(new URL(app.getIcon()).openStream(),null);
 //			icon.setImageDrawable(drawable);

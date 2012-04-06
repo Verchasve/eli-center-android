@@ -11,7 +11,9 @@
         android:paddingBottom="2dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
-        android:text="Angry bird" />
+        android:text="Angry bird"
+        android:textColor="#006191" 
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/version"
@@ -20,6 +22,7 @@
         android:layout_below="@id/product_name"
         android:paddingLeft="15dp"
         android:text="version 1.0.1"
-        android:textSize="11dp" />
+        android:textSize="11dp" 
+        android:textColor="#555"/>
 
 </RelativeLayout>
