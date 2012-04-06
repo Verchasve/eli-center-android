@@ -30,19 +30,19 @@ public class AppAdapter extends ArrayAdapter<App>{
 		if(view == null){
 			view = layoutInflater.inflate(layoutID, null);
 		}
-		ImageView icon = (ImageView)view.findViewById(R.id.icon);
+//		ImageView icon = (ImageView)view.findViewById(R.id.icon);
 		TextView name = (TextView)view.findViewById(R.id.product_name);
 		TextView version = (TextView)view.findViewById(R.id.version);
 		
 		App app = getItem(position);
 		name.setText(app.getAppname());
 		version.setText("version : " + app.getVersionName());
-		try{
-			Drawable drawable = Drawable.createFromStream(new URL(app.getIcon()).openStream(),null);
-			icon.setImageDrawable(drawable);
-		}catch (Exception e) {
-			e.printStackTrace(System.out);
-		}
+//		try{
+//			Drawable drawable = Drawable.createFromStream(new URL(app.getIcon()).openStream(),null);
+//			icon.setImageDrawable(drawable);
+//		}catch (Exception e) {
+//			e.printStackTrace(System.out);
+//		}
 		return view;
 	}
 

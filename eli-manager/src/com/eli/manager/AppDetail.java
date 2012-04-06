@@ -26,12 +26,12 @@ public class AppDetail extends Activity{
 				listProgram = getInstalledApps(false);
 			}
 			
-			icon = (ImageView)findViewById(R.id.icon);
+			//icon = (ImageView)findViewById(R.id.icon);
 			Intent intent = getIntent();
 			String[] item = intent.getExtras().getStringArray("item");
 			
-			Drawable drawable = Drawable.createFromStream(new URL(item[3]).openStream(),null);
-			icon.setImageDrawable(drawable);
+//			Drawable drawable = Drawable.createFromStream(new URL(item[3]).openStream(),null);
+//			icon.setImageDrawable(drawable);
 
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
