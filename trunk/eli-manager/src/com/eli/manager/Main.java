@@ -67,7 +67,7 @@ public class Main extends Activity {
 			public void onItemClick(AdapterView<?> list, View view,
 					int position, long id) {
 				App app = (App) list.getItemAtPosition(position);
-				String[] item = { app.getAppname(),app.getIcon(),app.getDescription(),app.getLink(),app.getAppsize()};
+				String[] item = { app.getAppname(),app.getIcon(),app.getDescription(),app.getLink(),app.getAppsize(),app.getVersionName()};
 				Intent intent = new Intent("com.eli.manager.APPDETAIL");
 				intent.putExtra("item", item);
 				intent.putExtra("pkg", app.getPname());
