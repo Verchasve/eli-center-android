@@ -167,10 +167,10 @@ public class AppDetail extends Activity{
 			 
 			        fos.flush();
 			        fos.close();
-			        is.close();			  
-        
-					Intent intentInstall = new Intent(Intent.ACTION_VIEW);
-					intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
+			        is.close();			
+
+			        Intent intentInstall = new Intent(Intent.ACTION_PACKAGE_REMOVED);
+			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
 					startActivity(intentInstall);
 				}catch (Exception e) {
 					e.printStackTrace();
