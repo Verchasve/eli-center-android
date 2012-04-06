@@ -133,6 +133,7 @@ public class AppDetail extends Activity{
 		    @Override
 		    protected void onPostExecute(String unused) {
 		        dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
+		        finish();
 		    }
 			
 			@Override
@@ -169,7 +170,7 @@ public class AppDetail extends Activity{
 			        fos.close();
 			        is.close();			
 
-			        Intent intentInstall = new Intent(Intent.ACTION_PACKAGE_REMOVED);
+			        Intent intentInstall = new Intent(Intent.ACTION_VIEW);
 			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
 					startActivity(intentInstall);
 				}catch (Exception e) {
