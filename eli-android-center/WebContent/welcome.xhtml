@@ -3,9 +3,14 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:p="http://primefaces.org/ui">
 	<h:head>
 		<title>Demo</title>
+		<style>
+			body, html {
+				font-size: 12px;
+			}
+		</style>
 	</h:head>
 	<h:body>
 		<f:event type="postAddToView" listener="#{getData.onload}" />
@@ -58,10 +63,13 @@
 				<h:outputText value="Description"/>
 				<h:inputText value="#{getData.item.description}"/>
 				
+				<h:outputText value=""/>
 				<h:commandButton value="Update" action="#{getData.update}"/>
 				
 				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
-				<t:inputFileUpload value="#{getData.fileUpload}"/>
+				<p:fileUpload fileUploadListener="#{getData.handleFileUpload}"  
+		            mode="advanced" update="messages" sizeLimit="100000"/>  
+ 				<p:growl id="messages" showDetail="true"/>  
 			</h:panelGrid>
 		</h:form>
 	</h:body>

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.myfaces.custom.fileupload.UploadedFile;
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.w3c.dom.*;
 
 import pojo.ListItem;
@@ -199,17 +201,51 @@ public class GetData {
 		}
 	}
 	
+	public void handleFileUpload(FileUploadEvent event) {
+		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/app/");
+		File result = new File(path + event.getFile().getFileName());
+
+        try {
+            FileOutputStream fileOutputStream = new FileOutputStream(result);
+            long size = event.getFile().getSize();
+			byte [] buffer = new byte[(int)size];
+
+            int bulk;
+            InputStream inputStream = event.getFile().getInputstream();
+            while (true) {
+                bulk = inputStream.read(buffer);
+                if (bulk < 0) {
+                    break;
+                }
+                fileOutputStream.write(buffer, 0, bulk);
+                fileOutputStream.flush();
+            }
+
+            fileOutputStream.close();
+            inputStream.close();
+
+            FacesMessage msg = new FacesMessage("Succesful",
+                    event.getFile().getFileName() + " is uploaded.");
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            FacesMessage error = new FacesMessage("The files were not uploaded!");
+            FacesContext.getCurrentInstance().addMessage(null, error);
+        }
+    } 
+	
 	public void uploadFile() throws IOException {
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/auto-update/");
 		FileOutputStream fos = null;
 		InputStream stream = null;		
 		try{
-			stream = fileUpload.getInputStream();
+			stream = fileUpload.getInputstream();
 			long size = fileUpload.getSize();
 			byte [] buffer = new byte[(int)size];
 			stream.read(buffer, 0, (int)size);
-			fos = new FileOutputStream(path + File.separator + fileUpload.getName());
-			item.setLink(path + File.separator + fileUpload.getName());
+			fos = new FileOutputStream(path + File.separator + fileUpload.getFileName());
+			item.setLink(path + File.separator + fileUpload.getFileName());
 			fos.write(buffer);
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
