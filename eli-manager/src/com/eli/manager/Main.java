@@ -52,11 +52,12 @@ public class Main extends Activity {
 
 			@Override
 			protected void onPostExecute(Void arg) {
-			    if (progress.isShowing())
+			    if (progress.isShowing()){
 			    	list_product.setAdapter(appAdapter);
 			    	setEventClick();
 			    	progress.dismiss();
 			    }
+			}
 		}.execute("");
 	}
 
