@@ -86,15 +86,21 @@ public class AppDetail extends Activity{
 		OnClickListener clickListener = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(link));
-				startActivity(intent);
-				Intent intentInstall = new Intent(Intent.ACTION_VIEW);
-				intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
-				startActivity(intent);
-				startActivity(intentInstall);
-				System.out.println("ABC");
-				intentInstall.setAction(Intent.ACTION_DELETE);
+//				Intent intent = new Intent(Intent.ACTION_VIEW ,Uri.parse(link));
+//				startActivity(intent);
+//				Intent intentInstall = new Intent(Intent.ACTION_VIEW);
+//				intent.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
+//				startActivity(intent);
+//				startActivity(intentInstall);
 //				finish();
+				try{
+					File file = new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.txt");
+					if(!file.exists()){
+						file.createNewFile();
+					}
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		};
 		return clickListener;
