@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +20,8 @@ public class AppDetail extends Activity{
 	ImageView icon;
 	TextView tvAppName,tvAppPkg,tvSize,tvVersion,tvDescription;
 	String link;
+	int versionCode = 0;
+	Button btUpdate,btInstall,btUpdated;	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,9 @@ public class AppDetail extends Activity{
 			tvSize = (TextView) findViewById(R.id.tvSize);
 			tvVersion = (TextView) findViewById(R.id.tvVersion);
 			tvDescription = (TextView) findViewById(R.id.tvDescription);
+			btUpdate = (Button) findViewById(R.id.btUpdate);
+			btInstall = (Button) findViewById(R.id.btInstall);
+			btUpdated = (Button) findViewById(R.id.btUpdated);
 			
 			//icon = (ImageView)findViewById(R.id.icon);
 			Intent intent = getIntent();
@@ -44,6 +51,25 @@ public class AppDetail extends Activity{
 			tvVersion.setText("Version: "+item[5].toString());
 			tvDescription.setText("Description: "+item[2].toString());
 			link = item[3].toString();
+			versionCode = intent.getExtras().getInt("verCode");
+			
+			btInstall.setVisibility(View.VISIBLE);
+			btUpdate.setVisibility(View.GONE);
+			btUpdated.setVisibility(View.GONE);
+			for(int i=0;i<listProgram.size();i++) {
+				if(tvAppPkg.getText().equals(listProgram.get(i).getPname())){
+					if(versionCode>listProgram.get(i).getVersionCode()){
+						btInstall.setVisibility(View.GONE);
+						btUpdate.setVisibility(View.VISIBLE);
+						btUpdated.setVisibility(View.GONE);
+					}else{
+						btInstall.setVisibility(View.GONE);
+						btUpdate.setVisibility(View.GONE);
+						btUpdated.setVisibility(View.VISIBLE);
+					}
+					break;
+				}				
+			}
 //			Drawable drawable = Drawable.createFromStream(new URL(item[3]).openStream(),null);
 //			icon.setImageDrawable(drawable);
 
