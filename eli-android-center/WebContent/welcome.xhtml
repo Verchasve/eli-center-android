@@ -42,7 +42,7 @@
 				</ui:repeat>
 			</table>
 		</h:form>
-		<h:form>
+		<h:form enctype="multipart/form-data">
 			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update'}">
 				<h:outputText value="Application name"/>
 				<h:inputText value="#{getData.item.name}"/>
