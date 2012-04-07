@@ -257,6 +257,9 @@ public class GetData {
 			}
 		}
 		
+		int version_code = Integer.parseInt(item.getVersion_code());
+		version_code ++;
+		item.setVersion_code(String.valueOf(version_code));
 		item.setLastUpdate(dateFormat.format(date));
 		for (int i = 0; i < listItem.size(); i++) {
 			if(listItem.get(i).getId().equals(item.getId())){
