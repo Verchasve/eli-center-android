@@ -41,9 +41,10 @@
 					</tr>
 				</ui:repeat>
 			</table>
+			<h:commandLink value="Create New App" action="#{getData.create}"></h:commandLink>
 		</h:form>
 		<h:form enctype="multipart/form-data">
-			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update'}">
+			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update' or getData.action=='create'}">
 				<h:outputText value="Application name"/>
 				<h:inputText value="#{getData.item.name}"/>
 				
@@ -56,14 +57,20 @@
 				<h:outputText value="Version name"/>
 				<h:inputText value="#{getData.item.version}"/>
 				
+				<h:outputText value="Version code"/>
+				<h:inputText value="#{getData.item.version_code}"/>
+				
 				<h:outputText value="Description"/>
 				<h:inputText value="#{getData.item.description}"/>
 				
-				<h:outputText value=""/>
-				<h:commandButton value="Update" action="#{getData.update}"/>
+				<h:outputText value="" rendered="#{getData.action == 'update'}"/>
+				<h:commandButton value="Update" action="#{getData.update}" rendered="#{getData.action == 'update'}"/>
 				
-				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
+				<h:outputText value=""/>
 		        <p:fileUpload value="#{getData.fileUpload}" mode="simple"/> 
+		        
+		        <h:outputText value=""/>
+				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
 			</h:panelGrid>
 		</h:form>
 	</h:body>
