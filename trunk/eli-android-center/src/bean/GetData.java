@@ -261,10 +261,6 @@ public class GetData {
 				stream.close();
 			}
 		}
-		
-		int version_code = Integer.parseInt(item.getVersion_code());
-		version_code ++;
-		item.setVersion_code(String.valueOf(version_code));
 		item.setLastUpdate(dateFormat.format(date));
 		if(action.equals("update")){
 			for (int i = 0; i < listItem.size(); i++) {
@@ -274,7 +270,9 @@ public class GetData {
 				}
 			}
 		}else if(action.equals("create")){
+			System.out.println("MMMMMMMM:  "+listItem.size());
 			item.setId(new Date().getTime()+"");
+			item.setIcon("...");
 			listItem.add(item);
 		}
 
