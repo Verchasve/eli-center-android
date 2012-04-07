@@ -229,6 +229,8 @@ public class GetData {
     } 
 	
 	public void uploadFile() throws IOException {
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
+		Date date = new Date();
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/auto-update/");
 		FileOutputStream fos = null;
 		InputStream stream = null;
@@ -254,8 +256,7 @@ public class GetData {
 				stream.close();
 			}
 		}
-		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
-		Date date = new Date();
+		
 		item.setLastUpdate(dateFormat.format(date));
 		for (int i = 0; i < listItem.size(); i++) {
 			if(listItem.get(i).getId().equals(item.getId())){
