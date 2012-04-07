@@ -93,6 +93,11 @@ public class GetData {
 		item = (ListItem) evt.getComponent().getAttributes().get("item");
 		action = "update";
 	}
+	
+	public void create() {
+		item = new ListItem();
+		action = "create";
+	}
 
 	public void update() {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
@@ -261,11 +266,16 @@ public class GetData {
 		version_code ++;
 		item.setVersion_code(String.valueOf(version_code));
 		item.setLastUpdate(dateFormat.format(date));
-		for (int i = 0; i < listItem.size(); i++) {
-			if(listItem.get(i).getId().equals(item.getId())){
-				listItem.remove(i);
-				listItem.add(item);
+		if(action.equals("update")){
+			for (int i = 0; i < listItem.size(); i++) {
+				if(listItem.get(i).getId().equals(item.getId())){
+					listItem.remove(i);
+					listItem.add(item);
+				}
 			}
+		}else if(action.equals("create")){
+			item.setId(new Date().getTime()+"");
+			listItem.add(item);
 		}
 
 		writeData();
