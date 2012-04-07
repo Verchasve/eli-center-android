@@ -270,7 +270,6 @@ public class GetData {
 				}
 			}
 		}else if(action.equals("create")){
-			System.out.println("MMMMMMMM:  "+listItem.size());
 			item.setId(new Date().getTime()+"");
 			item.setIcon("...");
 			listItem.add(item);
