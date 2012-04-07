@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,6 +23,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
@@ -236,7 +238,7 @@ public class GetData {
 	public void uploadFile() throws IOException {
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 		Date date = new Date();
-		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/auto-update/");
+		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/app/");
 		FileOutputStream fos = null;
 		InputStream stream = null;
 		if(fileUpload == null){
@@ -250,7 +252,8 @@ public class GetData {
 			byte [] buffer = new byte[(int)size];
 			stream.read(buffer, 0, (int)size);
 			fos = new FileOutputStream(path + File.separator + fileUpload.getFileName());
-			item.setLink(path + File.separator + fileUpload.getFileName());
+			String link = createLinkURL()+"/data/app/";
+			item.setLink(link + fileUpload.getFileName());
 			fos.write(buffer);
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
@@ -276,6 +279,13 @@ public class GetData {
 		}
 
 		writeData();
+	}
+	
+	public String createLinkURL() {
+		String url = "";
+		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+		url = request.getRequestURL().toString();
+		return url;
 	}
 
 	public void setListItem(ArrayList<ListItem> listItem) {
