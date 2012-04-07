@@ -184,15 +184,12 @@ public class GetData {
 			DOMSource source = new DOMSource(doc);
 			String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/auto-update/");
 			path += File.separator + "listitem.xml";
-			System.out.println(path);
 			StreamResult result = new StreamResult(new File(path));
 
 			// Output to console for testing
 			// StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
-
-			System.out.println("File saved!");
 
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
@@ -203,7 +200,7 @@ public class GetData {
 	
 	public void handleFileUpload(FileUploadEvent event) {
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/app/");
-		File result = new File(path + event.getFile().getFileName());
+		File result = new File(path + File.separator + event.getFile().getFileName());
 
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(result);
@@ -224,10 +221,6 @@ public class GetData {
             fileOutputStream.close();
             inputStream.close();
 
-            FacesMessage msg = new FacesMessage("Succesful",
-                    event.getFile().getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-
         } catch (IOException e) {
             e.printStackTrace();
             FacesMessage error = new FacesMessage("The files were not uploaded!");
@@ -238,7 +231,12 @@ public class GetData {
 	public void uploadFile() throws IOException {
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/auto-update/");
 		FileOutputStream fos = null;
-		InputStream stream = null;		
+		InputStream stream = null;
+		if(fileUpload == null){
+			System.out.println("File is null");
+			return;
+		}
+		System.out.println("File name: " + fileUpload.getFileName());
 		try{
 			stream = fileUpload.getInputstream();
 			long size = fileUpload.getSize();
