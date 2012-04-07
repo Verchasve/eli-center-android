@@ -41,6 +41,8 @@
 					</tr>
 				</ui:repeat>
 			</table>
+		</h:form>
+		<h:form>
 			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update'}">
 				<h:outputText value="Application name"/>
 				<h:inputText value="#{getData.item.name}"/>
@@ -67,9 +69,7 @@
 				<h:commandButton value="Update" action="#{getData.update}"/>
 				
 				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
-				<p:fileUpload fileUploadListener="#{getData.handleFileUpload}"  
-		            mode="advanced" update="messages" sizeLimit="100000"/>  
- 				<p:growl id="messages" showDetail="true"/>  
+		        <p:fileUpload value="#{getData.fileUpload}" mode="simple"/> 
 			</h:panelGrid>
 		</h:form>
 	</h:body>
