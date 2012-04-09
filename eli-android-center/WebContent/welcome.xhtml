@@ -46,6 +46,7 @@
 			<br />
 		</h:form>
 		<h:form enctype="multipart/form-data">
+			<p:messages showDetail="true"/> 
 			<h:panelGroup id="formUpdate"
 				rendered="#{getData.action == 'update' or getData.action=='create'}">
 				<div class="input-panel">
@@ -81,8 +82,10 @@
 							<td></td>
 							<td><h:commandButton value="Update Only Information"
 									action="#{getData.update}"
-									rendered="#{getData.action == 'update'}" /> <h:commandButton
-									value="Update All" action="#{getData.uploadFile}" /> <h:commandButton
+									rendered="#{getData.action == 'update'}" />
+								<h:commandButton
+									value="Update All" action="#{getData.uploadFile}" />
+								<h:commandButton
 									value="Cancel" action="#{getData.cancel}" /></td>
 						</tr>
 					</table>

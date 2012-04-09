@@ -103,8 +103,22 @@ public class GetData {
 		item = new ListItem();
 		action = "create";
 	}
+	
+	public boolean checkValidate() {
+		boolean isTrue = true;
+		if(item.getName().equals("") || item.getPackageName().equals("")||item.getVersion().equals("") || item.getVersion_code().equals("")
+				|| item.getDescription().equals("")){
+			isTrue = false;
+		}
+		return isTrue;
+	}
 
 	public void update() {
+		if(!checkValidate()){
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR ,"Succesful", "Text field not be empty!");  
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+		}
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 		Date date = new Date();
 		item.setLastUpdate(dateFormat.format(date));
@@ -208,37 +222,17 @@ public class GetData {
 		}
 	}
 	
-	public void handleFileUpload(FileUploadEvent event) {
-		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/app/");
-		File result = new File(path + File.separator + event.getFile().getFileName());
-
-        try {
-            FileOutputStream fileOutputStream = new FileOutputStream(result);
-            long size = event.getFile().getSize();
-			byte [] buffer = new byte[(int)size];
-
-            int bulk;
-            InputStream inputStream = event.getFile().getInputstream();
-            while (true) {
-                bulk = inputStream.read(buffer);
-                if (bulk < 0) {
-                    break;
-                }
-                fileOutputStream.write(buffer, 0, bulk);
-                fileOutputStream.flush();
-            }
-
-            fileOutputStream.close();
-            inputStream.close();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            FacesMessage error = new FacesMessage("The files were not uploaded!");
-            FacesContext.getCurrentInstance().addMessage(null, error);
-        }
-    } 
-	
 	public void uploadFile() throws IOException {
+		if(!checkValidate()){
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR ,"Error", "Text field not be empty!");  
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+		}
+		if(fileUpload == null){
+			FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR ,"Error", "File upload is null");  
+            FacesContext.getCurrentInstance().addMessage(null, msg);
+            return;
+		}
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy HH:mm:ss");
 		Date date = new Date();
 		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/data/app/");
