@@ -177,7 +177,7 @@ public class AppDetail extends Activity{
 			        is.close();			
 
 			        Intent intentInstall = new Intent(Intent.ACTION_VIEW);
-			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/download/" + "demo.apk")),"application/vnd.android.package-archive");
+			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk")),"application/vnd.android.package-archive");
 					startActivity(intentInstall);
 				}catch (Exception e) {
 					e.printStackTrace();
