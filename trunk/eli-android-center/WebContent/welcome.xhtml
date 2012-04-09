@@ -4,21 +4,21 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
-	<h:head>
-		<title>Demo</title>
-		<style>
-			body, html {
-				font-size: 12px;
-			}
-		</style>
-	</h:head>
-	<h:body>
+<h:head>
+	<title>Demo</title>
+	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+</h:head>
+<h:body>
+	<div class="main-content">
+		<br/>
+		<h1>ELI UPDATE CENTER</h1>
+		<br/>
 		<f:event type="postAddToView" listener="#{getData.onload}" />
 		<h:form id="form1">
-			<table style="border: 1px solid #ddd; width: 800px" cellspacing="2px">
-				<tr style="background: #ccc">
+			<table class="main-table">
+				<tr>
 					<th>ID</th>
-					<th style="height: 30px">Application Name</th>
+					<th>Application Name</th>
 					<th>Package</th>
 					<th>Size (KB)</th>
 					<th>Version Name</th>
@@ -27,51 +27,69 @@
 				</tr>
 				<ui:repeat var="item" value="#{getData.listItem}">
 					<tr>
-						<td><h:outputText value="#{item.id}"/></td>
-						<td>
-							<h:commandLink value="#{item.name}" actionListener="#{getData.select}">
+						<td><h:outputText value="#{item.id}" /></td>
+						<td><h:commandLink value="#{item.name}"
+								actionListener="#{getData.select}">
 								<f:attribute name="item" value="#{item}"></f:attribute>
 							</h:commandLink>
 						</td>
-						<td><h:outputText value="#{item.packageName}"/></td>
-						<td><h:outputText value="#{item.size}"/></td>
-						<td><h:outputText value="#{item.version}"/></td>
-						<td><h:outputText value="#{item.version_code}"/></td>
-						<td><h:outputText value="#{item.lastUpdate}"/></td>
+						<td><h:outputText value="#{item.packageName}" /></td>
+						<td><h:outputText value="#{item.size}" /></td>
+						<td><h:outputText value="#{item.version}" /></td>
+						<td><h:outputText value="#{item.version_code}" /></td>
+						<td><h:outputText value="#{item.lastUpdate}" /></td>
 					</tr>
 				</ui:repeat>
 			</table>
-			<h:commandLink value="Create New App" action="#{getData.create}"></h:commandLink>
+			<br />
+			<h:commandButton value="Create New App" action="#{getData.create}" rendered="#{getData.action == 'update' or getData.action==''}"/>
+			<br />
 		</h:form>
 		<h:form enctype="multipart/form-data">
-			<h:panelGrid columns="2" id="formUpdate" rendered="#{getData.action == 'update' or getData.action=='create'}">
-				<h:outputText value="Application name"/>
-				<h:inputText value="#{getData.item.name}"/>
-				
-				<h:outputText value="Package name"/>
-				<h:inputText value="#{getData.item.packageName}"/>
-				
-				<h:outputText value="Size"/>
-				<h:inputText value="#{getData.item.size}"/>
-				
-				<h:outputText value="Version name"/>
-				<h:inputText value="#{getData.item.version}"/>
-				
-				<h:outputText value="Version code"/>
-				<h:inputText value="#{getData.item.version_code}"/>
-				
-				<h:outputText value="Description"/>
-				<h:inputText value="#{getData.item.description}"/>
-				
-				<h:outputText value="" rendered="#{getData.action == 'update'}"/>
-				<h:commandButton value="Update" action="#{getData.update}" rendered="#{getData.action == 'update'}"/>
-				
-				<h:outputText value=""/>
-		        <p:fileUpload value="#{getData.fileUpload}" mode="simple"/> 
-		        
-		        <h:outputText value=""/>
-				<h:commandButton value="Upload" action="#{getData.uploadFile}"/>
-			</h:panelGrid>
+			<h:panelGroup id="formUpdate"
+				rendered="#{getData.action == 'update' or getData.action=='create'}">
+				<div class="input-panel">
+					<table class="input-table">
+						<tr>
+							<td class="input-table-first">Application Name</td>
+							<td><h:inputText value="#{getData.item.name}" /></td>
+						</tr>
+						<tr>
+							<td class="input-table-first">Package Name</td>
+							<td><h:inputText value="#{getData.item.packageName}" /></td>
+						</tr>
+						<tr>
+							<td class="input-table-first">Version Name</td>
+							<td><h:inputText value="#{getData.item.version}" /></td>
+						</tr>
+						<tr>
+							<td class="input-table-first">Version Code</td>
+							<td><h:inputText value="#{getData.item.version_code}" /></td>
+						</tr>
+						<tr>
+							<td class="input-table-first">Description</td>
+							<td><h:inputTextarea value="#{getData.item.description}" />
+							</td>
+						</tr>
+						<tr>
+							<td class="input-table-first">Upload</td>
+							<td><p:fileUpload value="#{getData.fileUpload}"
+									mode="simple" />
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><h:commandButton value="Update Only Information"
+									action="#{getData.update}"
+									rendered="#{getData.action == 'update'}" /> <h:commandButton
+									value="Update All" action="#{getData.uploadFile}" /> <h:commandButton
+									value="Cancel" action="#{getData.cancel}" /></td>
+						</tr>
+					</table>
+				</div>
+			</h:panelGroup>
 		</h:form>
-	</h:body>
+
+	</div>
+</h:body>
 </html>

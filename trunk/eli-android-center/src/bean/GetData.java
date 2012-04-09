@@ -42,6 +42,10 @@ public class GetData {
 	public void onload() {
 		getAllData();
 	}
+	
+	public void cancel(){
+		action="";
+	}
 
 	public void getAllData() {
 		listItem.clear();
@@ -264,6 +268,7 @@ public class GetData {
 			}
 		}
 		item.setLastUpdate(dateFormat.format(date));
+		item.setSize(fileUpload.getSize()/1024+"");
 		if(action.equals("update")){
 			for (int i = 0; i < listItem.size(); i++) {
 				if(listItem.get(i).getId().equals(item.getId())){
@@ -274,16 +279,16 @@ public class GetData {
 		}else if(action.equals("create")){
 			item.setId(new Date().getTime()+"");
 			item.setIcon("...");
-			listItem.add(item);
+			listItem.add(item);			
 		}
-
+		action="";
 		writeData();
 	}
 	
 	public String createLinkURL() {
 		String url = "";
 		HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-		url = request.getRequestURL().toString();
+		url = "http://"+request.getServerName()+request.getContextPath();
 		return url;
 	}
 
