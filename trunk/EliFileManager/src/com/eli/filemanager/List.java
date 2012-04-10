@@ -73,7 +73,7 @@ public class List extends Activity {
 				if(pathArr.size()==0){return;}
 				pathArr.remove(pathArr.size()- 1);
 				for (int i = 0; i < pathArr.size(); i++) {
-					src += pathArr.get(i);
+					src += File.separator +pathArr.get(i);
 				}
 				getAllListFile(src);
 				listFileAdapter.clear();
@@ -145,7 +145,7 @@ public class List extends Activity {
 					pathArr.add(object.getName());
 					System.out.println("size : " + pathArr.size());
 					for (int i = 0; i < pathArr.size(); i++) {
-						src += pathArr.get(i);
+						src += File.separator+ pathArr.get(i);
 					}
 					getAllListFile(src);
 					listFileAdapter.clear();
