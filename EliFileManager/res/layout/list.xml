@@ -31,7 +31,7 @@
         android:id="@+id/lvFile"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:divider="#ccc"
+        android:divider="#eee"
         android:dividerHeight="1dp"/>
 
 </LinearLayout>
