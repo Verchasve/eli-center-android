@@ -6,16 +6,17 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,17 +25,17 @@ import com.eli.filemanager.pojo.Files;
 
 public class List extends Activity {
 	ListView listFile;
+	Button btBack;
 	ListFileAdapter listFileAdapter;
-	Context context;
 	TextView currentFile;
-	ArrayList<Files> arr;
-	ArrayList<Files> arrFile;
-	ArrayList<Files> arrFolder;
+	ArrayList<Files> arr,arrFile,arrFolder;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
-    	System.out.println("a");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
+        btBack = (Button)findViewById(R.id.btBack);
+        btBack.setOnClickListener(onBackClick());
         listFile = (ListView) findViewById(R.id.lvFile);
         currentFile = (TextView) findViewById(R.id.tvCurrentFile);
         getAllListFile("/");
@@ -42,6 +43,23 @@ public class List extends Activity {
         listFile.setAdapter(listFileAdapter);
         listFile.setOnItemClickListener(itemClick());
         listFile.setOnItemLongClickListener(itemLongClick());
+        
+    }
+    
+    public OnClickListener onBackClick(){
+    	OnClickListener onBackClick = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+//				String pathFolder = "";
+//				getAllListFile(pathFolder);
+//				listFileAdapter.clear();
+//				for (int i = 0; i < arr.size(); i++) {
+//					listFileAdapter.add(arr.get(i));
+//				}
+//				listFileAdapter.notifyDataSetChanged();
+			}
+		};
+		return onBackClick;
     }
     
     @Override
@@ -49,7 +67,6 @@ public class List extends Activity {
     	MenuInflater inflater=getMenuInflater();
 	    inflater.inflate(R.menu.option, menu);
 	    return super.onCreateOptionsMenu(menu);
-
 	}
 
 	@Override

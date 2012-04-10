@@ -11,5 +11,5 @@
         android:title="Delete"/>
     <item
         android:id="@+id/rename"
-        android:title="Friends"/>
+        android:title="Rename"/>
 </menu>
