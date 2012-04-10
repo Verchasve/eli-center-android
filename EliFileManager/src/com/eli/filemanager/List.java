@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.eli.filemanager.pojo.Files;
 
 public class List extends Activity {
+	ArrayList pathArr;
 	ListView listFile;
 	Button btBack;
 	ListFileAdapter listFileAdapter;
@@ -46,6 +48,7 @@ public class List extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
+        pathArr = new ArrayList();
         btBack = (Button)findViewById(R.id.btBack);
         btBack.setOnClickListener(onBackClick());
         listFile = (ListView) findViewById(R.id.lvFile);
@@ -66,12 +69,18 @@ public class List extends Activity {
 			@Override
 			public void onClick(View v) {
 //				String pathFolder = "";
-//				getAllListFile(pathFolder);
-//				listFileAdapter.clear();
-//				for (int i = 0; i < arr.size(); i++) {
-//					listFileAdapter.add(arr.get(i));
-//				}
-//				listFileAdapter.notifyDataSetChanged();
+				String src = "";
+				if(pathArr.size()==0){return;}
+				pathArr.remove(pathArr.size()- 1);
+				for (int i = 0; i < pathArr.size(); i++) {
+					src += pathArr.get(i);
+				}
+				getAllListFile(src);
+				listFileAdapter.clear();
+				for (int i = 0; i < arr.size(); i++) {
+					listFileAdapter.add(arr.get(i));
+				}
+				listFileAdapter.notifyDataSetChanged();
 			}
 		};
 		return onBackClick;
@@ -132,7 +141,13 @@ public class List extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Files object = (Files)parent.getItemAtPosition(position);
 				if(object.isFolder()){
-					getAllListFile(object.getName());
+					String src = "";
+					pathArr.add(object.getName());
+					System.out.println("size : " + pathArr.size());
+					for (int i = 0; i < pathArr.size(); i++) {
+						src += pathArr.get(i);
+					}
+					getAllListFile(src);
 					listFileAdapter.clear();
 					for (int i = 0; i < arr.size(); i++) {
 						listFileAdapter.add(arr.get(i));
