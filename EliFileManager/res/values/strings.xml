@@ -4,6 +4,5 @@
     <string name="hello">Hello World, EliFileManagerActivity!</string>
     <string name="app_name">EliFileManager</string>
     <string name="create_folder">Create folder</string>
-    <string name="new_folder">New folder</string>
-
+    <string name="new_folder">New folder</string>	
 </resources>

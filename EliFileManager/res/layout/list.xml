@@ -15,16 +15,19 @@
             android:id="@+id/btBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/left"/>
+            android:background="@drawable/left"
+            android:width="32dp"
+            android:height="32dp"/>
 
         <TextView
             android:id="@+id/tvCurrentFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/button1"
             android:layout_centerHorizontal="true"
-            android:text="TextView" 
-            android:textColor="#333"/>
+            android:layout_centerVertical="true"
+            android:text="TextView"
+            android:textColor="#333" />
+
     </RelativeLayout>
 
     <ListView
@@ -32,6 +35,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="#eee"
-        android:dividerHeight="1dp"/>
+        android:dividerHeight="1dp"
+        />
 
 </LinearLayout>

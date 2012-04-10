@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -134,11 +135,11 @@ public class List extends Activity {
 		};
 		return longClickListener;
     }
-    
+	
     public OnItemClickListener itemClick(){
     	OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {		
 				Files object = (Files)parent.getItemAtPosition(position);
 				if(object.isFolder()){
 					String src = "";
