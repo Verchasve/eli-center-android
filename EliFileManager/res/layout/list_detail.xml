@@ -3,26 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingTop="20dp"
-    android:paddingRight="10dp"
-    android:paddingBottom="20dp" 
+    android:padding="10dp"
     android:background="#fff">
 
     <ImageView
         android:id="@+id/ivFileImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/read" />
+        android:src="@drawable/folder"
+        android:maxWidth="32dp"
+        android:maxHeight="32dp"
+        android:minHeight="32dp"
+        android:minWidth="32dp" />
 
     <TextView
         android:id="@+id/tvFileName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivFileImg"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/ivFileImg"
         android:text="Android"
-        android:textColor="#333"/>
+        android:textColor="#333" />
 
 </RelativeLayout>

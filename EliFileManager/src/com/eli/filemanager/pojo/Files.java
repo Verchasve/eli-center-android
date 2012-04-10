@@ -1,11 +1,15 @@
 package com.eli.filemanager.pojo;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 public class Files {
 	private Drawable icon;
 	private String name;
 	private boolean isFolder;
+	private Intent action;
+	
+	public Files(){}
 	
 	public Drawable getIcon() {
 		return icon;
@@ -24,5 +28,11 @@ public class Files {
 	}
 	public boolean isFolder() {
 		return isFolder;
+	}
+	public void setAction(Intent action) {
+		this.action = action;
+	}
+	public Intent getAction() {
+		return action;
 	}
 }
