@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.eli.filemanager.pojo.Files;
@@ -30,7 +31,7 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		if(view == null){
 			view = layoutInflater.inflate(layout, null);
 		}		
-		//ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
+		ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
 		TextView name = (TextView) view.findViewById(R.id.tvFileName);		
 		Files files = getItem(position);
 		try{
