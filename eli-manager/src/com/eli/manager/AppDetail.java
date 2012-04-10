@@ -41,9 +41,7 @@ public class AppDetail extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.detail);
 		try{
-			if(listProgram==null){
-				listProgram = getInstalledApps(false);
-			}
+			listProgram = getInstalledApps(false);
 			
 			tvAppName = (TextView) findViewById(R.id.tvAppName);
 			tvAppPkg = (TextView) findViewById(R.id.tvAppPkg);
