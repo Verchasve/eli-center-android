@@ -1,12 +1,13 @@
 package com.eli.filemanager;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,12 +16,13 @@ import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,12 @@ public class List extends Activity {
 	TextView currentFile;
 	ArrayList<Files> arr,arrFile,arrFolder;
 	
+	EditText nameFolder;
+	Button btCreatFolder;
+	String path = "";
+	
 	Drawable icon;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,9 +50,12 @@ public class List extends Activity {
         btBack.setOnClickListener(onBackClick());
         listFile = (ListView) findViewById(R.id.lvFile);
         currentFile = (TextView) findViewById(R.id.tvCurrentFile);
-        getAllListFile("/");
+        path = "/";
+        getAllListFile(path);
         listFileAdapter = new ListFileAdapter(this, R.layout.list_detail,arr);
         listFile.setAdapter(listFileAdapter);
+        nameFolder = (EditText) findViewById(R.id.nameFolder);
+        btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
         listFile.setOnItemClickListener(itemClick());
         listFile.setOnItemLongClickListener(itemLongClick());
         
@@ -89,6 +99,10 @@ public class List extends Activity {
 		 	case R.id.rename:
 		 		Toast.makeText(this,"Rename", 1000).show();
 		        break;
+		 	case R.id.newFolder:
+	        	Intent intent = new Intent(List.this, NewFolder.class);
+	        	startActivity(intent);
+	            return true;
 		}
 		return true;
 	}
@@ -198,4 +212,18 @@ public class List extends Activity {
         });
 
     }
+    
+    protected void alertbox(String title, String mymessage)
+    {
+    	new AlertDialog.Builder(this)
+	       .setMessage(mymessage)
+	       .setTitle(title)
+	       .setCancelable(true)
+	       .setNeutralButton(android.R.string.cancel,
+	          new DialogInterface.OnClickListener() {
+	          public void onClick(DialogInterface dialog, int whichButton){}
+	          })
+	       .show();
+    }
+    
 }
