@@ -2,7 +2,6 @@ package com.eli.filemanager;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -10,8 +9,16 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.eli.filemanager.pojo.Files;
 
@@ -25,6 +32,7 @@ public class List extends Activity {
 	ArrayList<Files> arrFolder;
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	System.out.println("a");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
         listFile = (ListView) findViewById(R.id.lvFile);
@@ -32,11 +40,80 @@ public class List extends Activity {
         getAllListFile("/");
         listFileAdapter = new ListFileAdapter(this, R.layout.list_detail,arr);
         listFile.setAdapter(listFileAdapter);
+        listFile.setOnItemClickListener(itemClick());
+        listFile.setOnItemLongClickListener(itemLongClick());
+    }
+    
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater=getMenuInflater();
+	    inflater.inflate(R.menu.option, menu);
+	    return super.onCreateOptionsMenu(menu);
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch(item.getItemId()){
+		    case R.id.move:
+		    	Toast.makeText(this,"Move", 1000).show();
+		        break;
+		    case R.id.copy:
+		    	Toast.makeText(this,"Copy", 1000).show();
+		        break;
+		    case R.id.delete:
+		    	Toast.makeText(this,"Delete", 1000).show();
+		        break;
+		 	case R.id.rename:
+		 		Toast.makeText(this,"Rename", 1000).show();
+		        break;
+		}
+		return true;
+	}
+
+	public OnItemLongClickListener itemLongClick(){
+    	OnItemLongClickListener longClickListener = new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Files object = (Files)parent.getItemAtPosition(position);
+				if(object.isFolder()){
+					List.this.openOptionsMenu();
+					System.out.println("Folder");
+				}else{
+					List.this.openOptionsMenu();
+					System.out.println("File");
+				}
+				return true;
+			}
+		};
+		return longClickListener;
+    }
+    
+    public OnItemClickListener itemClick(){
+    	OnItemClickListener clickListener = new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Files object = (Files)parent.getItemAtPosition(position);
+				if(object.isFolder()){
+					getAllListFile(object.getName());
+					listFileAdapter.clear();
+					for (int i = 0; i < arr.size(); i++) {
+						listFileAdapter.add(arr.get(i));
+					}
+					listFileAdapter.notifyDataSetChanged();
+				}else{
+					return;
+				}
+			}
+		};
+		return clickListener;
     }
     
     private void getAllListFile(String path){
     	arrFile = new ArrayList<Files>();
     	arrFolder = new ArrayList<Files>();
+    	
     	File sdCardRoot = Environment.getExternalStorageDirectory();
     	File dir = new File(sdCardRoot,path);
     	currentFile.setText(dir.getAbsolutePath());
@@ -44,10 +121,12 @@ public class List extends Activity {
     		if(f.isFile()){
     			Files ff = new Files();
     			ff.setName(f.getName());
+    			ff.setFolder(false);
     			arrFile.add(ff);
     		}else if(f.isDirectory()){
     			Files ff = new Files();
     			ff.setName(f.getName());
+    			ff.setFolder(true);
     			arrFolder.add(ff);
     		}
     	}
