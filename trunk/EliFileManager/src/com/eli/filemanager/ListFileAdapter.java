@@ -35,7 +35,7 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		TextView name = (TextView) view.findViewById(R.id.tvFileName);		
 		Files files = getItem(position);
 		try{
-			//icon.setImageDrawable(files.getIcon());
+			icon.setImageDrawable(files.getIcon());
 			name.setText(files.getName());
 		}catch (Exception e) {
 			e.printStackTrace(System.out);

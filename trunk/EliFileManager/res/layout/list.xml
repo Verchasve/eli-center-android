@@ -30,6 +30,8 @@
     <ListView
         android:id="@+id/lvFile"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:divider="#ccc"
+        android:dividerHeight="1dp"/>
 
 </LinearLayout>

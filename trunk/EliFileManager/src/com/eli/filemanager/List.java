@@ -1,11 +1,15 @@
 package com.eli.filemanager;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -30,6 +34,7 @@ public class List extends Activity {
 	TextView currentFile;
 	ArrayList<Files> arr,arrFile,arrFolder;
 	
+	Drawable icon;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +125,8 @@ public class List extends Activity {
 					}
 					listFileAdapter.notifyDataSetChanged();
 				}else{
-					return;
+					Intent intent = object.getAction();
+					startActivity(intent);
 				}
 			}
 		};
@@ -128,20 +134,49 @@ public class List extends Activity {
     }
     
     private void getAllListFile(String path){
+    	
     	arrFile = new ArrayList<Files>();
     	arrFolder = new ArrayList<Files>();
     	
     	File sdCardRoot = Environment.getExternalStorageDirectory();
     	File dir = new File(sdCardRoot,path);
-    	currentFile.setText(dir.getAbsolutePath());
+    	
+    	currentFile.setText(dir.getAbsolutePath());    	
     	for(File f :dir.listFiles()){
     		if(f.isFile()){
+            	Intent action= new Intent(Intent.ACTION_VIEW);
+    			String extend = f.getName().substring(f.getName().length()-5).toLowerCase();
+    			if(extend.contains(".txt")){
+        			icon = getResources().getDrawable(R.drawable.text_file);
+        			action.setDataAndType(Uri.fromFile(f),"text/*");    
+    			}else if(extend.contains(".flv")){
+        			icon = getResources().getDrawable(R.drawable.video_file);
+        			action.setDataAndType(Uri.fromFile(f),"video/*");
+    			}else if(extend.contains(".doc") || extend.contains(".docx")){
+        			icon = getResources().getDrawable(R.drawable.word_file);
+        			action.setDataAndType(Uri.fromFile(f),"text/*");
+    			}else if(extend.contains(".zip") || extend.contains(".rar")){
+        			icon = getResources().getDrawable(R.drawable.rar_file);
+        			action.setDataAndType(Uri.fromFile(f),"video/*");
+    			}else if(extend.contains(".jpg") || extend.contains(".jpeg") || extend.contains(".png")){
+        			icon = getResources().getDrawable(R.drawable.img_file);
+        			action.setDataAndType(Uri.fromFile(f),"image/*");
+    			}else if(extend.contains(".apk")){
+        			icon = getResources().getDrawable(R.drawable.apk_file);
+        			action.setDataAndType(Uri.fromFile(f),"application/vnd.android.package-archive");
+    			}else{
+        			icon = getResources().getDrawable(R.drawable.unknown_file);
+    			}
     			Files ff = new Files();
+    			ff.setIcon(icon);
     			ff.setName(f.getName());
     			ff.setFolder(false);
+    			ff.setAction(action);
     			arrFile.add(ff);
     		}else if(f.isDirectory()){
-    			Files ff = new Files();
+    			icon = getResources().getDrawable(R.drawable.folder);
+				Files ff = new Files();
+				ff.setIcon(icon);
     			ff.setName(f.getName());
     			ff.setFolder(true);
     			arrFolder.add(ff);
