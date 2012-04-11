@@ -5,4 +5,10 @@
     <string name="app_name">EliFileManager</string>
     <string name="create_folder">Create folder</string>
     <string name="new_folder">New folder</string>	
+    <string-array name="option_arr">
+        <item>Copy</item>
+        <item>Remove</item>
+        <item>Rename</item>
+        <item>Details</item>
+    </string-array>
 </resources>
