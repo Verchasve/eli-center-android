@@ -365,6 +365,23 @@ public class List extends Activity {
 		return clickListener;
     }
     
+    private String getChildFile(String path){
+    	int f=0,fd=0;
+    	File dir = new File(path);
+    	try {
+    		for(File file :dir.listFiles()){
+    			if(file.isDirectory())
+    				fd++;
+    			else
+    				f++;
+    		}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    	return fd+" Folder | "+f+" File";
+    }
+    
     private void getAllListFile(String path){
     	
     	arrFile = new ArrayList<Files>();
@@ -386,22 +403,30 @@ public class List extends Activity {
     				bitmap = ThumbnailUtils.createVideoThumbnail(f.getAbsolutePath(), Thumbnails.MICRO_KIND);    		
         			icon = new BitmapDrawable(bitmap);
         			action.setDataAndType(Uri.fromFile(f),"video/*");
+    			}else if(extend.contains(".mp3")){
+    				icon = getResources().getDrawable(R.drawable.mp3_file);
+        			action.setDataAndType(Uri.fromFile(f),"audio/*");
     			}else if(extend.contains(".doc") || extend.contains(".docx")){
         			icon = getResources().getDrawable(R.drawable.word_file);
         			action.setDataAndType(Uri.fromFile(f),"text/*");
     			}else if(extend.contains(".ppt") || extend.contains(".pptx")){
         			icon = getResources().getDrawable(R.drawable.pptx_file);
         			action.setDataAndType(Uri.fromFile(f),"text/*");
+    			}else if(extend.contains(".xls") || extend.contains(".xlsx")){
+        			icon = getResources().getDrawable(R.drawable.xlsx_file);
+        			action.setDataAndType(Uri.fromFile(f),"text/*");
     			}else if(extend.contains(".zip") || extend.contains(".rar")){
         			icon = getResources().getDrawable(R.drawable.rar_file);
         			action.setDataAndType(Uri.fromFile(f),"video/*");
-    			}else if(extend.contains(".jpg") || extend.contains(".jpeg") || extend.contains(".png") || extend.contains(".bmp")){
+    			}else if(extend.contains(".jpg") || extend.contains(".jpeg") || extend.contains(".png") || extend.contains(".bmp") || extend.contains(".gif")){
     				bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
         			icon = new BitmapDrawable(bitmap);
         			action.setDataAndType(Uri.fromFile(f),"image/*");
     			}else if(extend.contains(".apk")){
         			icon = getResources().getDrawable(R.drawable.apk_file);
         			action.setDataAndType(Uri.fromFile(f),"application/vnd.android.package-archive");
+    			}else if(extend.contains(".exe")){
+        			icon = getResources().getDrawable(R.drawable.exe_file);
     			}else{
         			icon = getResources().getDrawable(R.drawable.unknown_file);
     			}
@@ -417,6 +442,7 @@ public class List extends Activity {
 				ff.setIcon(icon);
     			ff.setName(f.getName());
     			ff.setFolder(true);
+    			ff.setChildFile(getChildFile(f.getAbsolutePath()));
     			arrFolder.add(ff);
     		}
     	}

@@ -8,16 +8,14 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#ccc"
+        android:background="#0083AB"
         android:padding="10dp" >
 
         <Button
             android:id="@+id/btBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/left"
-            android:width="32dp"
-            android:height="32dp"/>
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/left"/>
 
         <TextView
             android:id="@+id/tvCurrentFile"
@@ -26,7 +24,8 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:text="TextView"
-            android:textColor="#333" />
+            android:textSize="15dp"
+            android:textColor="#fff" />
 
     </RelativeLayout>
 

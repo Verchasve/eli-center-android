@@ -8,6 +8,7 @@ public class Files {
 	private String name;
 	private boolean isFolder;
 	private Intent action;
+	private String childFile;
 	
 	public Files(){}
 	
@@ -34,5 +35,13 @@ public class Files {
 	}
 	public Intent getAction() {
 		return action;
+	}
+
+	public void setChildFile(String childFile) {
+		this.childFile = childFile;
+	}
+
+	public String getChildFile() {
+		return childFile;
 	}
 }
