@@ -224,10 +224,17 @@ public class List extends Activity {
 		}
 	}
 	
-	public void rename(final String name){
+	public void rename(String name){
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			final EditText input = new EditText(this);
+			int index = name.lastIndexOf(".");
+			String type = "";
+			if(index > 0 && index <= name.length() - 2 ){
+				String temp = name;
+				name = temp.substring(0,index);
+				type = temp.substring(index,temp.length());
+		    }  
 			input.setText(name);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 			        LinearLayout.LayoutParams.FILL_PARENT,
@@ -235,6 +242,8 @@ public class List extends Activity {
 			input.setLayoutParams(lp);
 			builder.setView(input);
 			builder.setTitle("New Name");
+			final String tempName = name;
+			final String tempType = type;
 			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
@@ -246,8 +255,8 @@ public class List extends Activity {
 						path += File.separator + pathArr.get(i);
 					}
 					despath = path;
-					path += File.separator + name;
-					despath += File.separator + newname;
+					path += File.separator + tempName + tempType;
+					despath += File.separator + newname + tempType;
 					File file = new File(path);
 					File des = new File(despath);
 					file.renameTo(des);
