@@ -54,8 +54,7 @@ public class List extends Activity {
         btBack.setOnClickListener(onBackClick());
         listFile = (ListView) findViewById(R.id.lvFile);
         currentFile = (TextView) findViewById(R.id.tvCurrentFile);
-        path = "/";
-        getAllListFile(path);
+        getAllListFile("/");
         listFileAdapter = new ListFileAdapter(this, R.layout.list_detail,arr);
         listFile.setAdapter(listFileAdapter);
         nameFolder = (EditText) findViewById(R.id.nameFolder);
@@ -111,6 +110,7 @@ public class List extends Activity {
 		        break;
 		 	case R.id.newFolder:
 	        	Intent intent = new Intent(List.this, NewFolder.class);
+	        	intent.putExtra("nameFolder", currentFile.getText().toString());
 	        	startActivity(intent);
 	            return true;
 		}

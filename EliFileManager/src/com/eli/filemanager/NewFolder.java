@@ -12,17 +12,24 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class NewFolder extends Activity {
 	EditText nameFolder;
 	Button btCreatFolder;
-	
+	TextView pathFolder;
+	String path = "";	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_folder_dialog);
         nameFolder = (EditText) findViewById(R.id.nameFolder);
         btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
+        pathFolder = (TextView) findViewById(R.id.pathFolder);
+        
+        Bundle extras = getIntent().getExtras(); 
+        path = extras.getString("nameFolder");
+        pathFolder.setText(path);
     	evenClick();
     }
     
@@ -31,7 +38,7 @@ public class NewFolder extends Activity {
     	btCreatFolder.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				boolean success = (new File("/mnt/sdcard/" + nameFolder.getText())).mkdir();
+				boolean success = (new File(path + "/" + nameFolder.getText())).mkdir();
 				if(!success){
 					alertbox("Exist folder", "Folder name is exist!");
 				} else {
