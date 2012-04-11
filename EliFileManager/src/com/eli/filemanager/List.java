@@ -163,18 +163,17 @@ public class List extends Activity {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			Date last_modified = new Date();
 			String info = "";
-			String path = "";
+			String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 			for(int i = 0; i < pathArr.size(); i++){
 				path += File.separator + pathArr.get(i);
 			}
 			path += File.separator + name;
 			File file = new File(path);
-			info += "File's name : " + file.getName() + "\n";
+			info += "Name : " + file.getName() + "\n";
 			long size = file.length()/1024;
 			last_modified.setTime(file.lastModified());
-			System.out.println(file.length() + " - " + size);
-			info += "Size : " + size + "KB\n";
-			info += "Last modified : " + last_modified + "\n";
+			info += "Size : " + size + " KB\n";
+			info += "Last modified : " + format.format(last_modified) + "\n";
 			
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Details");
