@@ -70,6 +70,24 @@ public class List extends Activity {
         listFile.setOnItemLongClickListener(itemLongClick());
     }
     
+    public void refresh(){
+    	try{
+    		String src = "";
+			System.out.println("size : " + pathArr.size());
+			for (int i = 0; i < pathArr.size(); i++) {
+				src += File.separator + pathArr.get(i);
+			}
+			getAllListFile(src);
+			listFileAdapter.clear();
+			for (int i = 0; i < arr.size(); i++) {
+				listFileAdapter.add(arr.get(i));
+			}
+			listFileAdapter.notifyDataSetChanged();
+    	}catch (Exception e) {
+    		e.printStackTrace(System.out);
+		}
+    }
+    
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if (keyCode == KeyEvent.KEYCODE_BACK) {          
@@ -157,6 +175,7 @@ public class List extends Activity {
 						System.out.println("Copy");
 						break;
 					case 1:
+						remove(name);
 						System.out.println("remove");
 						break;
 					case 2:
@@ -173,6 +192,32 @@ public class List extends Activity {
 				}
 			});
 			builder.setPositiveButton("Cancel", null);
+			builder.show();
+		}catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
+	
+	public void remove(final String name){
+		try{
+			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			builder.setTitle("Remove");
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+					for(int i = 0; i < pathArr.size(); i++){
+						path += File.separator + pathArr.get(i);
+					}
+					path += File.separator + name;
+					File file = new File(path);
+					if(file.exists()){
+						file.delete();
+						refresh();
+					}
+				}
+			});
+			builder.setNegativeButton("Cancel", null);
 			builder.show();
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
@@ -206,6 +251,7 @@ public class List extends Activity {
 					File file = new File(path);
 					File des = new File(despath);
 					file.renameTo(des);
+					refresh();
 				}
 			});
 			builder.setNegativeButton("Cancel", null);
