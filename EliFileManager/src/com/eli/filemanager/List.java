@@ -26,6 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -140,6 +141,7 @@ public class List extends Activity {
 						System.out.println("remove");
 						break;
 					case 2:
+						rename(name);
 						System.out.println("rename");
 						break;
 					case 3:
@@ -155,6 +157,42 @@ public class List extends Activity {
 			builder.show();
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
+		}
+	}
+	
+	public void rename(final String name){
+		try{
+			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			final EditText input = new EditText(this);
+			input.setText(name);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+			        LinearLayout.LayoutParams.FILL_PARENT,
+			        LinearLayout.LayoutParams.WRAP_CONTENT);
+			input.setLayoutParams(lp);
+			builder.setView(input);
+			builder.setTitle("New Name");
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String newname = input.getText().toString();
+					if(newname == null && newname.equals(""))return;
+					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+					String despath;
+					for(int i = 0; i < pathArr.size(); i++){
+						path += File.separator + pathArr.get(i);
+					}
+					despath = path;
+					path += File.separator + name;
+					despath += File.separator + newname;
+					File file = new File(path);
+					File des = new File(despath);
+					file.renameTo(des);
+				}
+			});
+			builder.setNegativeButton("Cancel", null);
+			builder.show();
+		}catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
