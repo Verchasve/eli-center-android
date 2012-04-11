@@ -1,16 +1,17 @@
 package com.eli.filemanager;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,16 +19,15 @@ import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.eli.filemanager.pojo.Files;
 
@@ -61,7 +61,6 @@ public class List extends Activity {
         btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
         listFile.setOnItemClickListener(itemClick());
         listFile.setOnItemLongClickListener(itemLongClick());
-        
     }
     
     public OnClickListener onBackClick(){
@@ -96,18 +95,6 @@ public class List extends Activity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
-		    case R.id.move:
-		    	Toast.makeText(this,"Move", 1000).show();
-		        break;
-		    case R.id.copy:
-		    	Toast.makeText(this,"Copy", 1000).show();
-		        break;
-		    case R.id.delete:
-		    	Toast.makeText(this,"Delete", 1000).show();
-		        break;
-		 	case R.id.rename:
-		 		Toast.makeText(this,"Rename", 1000).show();
-		        break;
 		 	case R.id.newFolder:
 	        	Intent intent = new Intent(List.this, NewFolder.class);
 	        	intent.putExtra("nameFolder", currentFile.getText().toString());
@@ -124,10 +111,12 @@ public class List extends Activity {
 					int position, long id) {
 				Files object = (Files)parent.getItemAtPosition(position);
 				if(object.isFolder()){
-					List.this.openOptionsMenu();
+					//List.this.openOptionsMenu();
+					openOptionDialog(object.getName());
 					System.out.println("Folder");
 				}else{
-					List.this.openOptionsMenu();
+					//List.this.openOptionsMenu();
+					openOptionDialog(object.getName());
 					System.out.println("File");
 				}
 				return true;
@@ -135,6 +124,67 @@ public class List extends Activity {
 		};
 		return longClickListener;
     }
+	
+	public void openOptionDialog(final String name){
+		try{
+			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			builder.setTitle("Option");
+			builder.setItems(R.array.option_arr, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					switch (which) {
+					case 0:
+						System.out.println("Copy");
+						break;
+					case 1:
+						System.out.println("remove");
+						break;
+					case 2:
+						System.out.println("rename");
+						break;
+					case 3:
+						details(name);
+						System.out.println("detail");
+						break;
+					default:
+						break;
+					}
+				}
+			});
+			builder.setPositiveButton("Cancel", null);
+			builder.show();
+		}catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
+	
+	public void details(String name){
+		try{
+			DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+			Date last_modified = new Date();
+			String info = "";
+			String path = "";
+			for(int i = 0; i < pathArr.size(); i++){
+				path += File.separator + pathArr.get(i);
+			}
+			path += File.separator + name;
+			File file = new File(path);
+			info += "File's name : " + file.getName() + "\n";
+			long size = file.length()/1024;
+			last_modified.setTime(file.lastModified());
+			System.out.println(file.length() + " - " + size);
+			info += "Size : " + size + "KB\n";
+			info += "Last modified : " + last_modified + "\n";
+			
+			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			builder.setTitle("Details");
+			builder.setMessage(info);
+			builder.setPositiveButton("Ok", null);
+			builder.show();
+		}catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
 	
     public OnItemClickListener itemClick(){
     	OnItemClickListener clickListener = new OnItemClickListener() {
