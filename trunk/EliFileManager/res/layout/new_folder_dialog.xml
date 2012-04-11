@@ -12,6 +12,13 @@
         android:layout_height="wrap_content"
         android:text="@string/create_folder"
         android:textSize="40dp"/>
+    
+    <TextView
+        android:id="@+id/pathFolder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_folder"
+        android:textSize="25dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
