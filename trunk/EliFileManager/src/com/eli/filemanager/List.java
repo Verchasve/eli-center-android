@@ -134,12 +134,55 @@ public class List extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch(item.getItemId()){
 		 	case R.id.newFolder:
-	        	Intent intent = new Intent(List.this, NewFolder.class);
-	        	intent.putExtra("nameFolder", currentFile.getText().toString());
-	        	startActivity(intent);
+		 		createFolder();
 	            return true;
 		}
 		return true;
+	}
+	
+	public void createFolder(){
+		try{
+			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			final EditText input = new EditText(this);
+			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+			        LinearLayout.LayoutParams.FILL_PARENT,
+			        LinearLayout.LayoutParams.WRAP_CONTENT);
+			input.setLayoutParams(lp);
+			builder.setView(input);
+			builder.setTitle("Folder's name");
+			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+					
+					String folder = input.getText().toString();
+					if(folder == null && folder.equals("")){return;}
+					if(pathArr.size() > 0){
+						for (int i = 0; i < pathArr.size(); i++) {
+							path += pathArr.get(i);
+						}
+					}
+					path += File.separator + folder;
+					File file = new File(path);
+					System.out.println(file.getAbsolutePath());
+					if(file.exists()){
+						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+						builder.setTitle("Duplicate");
+						builder.setMessage("Folder is exist");
+						builder.setPositiveButton("Ok", null);
+						builder.show();
+						return;
+					}
+					file.mkdir();
+					refresh();
+				}
+			});
+			builder.setNegativeButton("Cancel", null);
+			builder.show();
+			
+		}catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
 	}
 
 	public OnItemLongClickListener itemLongClick(){
@@ -149,11 +192,9 @@ public class List extends Activity {
 					int position, long id) {
 				Files object = (Files)parent.getItemAtPosition(position);
 				if(object.isFolder()){
-					//List.this.openOptionsMenu();
 					openOptionDialog(object.getName());
 					System.out.println("Folder");
 				}else{
-					//List.this.openOptionsMenu();
 					openOptionDialog(object.getName());
 					System.out.println("File");
 				}
