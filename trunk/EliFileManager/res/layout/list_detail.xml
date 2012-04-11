@@ -8,13 +8,9 @@
 
     <ImageView
         android:id="@+id/ivFileImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/folder"
-        android:maxWidth="32dp"
-        android:maxHeight="32dp"
-        android:minHeight="32dp"
-        android:minWidth="32dp" />
+        android:layout_width="48sp"
+        android:layout_height="48sp"
+        android:src="@drawable/folder"/>
 
     <TextView
         android:id="@+id/tvFileName"
