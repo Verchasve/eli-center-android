@@ -252,10 +252,8 @@ public class List extends Activity {
 					}
 					path += File.separator + name;
 					File file = new File(path);
-					if(file.exists()){
-						file.delete();
-						refresh();
-					}
+					processRemove(file);
+					refresh();
 				}
 			});
 			builder.setNegativeButton("Cancel", null);
@@ -263,6 +261,27 @@ public class List extends Activity {
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
+	}
+	
+	public boolean processRemove(File file){
+		try{
+			if(file.isDirectory()){
+				String[] child = file.list();
+				System.out.println("path : " + file.getAbsolutePath());
+				System.out.println("length " + child.length);
+				for (int i = 0; i < child.length; i++) {
+					System.out.println(i);
+					boolean success = processRemove(new File(file,child[i]));
+					if(!success){
+						System.out.println("cannot");
+						return false;
+					}
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+		return file.delete();
 	}
 	
 	public void rename(String name){
