@@ -9,7 +9,7 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#0083AB"
+        android:background="#FFFFFF"
         android:padding="10dp" >
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:text="TextView"
             android:textSize="15dp"
-            android:textColor="#fff"
+            android:textColor="#333"
             android:maxLines="1" />
 
         <Button
