@@ -37,6 +37,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,38 +47,45 @@ import com.eli.filemanager.pojo.Files;
 public class List extends Activity {
 	ArrayList pathArr;
 	ListView listFile;
-	Button btBack;
+	Button btBack, btHome;
 	ListFileAdapter listFileAdapter;
 	TextView currentFile;
-	ArrayList<Files> arr,arrFile,arrFolder;
-	
+	ArrayList<Files> arr, arrFile, arrFolder;
+	ImageView nofileImg;
+
 	EditText nameFolder;
 	Button btCreatFolder;
 	String path = "";
 	
+
 	Drawable icon;
+
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.list);
+		nofileImg = (ImageView) findViewById(R.id.ivNoFile);
+		pathArr = new ArrayList();
+		btBack = (Button) findViewById(R.id.btBack);
+		btHome = (Button) findViewById(R.id.btHome);
+		btBack.setOnClickListener(onBackClick());
+		btHome.setOnClickListener(onHomeClick());
+		listFile = (ListView) findViewById(R.id.lvFile);
+		currentFile = (TextView) findViewById(R.id.tvCurrentFile);
+		getAllListFile("/mnt/sdcard");
+		pathArr.add("mnt");
+		pathArr.add("sdcard");
+		listFileAdapter = new ListFileAdapter(this, R.layout.list_detail, arr);
+		listFile.setAdapter(listFileAdapter);
+		nameFolder = (EditText) findViewById(R.id.nameFolder);
+		btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
+		listFile.setOnItemClickListener(itemClick());
+		listFile.setOnItemLongClickListener(itemLongClick());
+	}
 	File fileCopy;
 	File fileMove;
 	String fileName;
 	
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.list);
-        pathArr = new ArrayList();
-        btBack = (Button)findViewById(R.id.btBack);
-        btBack.setOnClickListener(onBackClick());
-        listFile = (ListView) findViewById(R.id.lvFile);
-        currentFile = (TextView) findViewById(R.id.tvCurrentFile);
-        getAllListFile("/");
-        listFileAdapter = new ListFileAdapter(this, R.layout.list_detail,arr);
-        listFile.setAdapter(listFileAdapter);
-        nameFolder = (EditText) findViewById(R.id.nameFolder);
-        btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
-        listFile.setOnItemClickListener(itemClick());
-        listFile.setOnItemLongClickListener(itemLongClick());
-    }
-    
     public void refresh(){
     	try{
     		String src = "";
@@ -91,36 +99,65 @@ public class List extends Activity {
 				listFileAdapter.add(arr.get(i));
 			}
 			listFileAdapter.notifyDataSetChanged();
-    	}catch (Exception e) {
-    		e.printStackTrace(System.out);
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
 		}
-    }
-    
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-    	if (keyCode == KeyEvent.KEYCODE_BACK) {          
-    		if(pathArr.size()==0){
-    			finish();
-    			return true;
-    		}else{
-    			btBack.performClick();
-    			return true;
-    		}
-        }
-    	return super.onKeyDown(keyCode, event);
-    }
-    
-    public OnClickListener onBackClick(){
-    	OnClickListener onBackClick = new OnClickListener() {
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (pathArr.size() == 0) {
+				finish();
+				return true;
+			} else {
+				btBack.performClick();
+				return true;
+			}
+		}
+		return super.onKeyDown(keyCode, event);
+	}
+
+	private OnClickListener onBackClick() {
+		OnClickListener onBackClick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String src = "";
-				if(pathArr.size()==0){return;}
-				pathArr.remove(pathArr.size()- 1);
+				String src = File.separator;
+				if (pathArr.size() == 0) {
+					return;
+				}
+				pathArr.remove(pathArr.size() - 1);
 				for (int i = 0; i < pathArr.size(); i++) {
-					src += File.separator +pathArr.get(i);
+					src += File.separator + pathArr.get(i);
 				}
 				getAllListFile(src);
+				refreshAdapter();
+				getAllListFile(src);
+
+			}
+		};
+		return onBackClick;
+	}
+
+	private void refreshAdapter() {
+		listFileAdapter.clear();
+		if (arr.size() > 0) {
+			nofileImg.setVisibility(ImageView.INVISIBLE);
+			for (int i = 0; i < arr.size(); i++) {
+				listFileAdapter.add(arr.get(i));
+			}
+		} else {
+			nofileImg.setVisibility(ImageView.VISIBLE);
+		}
+		listFileAdapter.notifyDataSetChanged();
+	}
+
+	private OnClickListener onHomeClick() {
+		OnClickListener onHomeClick = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getAllListFile("/");
+				pathArr.clear();
 				listFileAdapter.clear();
 				for (int i = 0; i < arr.size(); i++) {
 					listFileAdapter.add(arr.get(i));
@@ -128,22 +165,22 @@ public class List extends Activity {
 				listFileAdapter.notifyDataSetChanged();
 			}
 		};
-		return onBackClick;
-    }
-    
-    @Override
+		return onHomeClick;
+	}
+
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater=getMenuInflater();
-	    inflater.inflate(R.menu.option, menu);
-	    return super.onCreateOptionsMenu(menu);
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.option, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch(item.getItemId()){
-		 	case R.id.newFolder:
-		 		createFolder();
-	            return true;
+		switch (item.getItemId()) {
+		case R.id.newFolder:
+			createFolder();
+			return true;
 	        case R.id.paste:
 				try {
 					paste();
@@ -154,62 +191,69 @@ public class List extends Activity {
 		}
 		return true;
 	}
-	
-	public void createFolder(){
-		try{
+
+	public void createFolder() {
+		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			final EditText input = new EditText(this);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			        LinearLayout.LayoutParams.FILL_PARENT,
-			        LinearLayout.LayoutParams.WRAP_CONTENT);
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
 			input.setLayoutParams(lp);
 			builder.setView(input);
 			builder.setTitle("Folder's name");
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-					
-					String folder = input.getText().toString();
-					if(folder == null && folder.equals("")){return;}
-					if(pathArr.size() > 0){
-						for (int i = 0; i < pathArr.size(); i++) {
-							path += File.separator + pathArr.get(i);
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							String path = Environment
+									.getExternalStorageDirectory()
+									.getAbsolutePath()
+									+ File.separator;
+
+							String folder = input.getText().toString();
+							if (folder == null && folder.equals("")) {
+								return;
+							}
+							if (pathArr.size() > 0) {
+								for (int i = 0; i < pathArr.size(); i++) {
+									path += File.separator + pathArr.get(i);
+								}
+							}
+							path += File.separator + folder;
+							File file = new File(path);
+							System.out.println(file.getAbsolutePath());
+							if (file.exists()) {
+								AlertDialog.Builder builder = new AlertDialog.Builder(
+										List.this);
+								builder.setTitle("Duplicate");
+								builder.setMessage("Folder is exist");
+								builder.setPositiveButton("Ok", null);
+								builder.show();
+								return;
+							}
+							file.mkdir();
+							refresh();
 						}
-					}
-					path += File.separator + folder;
-					File file = new File(path);
-					System.out.println(file.getAbsolutePath());
-					if(file.exists()){
-						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
-						builder.setTitle("Duplicate");
-						builder.setMessage("Folder is exist");
-						builder.setPositiveButton("Ok", null);
-						builder.show();
-						return;
-					}
-					file.mkdir();
-					refresh();
-				}
-			});
+					});
 			builder.setNegativeButton("Cancel", null);
 			builder.show();
-			
-		}catch (Exception e) {
+
+		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
 
-	public OnItemLongClickListener itemLongClick(){
-    	OnItemLongClickListener longClickListener = new OnItemLongClickListener() {
+	public OnItemLongClickListener itemLongClick() {
+		OnItemLongClickListener longClickListener = new OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Files object = (Files)parent.getItemAtPosition(position);
-				if(object.isFolder()){
+				Files object = (Files) parent.getItemAtPosition(position);
+				if (object.isFolder()) {
 					openOptionDialog(object.getName());
 					System.out.println("Folder");
-				}else{
+				} else {
 					openOptionDialog(object.getName());
 					System.out.println("File");
 				}
@@ -217,10 +261,10 @@ public class List extends Activity {
 			}
 		};
 		return longClickListener;
-    }
-	
-	public void openOptionDialog(final String name){
-		try{
+	}
+
+	public void openOptionDialog(final String name) {
+		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Option");
 			builder.setItems(R.array.option_arr, new DialogInterface.OnClickListener() {
@@ -255,11 +299,10 @@ public class List extends Activity {
 			});
 			builder.setPositiveButton("Cancel", null);
 			builder.show();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
-	
 	private void copy(String name) {
 		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
 		for(int i = 0; i < pathArr.size(); i++){
@@ -392,258 +435,293 @@ public class List extends Activity {
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Remove");
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-					for(int i = 0; i < pathArr.size(); i++){
-						path += File.separator + pathArr.get(i);
-					}
-					path += File.separator + name;
-					File file = new File(path);
-					processRemove(file);
-					refresh();
-				}
-			});
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							String path = Environment
+									.getExternalStorageDirectory()
+									.getAbsolutePath()
+									+ File.separator;
+							for (int i = 0; i < pathArr.size(); i++) {
+								path += File.separator + pathArr.get(i);
+							}
+							path += File.separator + name;
+							File file = new File(path);
+							processRemove(file);
+							refresh();
+						}
+					});
 			builder.setNegativeButton("Cancel", null);
 			builder.show();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
-	
-	public boolean processRemove(File file){
-		try{
-			if(file.isDirectory()){
+
+	public boolean processRemove(File file) {
+		try {
+			if (file.isDirectory()) {
 				String[] child = file.list();
 				System.out.println("path : " + file.getAbsolutePath());
 				System.out.println("length " + child.length);
 				for (int i = 0; i < child.length; i++) {
 					System.out.println(i);
-					boolean success = processRemove(new File(file,child[i]));
-					if(!success){
+					boolean success = processRemove(new File(file, child[i]));
+					if (!success) {
 						System.out.println("cannot");
 						return false;
 					}
 				}
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return file.delete();
 	}
-	
-	public void rename(String name){
-		try{
+
+	public void rename(String name) {
+		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			final EditText input = new EditText(this);
 			int index = name.lastIndexOf(".");
 			String type = "";
-			if(index > 0 && index <= name.length() - 2 ){
+			if (index > 0 && index <= name.length() - 2) {
 				String temp = name;
-				name = temp.substring(0,index);
-				type = temp.substring(index,temp.length());
-		    }  
+				name = temp.substring(0, index);
+				type = temp.substring(index, temp.length());
+			}
 			input.setText(name);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-			        LinearLayout.LayoutParams.FILL_PARENT,
-			        LinearLayout.LayoutParams.WRAP_CONTENT);
+					LinearLayout.LayoutParams.FILL_PARENT,
+					LinearLayout.LayoutParams.WRAP_CONTENT);
 			input.setLayoutParams(lp);
 			builder.setView(input);
 			builder.setTitle("New Name");
 			final String tempName = name;
 			final String tempType = type;
-			builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					String newname = input.getText().toString();
-					if(newname == null && newname.equals(""))return;
-					String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-					String despath;
-					for(int i = 0; i < pathArr.size(); i++){
-						path += File.separator + pathArr.get(i);
-					}
-					despath = path;
-					path += File.separator + tempName + tempType;
-					despath += File.separator + newname + tempType;
-					File file = new File(path);
-					File des = new File(despath);
-					file.renameTo(des);
-					refresh();
-				}
-			});
+			builder.setPositiveButton("Ok",
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							String newname = input.getText().toString();
+							if (newname == null && newname.equals(""))
+								return;
+							String path = Environment
+									.getExternalStorageDirectory()
+									.getAbsolutePath()
+									+ File.separator;
+							String despath;
+							for (int i = 0; i < pathArr.size(); i++) {
+								path += File.separator + pathArr.get(i);
+							}
+							despath = path;
+							path += File.separator + tempName + tempType;
+							despath += File.separator + newname + tempType;
+							File file = new File(path);
+							File des = new File(despath);
+							file.renameTo(des);
+							refresh();
+						}
+					});
 			builder.setNegativeButton("Cancel", null);
 			builder.show();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void details(String name){
-		try{
+
+	public void details(String name) {
+		try {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			Date last_modified = new Date();
 			String info = "";
-			String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
-			for(int i = 0; i < pathArr.size(); i++){
+			String path = Environment.getExternalStorageDirectory()
+					.getAbsolutePath() + File.separator;
+			for (int i = 0; i < pathArr.size(); i++) {
 				path += File.separator + pathArr.get(i);
 			}
 			path += File.separator + name;
 			File file = new File(path);
 			info += "Name : " + file.getName() + "\n";
-			long size = file.length()/1024;
+			long size = file.length() / 1024;
 			last_modified.setTime(file.lastModified());
 			info += "Size : " + size + " KB\n";
 			info += "Last modified : " + format.format(last_modified) + "\n";
-			
+
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Details");
 			builder.setMessage(info);
 			builder.setPositiveButton("Ok", null);
 			builder.show();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
-	
-    public OnItemClickListener itemClick(){
-    	OnItemClickListener clickListener = new OnItemClickListener() {
+
+	public OnItemClickListener itemClick() {
+		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {		
-				Files object = (Files)parent.getItemAtPosition(position);
-				if(object.isFolder()){
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Files object = (Files) parent.getItemAtPosition(position);
+				if (object.isFolder()) {
 					String src = "";
 					pathArr.add(object.getName());
-					System.out.println("size : " + pathArr.size());
 					for (int i = 0; i < pathArr.size(); i++) {
-						src += File.separator+ pathArr.get(i);
+						src += File.separator + pathArr.get(i);
 					}
 					getAllListFile(src);
-					listFileAdapter.clear();
-					for (int i = 0; i < arr.size(); i++) {
-						listFileAdapter.add(arr.get(i));
-					}
-					listFileAdapter.notifyDataSetChanged();
-				}else{
+					refreshAdapter();
+				} else {
 					Intent intent = object.getAction();
 					startActivity(intent);
 				}
 			}
 		};
 		return clickListener;
-    }
-    
-    private String getChildFile(String path){
-    	int f=0,fd=0;
-    	File dir = new File(path);
-    	try {
-    		for(File file :dir.listFiles()){
-    			if(file.isDirectory())
-    				fd++;
-    			else
-    				f++;
-    		}
+	}
+
+	private String getChildFile(String path) {
+		int f = 0, fd = 0;
+		File dir = new File(path);
+		try {
+			for (File file : dir.listFiles()) {
+				if (file.isDirectory())
+					fd++;
+				else
+					f++;
+			}
+		} catch (NullPointerException e) {
+			return fd + " Folder | " + f + " File";
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
 		}
-    	return fd+" Folder | "+f+" File";
-    }
-    
-    private void getAllListFile(String path){
-    	
-    	arrFile = new ArrayList<Files>();
-    	arrFolder = new ArrayList<Files>();
-    	
-    	File sdCardRoot = Environment.getExternalStorageDirectory();
-    	File dir = new File(sdCardRoot,path);
-    	
-    	currentFile.setText(dir.getAbsolutePath());    	
-    	for(File f :dir.listFiles()){
-    		if(f.isFile()){
-            	Intent action= new Intent(Intent.ACTION_VIEW);
-    			String extend = f.getName().substring(f.getName().length()-5).toLowerCase();
-    			Bitmap bitmap ;
-    			if(extend.contains(".txt")){
-        			icon = getResources().getDrawable(R.drawable.text_file);
-        			action.setDataAndType(Uri.fromFile(f),"text/*");    
-    			}else if(extend.contains(".flv") || extend.contains(".3gp") || extend.contains(".avi")){
-    				bitmap = ThumbnailUtils.createVideoThumbnail(f.getAbsolutePath(), Thumbnails.MICRO_KIND);    		
-        			icon = new BitmapDrawable(bitmap);
-        			action.setDataAndType(Uri.fromFile(f),"video/*");
-    			}else if(extend.contains(".mp3")){
-    				icon = getResources().getDrawable(R.drawable.mp3_file);
-        			action.setDataAndType(Uri.fromFile(f),"audio/*");
-    			}else if(extend.contains(".doc") || extend.contains(".docx")){
-        			icon = getResources().getDrawable(R.drawable.word_file);
-        			action.setDataAndType(Uri.fromFile(f),"text/*");
-    			}else if(extend.contains(".ppt") || extend.contains(".pptx")){
-        			icon = getResources().getDrawable(R.drawable.pptx_file);
-        			action.setDataAndType(Uri.fromFile(f),"text/*");
-    			}else if(extend.contains(".xls") || extend.contains(".xlsx")){
-        			icon = getResources().getDrawable(R.drawable.xlsx_file);
-        			action.setDataAndType(Uri.fromFile(f),"text/*");
-    			}else if(extend.contains(".zip") || extend.contains(".rar")){
-        			icon = getResources().getDrawable(R.drawable.rar_file);
-        			action.setDataAndType(Uri.fromFile(f),"video/*");
-    			}else if(extend.contains(".jpg") || extend.contains(".jpeg") || extend.contains(".png") || extend.contains(".bmp") || extend.contains(".gif")){
-    				bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
-        			icon = new BitmapDrawable(bitmap);
-        			action.setDataAndType(Uri.fromFile(f),"image/*");
-    			}else if(extend.contains(".apk")){
-        			icon = getResources().getDrawable(R.drawable.apk_file);
-        			action.setDataAndType(Uri.fromFile(f),"application/vnd.android.package-archive");
-    			}else if(extend.contains(".exe")){
-        			icon = getResources().getDrawable(R.drawable.exe_file);
-    			}else{
-        			icon = getResources().getDrawable(R.drawable.unknown_file);
-    			}
-    			Files ff = new Files();
-    			ff.setIcon(icon);
-    			ff.setName(f.getName());
-    			ff.setFolder(false);
-    			ff.setAction(action);
-    			arrFile.add(ff);
-    		}else if(f.isDirectory()){
-    			icon = getResources().getDrawable(R.drawable.folder);
-				Files ff = new Files();
-				ff.setIcon(icon);
-    			ff.setName(f.getName());
-    			ff.setFolder(true);
-    			ff.setChildFile(getChildFile(f.getAbsolutePath()));
-    			arrFolder.add(ff);
-    		}
-    	}
-        sort(arrFile);
-        sort(arrFolder);
-    	arr = new  ArrayList<Files>();
-    	arr.addAll(arrFolder);
-    	arr.addAll(arrFile);
-    }
-    
-    private void sort(ArrayList<Files> lst ){
-    	Collections.sort(lst, new Comparator<Files>() {
-            @Override
-            public int compare(Files object1, Files object2) {
-                return object1.getName().toLowerCase().compareTo(object2.getName().toLowerCase());
-            }
-        });
+		return fd + " Folder | " + f + " File";
+	}
 
-    }
-    
-    protected void alertbox(String title, String mymessage)
-    {
-    	new AlertDialog.Builder(this)
-	       .setMessage(mymessage)
-	       .setTitle(title)
-	       .setCancelable(true)
-	       .setNeutralButton(android.R.string.cancel,
-	          new DialogInterface.OnClickListener() {
-	          public void onClick(DialogInterface dialog, int whichButton){}
-	          })
-	       .show();
-    }
-    
+	private void getAllListFile(String path) {
+
+		arrFile = new ArrayList<Files>();
+		arrFolder = new ArrayList<Files>();
+		File dir = new File(path);
+
+		currentFile.setText(dir.getAbsolutePath());
+		try {
+			for (File f : dir.listFiles()) {
+				if (f.isFile()) {
+					Intent action = new Intent(Intent.ACTION_VIEW);
+					Bitmap bitmap;
+					if (checkExtendFile(f.getName(), ".txt")) {
+						icon = getResources().getDrawable(R.drawable.text_file);
+						action.setDataAndType(Uri.fromFile(f), "text/*");
+					} else if (checkExtendFile(f.getName(), ".flv")
+							|| checkExtendFile(f.getName(), ".3gp")
+							|| checkExtendFile(f.getName(), ".avi")) {
+						bitmap = ThumbnailUtils.createVideoThumbnail(
+								f.getAbsolutePath(), Thumbnails.MICRO_KIND);
+						icon = new BitmapDrawable(bitmap);
+						action.setDataAndType(Uri.fromFile(f), "video/*");
+					} else if (checkExtendFile(f.getName(), ".mp3")) {
+						icon = getResources().getDrawable(R.drawable.mp3_file);
+						action.setDataAndType(Uri.fromFile(f), "audio/*");
+					} else if (checkExtendFile(f.getName(), ".doc")
+							|| checkExtendFile(f.getName(), ".docx")) {
+						icon = getResources().getDrawable(R.drawable.word_file);
+						action.setDataAndType(Uri.fromFile(f), "text/*");
+					} else if (checkExtendFile(f.getName(), ".ppt")
+							|| checkExtendFile(f.getName(), ".pptx")) {
+						icon = getResources().getDrawable(R.drawable.pptx_file);
+						action.setDataAndType(Uri.fromFile(f), "text/*");
+					} else if (checkExtendFile(f.getName(), ".xls")
+							|| checkExtendFile(f.getName(), ".xlsx")) {
+						icon = getResources().getDrawable(R.drawable.xlsx_file);
+						action.setDataAndType(Uri.fromFile(f), "text/*");
+					} else if (checkExtendFile(f.getName(), ".zip")
+							|| checkExtendFile(f.getName(), ".rar")) {
+						icon = getResources().getDrawable(R.drawable.rar_file);
+						action.setDataAndType(Uri.fromFile(f), "video/*");
+					} else if (checkExtendFile(f.getName(), ".jpg")
+							|| checkExtendFile(f.getName(), ".jpeg")
+							|| checkExtendFile(f.getName(), ".png")
+							|| checkExtendFile(f.getName(), ".bmp")
+							|| checkExtendFile(f.getName(), ".gif")) {
+						bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
+						icon = new BitmapDrawable(bitmap);
+						action.setDataAndType(Uri.fromFile(f), "image/*");
+					} else if (checkExtendFile(f.getName(), ".apk")) {
+						icon = getResources().getDrawable(R.drawable.apk_file);
+						action.setDataAndType(Uri.fromFile(f),
+								"application/vnd.android.package-archive");
+					} else if (checkExtendFile(f.getName(), ".exe")) {
+						icon = getResources().getDrawable(R.drawable.exe_file);
+					} else {
+						icon = getResources().getDrawable(
+								R.drawable.unknown_file);
+					}
+					Files ff = new Files();
+					ff.setIcon(icon);
+					ff.setName(f.getName());
+					ff.setFolder(false);
+					ff.setAction(action);
+					arrFile.add(ff);
+				} else if (f.isDirectory()) {
+					icon = getResources().getDrawable(R.drawable.folder);
+					Files ff = new Files();
+					ff.setIcon(icon);
+					ff.setName(f.getName());
+					ff.setFolder(true);
+					ff.setChildFile(getChildFile(f.getAbsolutePath()));
+					arrFolder.add(ff);
+				}
+			}
+			sort(arrFile);
+			sort(arrFolder);
+			arr = new ArrayList<Files>();
+			arr.addAll(arrFolder);
+			arr.addAll(arrFile);
+		} catch (NullPointerException e) {
+			arr.clear();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private boolean checkExtendFile(String filename, String extend) {
+		int number = extend.length();
+		if (filename.length() > number) {
+			if (filename.substring(filename.length() - number).toLowerCase()
+					.equals(extend.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void sort(ArrayList<Files> lst) {
+		Collections.sort(lst, new Comparator<Files>() {
+			@Override
+			public int compare(Files object1, Files object2) {
+				return object1.getName().toLowerCase()
+						.compareTo(object2.getName().toLowerCase());
+			}
+		});
+
+	}
+
+	protected void alertbox(String title, String mymessage) {
+		new AlertDialog.Builder(this)
+				.setMessage(mymessage)
+				.setTitle(title)
+				.setCancelable(true)
+				.setNeutralButton(android.R.string.cancel,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+							}
+						}).show();
+	}
+
     public static boolean copyFile(File source, File dest) {
         BufferedInputStream bis = null;
         BufferedOutputStream bos = null;
