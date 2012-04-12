@@ -7,8 +7,10 @@
     <string name="new_folder">New folder</string>	
     <string-array name="option_arr">
         <item>Copy</item>
+        <item>Cut</item>
         <item>Remove</item>
         <item>Rename</item>
         <item>Detail</item>
     </string-array>
+    <string name="paste">Paste</string>
 </resources>

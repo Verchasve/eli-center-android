@@ -1,6 +1,11 @@
 package com.eli.filemanager;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -51,6 +56,9 @@ public class List extends Activity {
 	String path = "";
 	
 	Drawable icon;
+	File fileCopy;
+	File fileMove;
+	String fileName;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -136,6 +144,13 @@ public class List extends Activity {
 		 	case R.id.newFolder:
 		 		createFolder();
 	            return true;
+	        case R.id.paste:
+				try {
+					paste();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	        	return true;
 		}
 		return true;
 	}
@@ -213,17 +228,22 @@ public class List extends Activity {
 				public void onClick(DialogInterface dialog, int which) {
 					switch (which) {
 					case 0:
+						copy(name);
 						System.out.println("Copy");
 						break;
 					case 1:
+						move(name);
+						System.out.println("move");
+						break;
+					case 2:
 						remove(name);
 						System.out.println("remove");
 						break;
-					case 2:
+					case 3:
 						rename(name);
 						System.out.println("rename");
 						break;
-					case 3:
+					case 4:
 						details(name);
 						System.out.println("detail");
 						break;
@@ -231,11 +251,140 @@ public class List extends Activity {
 						break;
 					}
 				}
+
 			});
 			builder.setPositiveButton("Cancel", null);
 			builder.show();
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
+		}
+	}
+	
+	private void copy(String name) {
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		for(int i = 0; i < pathArr.size(); i++){
+			path += File.separator + pathArr.get(i);
+		}
+		path += File.separator + name;
+		fileCopy = new File(path);
+		fileMove = null;
+		fileName = name;
+		System.out.println("File copy path: " + path + "\n File name: " + name);
+	}
+	
+	private void move(String name){
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		for(int i = 0; i < pathArr.size(); i++){
+			path += File.separator + pathArr.get(i);
+		}
+		path += File.separator + name;
+		fileMove = new File(path);
+		fileCopy = null;
+		fileName = name;
+		System.out.println("File copy path: " + path + "\n File name: " + name);
+	}
+	
+	private void paste() throws IOException{
+		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		for(int i = 0; i < pathArr.size(); i++){
+			path += File.separator + pathArr.get(i);
+		}
+		path += File.separator + fileName;
+		final File file = new File(path);
+		System.out.println("File copy path: " + path + "\n File name: " + fileName);
+		if(fileCopy == null && fileMove == null){
+			new AlertDialog.Builder(this)
+	        .setTitle("No file")
+	        .setMessage("There is no file to paste!")
+	        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
+	          public void onClick(DialogInterface dlg, int sumthin) {
+	            // do nothing -- it will close on its own
+	          }
+	        })
+	        .show();
+		} else {
+			if(fileCopy == null){
+				if(fileMove.isDirectory()){
+					if(file.exists()){
+						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+						builder.setTitle("Folder is exist!");
+						builder.setMessage("You want to replace folder?");
+						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								try {
+									copyDirectory(fileMove, file);
+									deleteDirectory(fileMove);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+						});
+						builder.setNegativeButton("Cancel", null);
+						builder.show();
+					} else {
+						copyDirectory(fileMove, file);
+						deleteDirectory(fileMove);
+					}
+				} else {
+					if(file.exists()){
+						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+						builder.setTitle("File is exist!");
+						builder.setMessage("You want to replace file?");
+						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								copyFile(fileMove, file);
+								fileMove.delete();
+							}
+						});
+						builder.setNegativeButton("Cancel", null);
+						builder.show();
+					} else {
+						copyFile(fileMove, file);
+						fileMove.delete();
+					}
+				}
+			} else {
+				if(fileCopy.isDirectory()){
+					if(file.exists()){
+						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+						builder.setTitle("Folder is exist!");
+						builder.setMessage("You want to replace folder?");
+						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								try {
+									copyDirectory(fileCopy, file);
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+						});
+						builder.setNegativeButton("Cancel", null);
+						builder.show();
+					} else {
+						copyDirectory(fileCopy, file);
+					}
+				} else {
+					if(file.exists()){
+						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+						builder.setTitle("Folder is exist!");
+						builder.setMessage("You want to replace folder?");
+						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								copyFile(fileCopy, file);
+							}
+						});
+						builder.setNegativeButton("Cancel", null);
+						builder.show();
+					} else {
+						copyFile(fileCopy, file);
+					}
+				}
+			}
+			refresh();
 		}
 	}
 	
@@ -495,4 +644,61 @@ public class List extends Activity {
 	       .show();
     }
     
+    public static boolean copyFile(File source, File dest) {
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        
+        try {
+          bis = new BufferedInputStream(new FileInputStream(source));
+          bos = new BufferedOutputStream(new FileOutputStream(dest, false));
+          
+          byte[] buf = new byte[1024];
+          bis.read(buf);
+          
+          do {
+            bos.write(buf);
+          } while(bis.read(buf) != -1);
+        } catch (IOException e) {
+          return false;
+        } finally {
+          try {
+            if (bis != null) bis.close();
+            if (bos != null) bos.close();
+          } catch (IOException e) {
+            return false;
+          }
+        }
+        
+        return true;
+      }
+    public static void copyDirectory(File sourceLocation, File targetLocation)
+    	throws IOException {
+    	if (sourceLocation.isDirectory()) {
+    		if (!targetLocation.exists()) {
+    			targetLocation.mkdirs();
+    		}
+
+    		String[] children = sourceLocation.list();
+    		for (int i = 0; i < children.length; i++) {
+    			copyDirectory(new File(sourceLocation, children[i]), new File(
+    					targetLocation, children[i]));
+    		}
+    	} else {
+
+    		copyFile(sourceLocation, targetLocation);
+    	}
+    }
+    static public boolean deleteDirectory(File path) {
+    	if (path.exists()) {
+    		File[] files = path.listFiles();
+    		for (int i = 0; i < files.length; i++) {
+    			if (files[i].isDirectory()) {
+    				deleteDirectory(files[i]);
+    			} else {
+    				files[i].delete();
+    			}
+    		}
+    	}
+    	return (path.delete());
+    }
 }
