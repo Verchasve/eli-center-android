@@ -20,7 +20,8 @@
         android:layout_toRightOf="@+id/ivFileImg"
         android:text="Android"
         android:textSize="18dp"
-        android:textColor="#333" />
+        android:textColor="#333"
+        android:maxLines="1"/>
 
     <TextView
         android:id="@+id/tvChild"
