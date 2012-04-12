@@ -159,7 +159,7 @@ public class List extends Activity {
 					if(folder == null && folder.equals("")){return;}
 					if(pathArr.size() > 0){
 						for (int i = 0; i < pathArr.size(); i++) {
-							path += pathArr.get(i);
+							path += File.separator + pathArr.get(i);
 						}
 					}
 					path += File.separator + folder;
