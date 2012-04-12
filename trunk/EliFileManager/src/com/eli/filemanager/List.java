@@ -89,16 +89,11 @@ public class List extends Activity {
     public void refresh(){
     	try{
     		String src = "";
-			System.out.println("size : " + pathArr.size());
 			for (int i = 0; i < pathArr.size(); i++) {
 				src += File.separator + pathArr.get(i);
 			}
 			getAllListFile(src);
-			listFileAdapter.clear();
-			for (int i = 0; i < arr.size(); i++) {
-				listFileAdapter.add(arr.get(i));
-			}
-			listFileAdapter.notifyDataSetChanged();
+			refreshAdapter();
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
@@ -206,15 +201,11 @@ public class List extends Activity {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							String path = Environment
-									.getExternalStorageDirectory()
-									.getAbsolutePath()
-									+ File.separator;
-
 							String folder = input.getText().toString();
 							if (folder == null && folder.equals("")) {
 								return;
 							}
+							path ="";
 							if (pathArr.size() > 0) {
 								for (int i = 0; i < pathArr.size(); i++) {
 									path += File.separator + pathArr.get(i);
@@ -304,7 +295,7 @@ public class List extends Activity {
 		}
 	}
 	private void copy(String name) {
-		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		path ="";
 		for(int i = 0; i < pathArr.size(); i++){
 			path += File.separator + pathArr.get(i);
 		}
@@ -312,11 +303,10 @@ public class List extends Activity {
 		fileCopy = new File(path);
 		fileMove = null;
 		fileName = name;
-		System.out.println("File copy path: " + path + "\n File name: " + name);
 	}
 	
 	private void move(String name){
-		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		path ="";
 		for(int i = 0; i < pathArr.size(); i++){
 			path += File.separator + pathArr.get(i);
 		}
@@ -324,24 +314,21 @@ public class List extends Activity {
 		fileMove = new File(path);
 		fileCopy = null;
 		fileName = name;
-		System.out.println("File copy path: " + path + "\n File name: " + name);
 	}
 	
 	private void paste() throws IOException{
-		String path = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
+		path ="";
 		for(int i = 0; i < pathArr.size(); i++){
 			path += File.separator + pathArr.get(i);
 		}
 		path += File.separator + fileName;
 		final File file = new File(path);
-		System.out.println("File copy path: " + path + "\n File name: " + fileName);
 		if(fileCopy == null && fileMove == null){
 			new AlertDialog.Builder(this)
 	        .setTitle("No file")
 	        .setMessage("There is no file to paste!")
 	        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
 	          public void onClick(DialogInterface dlg, int sumthin) {
-	            // do nothing -- it will close on its own
 	          }
 	        })
 	        .show();
@@ -434,15 +421,12 @@ public class List extends Activity {
 	public void remove(final String name){
 		try{
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
-			builder.setTitle("Remove");
+			builder.setTitle("Delete");
 			builder.setPositiveButton("Ok",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							String path = Environment
-									.getExternalStorageDirectory()
-									.getAbsolutePath()
-									+ File.separator;
+							path ="";
 							for (int i = 0; i < pathArr.size(); i++) {
 								path += File.separator + pathArr.get(i);
 							}
@@ -463,13 +447,10 @@ public class List extends Activity {
 		try {
 			if (file.isDirectory()) {
 				String[] child = file.list();
-				System.out.println("path : " + file.getAbsolutePath());
-				System.out.println("length " + child.length);
 				for (int i = 0; i < child.length; i++) {
 					System.out.println(i);
 					boolean success = processRemove(new File(file, child[i]));
 					if (!success) {
-						System.out.println("cannot");
 						return false;
 					}
 				}
@@ -507,10 +488,7 @@ public class List extends Activity {
 							String newname = input.getText().toString();
 							if (newname == null && newname.equals(""))
 								return;
-							String path = Environment
-									.getExternalStorageDirectory()
-									.getAbsolutePath()
-									+ File.separator;
+							path ="";
 							String despath;
 							for (int i = 0; i < pathArr.size(); i++) {
 								path += File.separator + pathArr.get(i);
@@ -536,8 +514,7 @@ public class List extends Activity {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			Date last_modified = new Date();
 			String info = "";
-			String path = Environment.getExternalStorageDirectory()
-					.getAbsolutePath() + File.separator;
+			path ="";
 			for (int i = 0; i < pathArr.size(); i++) {
 				path += File.separator + pathArr.get(i);
 			}

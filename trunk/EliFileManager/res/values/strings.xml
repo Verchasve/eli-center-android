@@ -8,7 +8,7 @@
     <string-array name="option_arr">
         <item>Copy</item>
         <item>Cut</item>
-        <item>Remove</item>
+        <item>Delete</item>
         <item>Rename</item>
         <item>Detail</item>
     </string-array>
