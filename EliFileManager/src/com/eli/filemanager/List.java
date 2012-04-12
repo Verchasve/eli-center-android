@@ -77,8 +77,6 @@ public class List extends Activity {
 		pathArr.add("sdcard");
 		listFileAdapter = new ListFileAdapter(this, R.layout.list_detail, arr);
 		listFile.setAdapter(listFileAdapter);
-		nameFolder = (EditText) findViewById(R.id.nameFolder);
-		btCreatFolder = (Button) findViewById(R.id.btCreateFolder);
 		listFile.setOnItemClickListener(itemClick());
 		listFile.setOnItemLongClickListener(itemLongClick());
 	}
