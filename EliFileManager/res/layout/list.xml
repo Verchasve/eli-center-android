@@ -14,25 +14,30 @@
 
         <Button
             android:id="@+id/btBack"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/left"/>
-
-        <TextView
+        
+        <EditText
             android:id="@+id/tvCurrentFile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_alignBottom="@+id/btBack"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btHome"
+            android:layout_toRightOf="@+id/btBack"
+            android:gravity="left|center_horizontal"
+           	android:singleLine="true"
+            android:padding="3dp"
             android:text="TextView"
-            android:textSize="15dp"
             android:textColor="#333"
-            android:maxLines="1" />
+            android:textSize="18dp" />
 
         <Button
             android:id="@+id/btHome"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/home" />
 
