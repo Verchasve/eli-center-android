@@ -50,6 +50,17 @@
         android:divider="#eee"
         android:dividerHeight="1dp"
         />
+    <GridView
+        android:id="@+id/gridViewFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:numColumns="auto_fit"
+        android:gravity="center"
+        android:fastScrollEnabled="true"
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="5dp">
+    </GridView>
     <ImageView 
         android:id="@+id/ivNoFile"
         android:visibility="invisible"
