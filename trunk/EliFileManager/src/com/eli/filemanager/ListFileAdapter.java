@@ -31,14 +31,19 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		if(view == null){
 			view = layoutInflater.inflate(layout, null);
 		}		
-		ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
-		TextView name = (TextView) view.findViewById(R.id.tvFileName);		
-		TextView child = (TextView) view.findViewById(R.id.tvChild);
+		
 		Files files = getItem(position);
+		
+		ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
+		TextView name = (TextView) view.findViewById(R.id.tvFileName);
+		TextView child = null;
 		try{
+			if(view.findViewById(R.id.tvChild) != null){
+				child = (TextView) view.findViewById(R.id.tvChild);
+				child.setText(files.getChildFile());
+			}
 			icon.setImageDrawable(files.getIcon());
 			name.setText(files.getName());
-			child.setText(files.getChildFile());
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
 		}	
