@@ -3,7 +3,7 @@
     android:id="@+id/llList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
+    android:background="@color/black"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -46,7 +46,7 @@
         android:id="@+id/lvFile"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:divider="#eee"
+        android:divider="@color/gray_heavy"
         android:dividerHeight="1dp" />
 
     <GridView
@@ -59,7 +59,7 @@
         android:numColumns="auto_fit"
         android:orientation="vertical"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="20dp" >
+        android:verticalSpacing="5dp" >
 
     </GridView>
 
