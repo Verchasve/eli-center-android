@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
     android:background="#fff"
-    android:id="@+id/llList">
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="fill_parent"
@@ -16,8 +16,8 @@
             android:id="@+id/btBack"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:background="@drawable/left"/>
-        
+            android:background="@drawable/left" />
+
         <EditText
             android:id="@+id/tvCurrentFile"
             android:layout_width="wrap_content"
@@ -28,8 +28,8 @@
             android:layout_toLeftOf="@+id/btHome"
             android:layout_toRightOf="@+id/btBack"
             android:gravity="left|center_horizontal"
-           	android:singleLine="true"
             android:padding="3dp"
+            android:singleLine="true"
             android:text="TextView"
             android:textColor="#333"
             android:textSize="18dp" />
@@ -40,7 +40,6 @@
             android:layout_height="35dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/home" />
-
     </RelativeLayout>
 
     <ListView
@@ -48,25 +47,28 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:divider="#eee"
-        android:dividerHeight="1dp"
-        />
+        android:dividerHeight="1dp" />
+
     <GridView
         android:id="@+id/gridViewFile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:numColumns="auto_fit"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="100dp"
         android:gravity="center"
-        android:fastScrollEnabled="true"
+        android:horizontalSpacing="5dp"
+        android:numColumns="auto_fit"
+        android:orientation="vertical"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp">
+        android:verticalSpacing="20dp" >
+
     </GridView>
-    <ImageView 
+
+    <ImageView
         android:id="@+id/ivNoFile"
-        android:visibility="invisible"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:layout_gravity="center"
-        android:src="@drawable/no_file"/>
+        android:src="@drawable/no_file"
+        android:visibility="invisible" />
 
 </LinearLayout>
