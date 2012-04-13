@@ -22,13 +22,14 @@ import com.eli.filemanager.pojo.Files;
 public class ListActivity extends Activity {
 
 	ProcessFile process;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
 	}
-	
+
 	private void refreshAdapter() {
 		process.fileAdapter.clear();
 		if (process.list.size() > 0) {
@@ -41,12 +42,16 @@ public class ListActivity extends Activity {
 		}
 		process.fileAdapter.notifyDataSetChanged();
 	}
-	
+
 	public void refresh() {
 		try {
 			String src = "";
-			for (int i = 0; i < process.paths.size(); i++) {
-				src += File.separator + process.paths.get(i);
+			if (process.paths.size() > 0) {
+				for (int i = 0; i < process.paths.size(); i++) {
+					src += File.separator + process.paths.get(i);
+				}
+			} else {
+				src = File.separator;
 			}
 			process.getAllListFile(src);
 			refreshAdapter();
@@ -115,7 +120,8 @@ public class ListActivity extends Activity {
 
 	public void openOptionDialog(final String name) {
 		try {
-			AlertDialog.Builder builder = new AlertDialog.Builder(ListActivity.this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					ListActivity.this);
 			builder.setTitle("Option");
 			builder.setItems(R.array.option_arr,
 					new DialogInterface.OnClickListener() {
@@ -124,23 +130,18 @@ public class ListActivity extends Activity {
 							switch (which) {
 							case 0:
 								process.copy(name);
-								System.out.println("Copy");
 								break;
 							case 1:
 								process.move(name);
-								System.out.println("move");
 								break;
 							case 2:
 								process.remove(name);
-								System.out.println("remove");
 								break;
 							case 3:
 								process.rename(name);
-								System.out.println("rename");
 								break;
 							case 4:
 								process.details(name);
-								System.out.println("detail");
 								break;
 							default:
 								break;
@@ -162,13 +163,8 @@ public class ListActivity extends Activity {
 					int position, long id) {
 				Files object = (Files) parent.getItemAtPosition(position);
 				if (object.isFolder()) {
-					String src = "";
 					process.paths.add(object.getName());
-					for (int i = 0; i < process.paths.size(); i++) {
-						src += File.separator + process.paths.get(i);
-					}
-					process.getAllListFile(src);
-					refreshAdapter();
+					refresh();
 				} else {
 					Intent intent = object.getAction();
 					startActivity(intent);
