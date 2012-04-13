@@ -49,7 +49,7 @@ public class List extends Activity {
 	ListView listFile;
 	Button btBack, btHome;
 	ListFileAdapter listFileAdapter;
-	TextView currentFile;
+	EditText currentFile;
 	ArrayList<Files> arr, arrFile, arrFolder;
 	ImageView nofileImg;
 
@@ -71,7 +71,7 @@ public class List extends Activity {
 		btBack.setOnClickListener(onBackClick());
 		btHome.setOnClickListener(onHomeClick());
 		listFile = (ListView) findViewById(R.id.lvFile);
-		currentFile = (TextView) findViewById(R.id.tvCurrentFile);
+		currentFile = (EditText) findViewById(R.id.tvCurrentFile);
 		getAllListFile("/mnt/sdcard");
 		pathArr.add("mnt");
 		pathArr.add("sdcard");
@@ -79,7 +79,12 @@ public class List extends Activity {
 		listFile.setAdapter(listFileAdapter);
 		listFile.setOnItemClickListener(itemClick());
 		listFile.setOnItemLongClickListener(itemLongClick());
+		
+		currentFile.setFocusable(false);
+		currentFile.setOnClickListener(onAddressClick());
 	}
+	
+	
 	File fileCopy;
 	File fileMove;
 	String fileName;
@@ -125,11 +130,20 @@ public class List extends Activity {
 				}
 				getAllListFile(src);
 				refreshAdapter();
-				getAllListFile(src);
 
 			}
 		};
 		return onBackClick;
+	}
+	
+	private OnClickListener onAddressClick() {
+		OnClickListener onAddressClick = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				currentFile.setFocusable(true);
+			}
+		};
+		return onAddressClick;
 	}
 
 	private void refreshAdapter() {
@@ -241,10 +255,8 @@ public class List extends Activity {
 				Files object = (Files) parent.getItemAtPosition(position);
 				if (object.isFolder()) {
 					openOptionDialog(object.getName());
-					System.out.println("Folder");
 				} else {
 					openOptionDialog(object.getName());
-					System.out.println("File");
 				}
 				return true;
 			}
@@ -580,7 +592,6 @@ public class List extends Activity {
 		arrFile = new ArrayList<Files>();
 		arrFolder = new ArrayList<Files>();
 		File dir = new File(path);
-
 		currentFile.setText(dir.getAbsolutePath());
 		try {
 			for (File f : dir.listFiles()) {
