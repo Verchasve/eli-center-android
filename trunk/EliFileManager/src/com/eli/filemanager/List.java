@@ -15,6 +15,7 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -37,16 +38,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.eli.filemanager.pojo.Files;
 
 public class List extends Activity {
+	boolean flag = true;
 	ArrayList pathArr;
-	ListView listFile;
+	ListView listView;
+	GridView gridView;
 	Button btBack, btHome;
 	ListFileAdapter listFileAdapter;
 	EditText currentFile;
@@ -56,7 +62,6 @@ public class List extends Activity {
 	EditText nameFolder;
 	Button btCreatFolder;
 	String path = "";
-	
 
 	Drawable icon;
 
@@ -70,28 +75,49 @@ public class List extends Activity {
 		btHome = (Button) findViewById(R.id.btHome);
 		btBack.setOnClickListener(onBackClick());
 		btHome.setOnClickListener(onHomeClick());
-		listFile = (ListView) findViewById(R.id.lvFile);
+
 		currentFile = (EditText) findViewById(R.id.tvCurrentFile);
 		getAllListFile("/mnt/sdcard");
 		pathArr.add("mnt");
 		pathArr.add("sdcard");
-		listFileAdapter = new ListFileAdapter(this, R.layout.list_detail, arr);
-		listFile.setAdapter(listFileAdapter);
-		listFile.setOnItemClickListener(itemClick());
-		listFile.setOnItemLongClickListener(itemLongClick());
 		
+		listView = (ListView) findViewById(R.id.lvFile);
+		gridView = (GridView) findViewById(R.id.gridViewFile);
+		
+		changeView(this);
+
 		currentFile.setFocusable(false);
 		currentFile.setOnClickListener(onAddressClick());
 	}
-	
-	
+
 	File fileCopy;
 	File fileMove;
 	String fileName;
+
+	private void changeView(Context c){
+		flag = !flag;
+		if (flag) {
+			gridView.setVisibility(GridView.VISIBLE);
+			listView.setVisibility(ListView.GONE);
+			listFileAdapter = new ListFileAdapter(c,R.layout.grid_detail, arr);
+			gridView = (GridView) findViewById(R.id.gridViewFile);
+			gridView.setAdapter(listFileAdapter);
+			gridView.setOnItemClickListener(itemClick());
+			gridView.setOnItemLongClickListener(itemLongClick());
+		}else{
+			gridView.setVisibility(GridView.GONE);
+			listView.setVisibility(ListView.VISIBLE);
+			listFileAdapter = new ListFileAdapter(c, R.layout.list_detail, arr);
+			listView = (ListView) findViewById(R.id.lvFile);
+			listView.setAdapter(listFileAdapter);
+			listView.setOnItemClickListener(itemClick());
+			listView.setOnItemLongClickListener(itemLongClick());
+		}
+	}
 	
-    public void refresh(){
-    	try{
-    		String src = "";
+	public void refresh() {
+		try {
+			String src = "";
 			for (int i = 0; i < pathArr.size(); i++) {
 				src += File.separator + pathArr.get(i);
 			}
@@ -135,7 +161,7 @@ public class List extends Activity {
 		};
 		return onBackClick;
 	}
-	
+
 	private OnClickListener onAddressClick() {
 		OnClickListener onAddressClick = new OnClickListener() {
 			@Override
@@ -163,13 +189,15 @@ public class List extends Activity {
 		OnClickListener onHomeClick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				getAllListFile("/");
-				pathArr.clear();
-				listFileAdapter.clear();
-				for (int i = 0; i < arr.size(); i++) {
-					listFileAdapter.add(arr.get(i));
-				}
-				listFileAdapter.notifyDataSetChanged();
+				// getAllListFile("/");
+				// pathArr.clear();
+				// listFileAdapter.clear();
+				// for (int i = 0; i < arr.size(); i++) {
+				// listFileAdapter.add(arr.get(i));
+				// }
+				// listFileAdapter.notifyDataSetChanged();
+				changeView(List.this);
+
 			}
 		};
 		return onHomeClick;
@@ -188,13 +216,13 @@ public class List extends Activity {
 		case R.id.newFolder:
 			createFolder();
 			return true;
-	        case R.id.paste:
-				try {
-					paste();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	        	return true;
+		case R.id.paste:
+			try {
+				paste();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return true;
 		}
 		return true;
 	}
@@ -217,7 +245,7 @@ public class List extends Activity {
 							if (folder == null && folder.equals("")) {
 								return;
 							}
-							path ="";
+							path = "";
 							if (pathArr.size() > 0) {
 								for (int i = 0; i < pathArr.size(); i++) {
 									path += File.separator + pathArr.get(i);
@@ -268,45 +296,47 @@ public class List extends Activity {
 		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Option");
-			builder.setItems(R.array.option_arr, new DialogInterface.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					switch (which) {
-					case 0:
-						copy(name);
-						System.out.println("Copy");
-						break;
-					case 1:
-						move(name);
-						System.out.println("move");
-						break;
-					case 2:
-						remove(name);
-						System.out.println("remove");
-						break;
-					case 3:
-						rename(name);
-						System.out.println("rename");
-						break;
-					case 4:
-						details(name);
-						System.out.println("detail");
-						break;
-					default:
-						break;
-					}
-				}
+			builder.setItems(R.array.option_arr,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							switch (which) {
+							case 0:
+								copy(name);
+								System.out.println("Copy");
+								break;
+							case 1:
+								move(name);
+								System.out.println("move");
+								break;
+							case 2:
+								remove(name);
+								System.out.println("remove");
+								break;
+							case 3:
+								rename(name);
+								System.out.println("rename");
+								break;
+							case 4:
+								details(name);
+								System.out.println("detail");
+								break;
+							default:
+								break;
+							}
+						}
 
-			});
+					});
 			builder.setPositiveButton("Cancel", null);
 			builder.show();
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
 	}
+
 	private void copy(String name) {
-		path ="";
-		for(int i = 0; i < pathArr.size(); i++){
+		path = "";
+		for (int i = 0; i < pathArr.size(); i++) {
 			path += File.separator + pathArr.get(i);
 		}
 		path += File.separator + name;
@@ -314,10 +344,10 @@ public class List extends Activity {
 		fileMove = null;
 		fileName = name;
 	}
-	
-	private void move(String name){
-		path ="";
-		for(int i = 0; i < pathArr.size(); i++){
+
+	private void move(String name) {
+		path = "";
+		for (int i = 0; i < pathArr.size(); i++) {
 			path += File.separator + pathArr.get(i);
 		}
 		path += File.separator + name;
@@ -325,41 +355,45 @@ public class List extends Activity {
 		fileCopy = null;
 		fileName = name;
 	}
-	
-	private void paste() throws IOException{
-		path ="";
-		for(int i = 0; i < pathArr.size(); i++){
+
+	private void paste() throws IOException {
+		path = "";
+		for (int i = 0; i < pathArr.size(); i++) {
 			path += File.separator + pathArr.get(i);
 		}
 		path += File.separator + fileName;
 		final File file = new File(path);
-		if(fileCopy == null && fileMove == null){
+		if (fileCopy == null && fileMove == null) {
 			new AlertDialog.Builder(this)
-	        .setTitle("No file")
-	        .setMessage("There is no file to paste!")
-	        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-	          public void onClick(DialogInterface dlg, int sumthin) {
-	          }
-	        })
-	        .show();
+					.setTitle("No file")
+					.setMessage("There is no file to paste!")
+					.setNeutralButton("Close",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dlg,
+										int sumthin) {
+								}
+							}).show();
 		} else {
-			if(fileCopy == null){
-				if(fileMove.isDirectory()){
-					if(file.exists()){
-						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+			if (fileCopy == null) {
+				if (fileMove.isDirectory()) {
+					if (file.exists()) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								List.this);
 						builder.setTitle("Folder is exist!");
 						builder.setMessage("You want to replace folder?");
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								try {
-									copyDirectory(fileMove, file);
-									deleteDirectory(fileMove);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-						});
+						builder.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										try {
+											copyDirectory(fileMove, file);
+											deleteDirectory(fileMove);
+										} catch (IOException e) {
+											e.printStackTrace();
+										}
+									}
+								});
 						builder.setNegativeButton("Cancel", null);
 						builder.show();
 					} else {
@@ -367,17 +401,20 @@ public class List extends Activity {
 						deleteDirectory(fileMove);
 					}
 				} else {
-					if(file.exists()){
-						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+					if (file.exists()) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								List.this);
 						builder.setTitle("File is exist!");
 						builder.setMessage("You want to replace file?");
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								copyFile(fileMove, file);
-								fileMove.delete();
-							}
-						});
+						builder.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										copyFile(fileMove, file);
+										fileMove.delete();
+									}
+								});
 						builder.setNegativeButton("Cancel", null);
 						builder.show();
 					} else {
@@ -386,37 +423,43 @@ public class List extends Activity {
 					}
 				}
 			} else {
-				if(fileCopy.isDirectory()){
-					if(file.exists()){
-						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+				if (fileCopy.isDirectory()) {
+					if (file.exists()) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								List.this);
 						builder.setTitle("Folder is exist!");
 						builder.setMessage("You want to replace folder?");
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								try {
-									copyDirectory(fileCopy, file);
-								} catch (IOException e) {
-									e.printStackTrace();
-								}
-							}
-						});
+						builder.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										try {
+											copyDirectory(fileCopy, file);
+										} catch (IOException e) {
+											e.printStackTrace();
+										}
+									}
+								});
 						builder.setNegativeButton("Cancel", null);
 						builder.show();
 					} else {
 						copyDirectory(fileCopy, file);
 					}
 				} else {
-					if(file.exists()){
-						AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
+					if (file.exists()) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								List.this);
 						builder.setTitle("Folder is exist!");
 						builder.setMessage("You want to replace folder?");
-						builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								copyFile(fileCopy, file);
-							}
-						});
+						builder.setPositiveButton("Ok",
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog,
+											int which) {
+										copyFile(fileCopy, file);
+									}
+								});
 						builder.setNegativeButton("Cancel", null);
 						builder.show();
 					} else {
@@ -427,16 +470,16 @@ public class List extends Activity {
 			refresh();
 		}
 	}
-	
-	public void remove(final String name){
-		try{
+
+	public void remove(final String name) {
+		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(List.this);
 			builder.setTitle("Delete");
 			builder.setPositiveButton("Ok",
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							path ="";
+							path = "";
 							for (int i = 0; i < pathArr.size(); i++) {
 								path += File.separator + pathArr.get(i);
 							}
@@ -498,7 +541,7 @@ public class List extends Activity {
 							String newname = input.getText().toString();
 							if (newname == null && newname.equals(""))
 								return;
-							path ="";
+							path = "";
 							String despath;
 							for (int i = 0; i < pathArr.size(); i++) {
 								path += File.separator + pathArr.get(i);
@@ -524,7 +567,7 @@ public class List extends Activity {
 			DateFormat format = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			Date last_modified = new Date();
 			String info = "";
-			path ="";
+			path = "";
 			for (int i = 0; i < pathArr.size(); i++) {
 				path += File.separator + pathArr.get(i);
 			}
@@ -708,61 +751,65 @@ public class List extends Activity {
 						}).show();
 	}
 
-    public static boolean copyFile(File source, File dest) {
-        BufferedInputStream bis = null;
-        BufferedOutputStream bos = null;
-        
-        try {
-          bis = new BufferedInputStream(new FileInputStream(source));
-          bos = new BufferedOutputStream(new FileOutputStream(dest, false));
-          
-          byte[] buf = new byte[1024];
-          bis.read(buf);
-          
-          do {
-            bos.write(buf);
-          } while(bis.read(buf) != -1);
-        } catch (IOException e) {
-          return false;
-        } finally {
-          try {
-            if (bis != null) bis.close();
-            if (bos != null) bos.close();
-          } catch (IOException e) {
-            return false;
-          }
-        }
-        
-        return true;
-      }
-    public static void copyDirectory(File sourceLocation, File targetLocation)
-    	throws IOException {
-    	if (sourceLocation.isDirectory()) {
-    		if (!targetLocation.exists()) {
-    			targetLocation.mkdirs();
-    		}
+	public static boolean copyFile(File source, File dest) {
+		BufferedInputStream bis = null;
+		BufferedOutputStream bos = null;
 
-    		String[] children = sourceLocation.list();
-    		for (int i = 0; i < children.length; i++) {
-    			copyDirectory(new File(sourceLocation, children[i]), new File(
-    					targetLocation, children[i]));
-    		}
-    	} else {
+		try {
+			bis = new BufferedInputStream(new FileInputStream(source));
+			bos = new BufferedOutputStream(new FileOutputStream(dest, false));
 
-    		copyFile(sourceLocation, targetLocation);
-    	}
-    }
-    static public boolean deleteDirectory(File path) {
-    	if (path.exists()) {
-    		File[] files = path.listFiles();
-    		for (int i = 0; i < files.length; i++) {
-    			if (files[i].isDirectory()) {
-    				deleteDirectory(files[i]);
-    			} else {
-    				files[i].delete();
-    			}
-    		}
-    	}
-    	return (path.delete());
-    }
+			byte[] buf = new byte[1024];
+			bis.read(buf);
+
+			do {
+				bos.write(buf);
+			} while (bis.read(buf) != -1);
+		} catch (IOException e) {
+			return false;
+		} finally {
+			try {
+				if (bis != null)
+					bis.close();
+				if (bos != null)
+					bos.close();
+			} catch (IOException e) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public static void copyDirectory(File sourceLocation, File targetLocation)
+			throws IOException {
+		if (sourceLocation.isDirectory()) {
+			if (!targetLocation.exists()) {
+				targetLocation.mkdirs();
+			}
+
+			String[] children = sourceLocation.list();
+			for (int i = 0; i < children.length; i++) {
+				copyDirectory(new File(sourceLocation, children[i]), new File(
+						targetLocation, children[i]));
+			}
+		} else {
+
+			copyFile(sourceLocation, targetLocation);
+		}
+	}
+
+	static public boolean deleteDirectory(File path) {
+		if (path.exists()) {
+			File[] files = path.listFiles();
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					deleteDirectory(files[i]);
+				} else {
+					files[i].delete();
+				}
+			}
+		}
+		return (path.delete());
+	}
 }
