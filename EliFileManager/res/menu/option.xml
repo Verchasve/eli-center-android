@@ -4,4 +4,6 @@
         android:title="@string/new_folder"/>
     <item android:id="@+id/paste"
         android:title="@string/paste"/>
+    <item android:id="@+id/changeView"
+        android:title="@string/changeView"/>
 </menu>

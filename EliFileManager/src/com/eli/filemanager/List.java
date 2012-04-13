@@ -80,10 +80,10 @@ public class List extends Activity {
 		getAllListFile("/mnt/sdcard");
 		pathArr.add("mnt");
 		pathArr.add("sdcard");
-		
+
 		listView = (ListView) findViewById(R.id.lvFile);
 		gridView = (GridView) findViewById(R.id.gridViewFile);
-		
+
 		changeView(this);
 
 		currentFile.setFocusable(false);
@@ -94,17 +94,17 @@ public class List extends Activity {
 	File fileMove;
 	String fileName;
 
-	private void changeView(Context c){
+	private void changeView(Context c) {
 		flag = !flag;
 		if (flag) {
 			gridView.setVisibility(GridView.VISIBLE);
 			listView.setVisibility(ListView.GONE);
-			listFileAdapter = new ListFileAdapter(c,R.layout.grid_detail, arr);
+			listFileAdapter = new ListFileAdapter(c, R.layout.grid_detail, arr);
 			gridView = (GridView) findViewById(R.id.gridViewFile);
 			gridView.setAdapter(listFileAdapter);
 			gridView.setOnItemClickListener(itemClick());
 			gridView.setOnItemLongClickListener(itemLongClick());
-		}else{
+		} else {
 			gridView.setVisibility(GridView.GONE);
 			listView.setVisibility(ListView.VISIBLE);
 			listFileAdapter = new ListFileAdapter(c, R.layout.list_detail, arr);
@@ -114,7 +114,7 @@ public class List extends Activity {
 			listView.setOnItemLongClickListener(itemLongClick());
 		}
 	}
-	
+
 	public void refresh() {
 		try {
 			String src = "";
@@ -189,14 +189,13 @@ public class List extends Activity {
 		OnClickListener onHomeClick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// getAllListFile("/");
-				// pathArr.clear();
-				// listFileAdapter.clear();
-				// for (int i = 0; i < arr.size(); i++) {
-				// listFileAdapter.add(arr.get(i));
-				// }
-				// listFileAdapter.notifyDataSetChanged();
-				changeView(List.this);
+				 getAllListFile("/");
+				 pathArr.clear();
+				 listFileAdapter.clear();
+				 for (int i = 0; i < arr.size(); i++) {
+				 listFileAdapter.add(arr.get(i));
+				 }
+				 listFileAdapter.notifyDataSetChanged();
 
 			}
 		};
@@ -215,6 +214,9 @@ public class List extends Activity {
 		switch (item.getItemId()) {
 		case R.id.newFolder:
 			createFolder();
+			return true;
+		case R.id.changeView:
+			changeView(List.this);
 			return true;
 		case R.id.paste:
 			try {
