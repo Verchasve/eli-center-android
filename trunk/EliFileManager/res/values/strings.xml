@@ -13,4 +13,5 @@
         <item>Detail</item>
     </string-array>
     <string name="paste">Paste</string>
+    <string name="changeView">Change View</string>
 </resources>
