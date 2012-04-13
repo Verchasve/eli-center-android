@@ -23,8 +23,10 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -62,6 +64,8 @@ public class ProcessFile {
 		listview = (ListView) activity.findViewById(R.id.lvFile);
 		gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 		nofileImg = (ImageView) activity.findViewById(R.id.ivNoFile);
+		
+		src.setOnKeyListener(onAddressKey());
 		getAllListFile("/mnt/sdcard");
 		changeView();
 	}
@@ -88,6 +92,25 @@ public class ProcessFile {
 			listview.setOnItemClickListener(activity.itemClick());
 			listview.setOnItemLongClickListener(activity.itemLongClick());
 		}
+	}
+	
+	private OnKeyListener onAddressKey() {
+		OnKeyListener onAddressKey = new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				if(keyCode == KeyEvent.KEYCODE_ENTER){
+					String[] temp = src.getText().toString().split("/");
+					paths.clear();
+					for(String a:temp){
+						paths.add(a);
+					}
+					activity.refresh();
+				}
+				return false;
+			}
+		};
+		return onAddressKey;
 	}
 
 	// event back click
