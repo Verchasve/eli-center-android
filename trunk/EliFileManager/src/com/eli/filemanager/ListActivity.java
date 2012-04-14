@@ -120,6 +120,9 @@ public class ListActivity extends Activity {
 		case R.id.searching:
 			process.search();
 			return true;
+		case R.id.setting:
+			process.setting();
+			return true;
 		}
 		return true;
 	}

@@ -10,5 +10,9 @@
         android:icon="@drawable/menu_view"
         android:title="@string/changeView"/>
     <item android:id="@+id/searching"
+        android:icon="@drawable/menu_search"
         android:title="@string/searching"/>
+    <item android:id="@+id/setting"
+        android:icon="@drawable/menu_setting"
+        android:title="@string/setting"/>
 </menu>

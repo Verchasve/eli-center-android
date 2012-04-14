@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="background_prompt">Choose a background color</string>
+    <string-array name="background_array">
+        <item>White</item>
+        <item>Black</item>
+    </string-array>
+    <string name="display_prompt">Choose a Display Style</string>
+    <string-array name="display_array">
+        <item>List View</item>
+        <item>Grid View</item>
+    </string-array>
+</resources>
