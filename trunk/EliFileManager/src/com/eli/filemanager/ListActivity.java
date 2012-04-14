@@ -96,6 +96,8 @@ public class ListActivity extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		case R.id.searching:
+			process.search();
 			return true;
 		}
 		return true;
