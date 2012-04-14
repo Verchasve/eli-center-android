@@ -30,6 +30,26 @@ public class ListActivity extends Activity {
 		process = new ProcessFile(this);
 	}
 
+	@Override
+	protected void onResume() {
+		try{
+			super.onResume();
+			if(getIntent() != null){
+				Intent intent = getIntent();
+				if(intent.getExtras() != null){
+					boolean isSearch = intent.getExtras().getBoolean("isSearch");
+					String src = intent.getStringExtra("src");
+					if(isSearch){
+						process.getAllListFile(src);
+						refresh();
+					}
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private void refreshAdapter() {
 		process.fileAdapter.clear();
 		if (process.list.size() > 0) {
@@ -96,6 +116,7 @@ public class ListActivity extends Activity {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			return true;
 		case R.id.searching:
 			process.search();
 			return true;

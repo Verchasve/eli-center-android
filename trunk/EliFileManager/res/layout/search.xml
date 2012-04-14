@@ -46,6 +46,12 @@
                 android:text="Searching name"
                 android:textSize="18dp" />
 
+            <Spinner
+                android:id="@+id/type_search"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/directory" />
+            
             <EditText
                 android:id="@+id/name_et"
                 android:layout_width="fill_parent"
@@ -71,7 +77,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/name_et"
+                android:id="@+id/max_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 
@@ -83,7 +89,7 @@
                 android:textSize="18dp" />
 
             <EditText
-                android:id="@+id/name_et"
+                android:id="@+id/min_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 
@@ -103,6 +109,8 @@
                 android:id="@+id/serch_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:layout_marginBottom="35dp"
                 android:layout_marginTop="35dp"
                 android:text="Search now" />

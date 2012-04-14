@@ -4,7 +4,8 @@
     <string name="hello">Hello World, EliFileManagerActivity!</string>
     <string name="app_name">EliFileManager</string>
     <string name="create_folder">Create folder</string>
-    <string name="new_folder">New folder</string>	
+    <string name="new_folder">New folder</string>
+
     <string-array name="option_arr">
         <item>Copy</item>
         <item>Cut</item>
@@ -12,8 +13,19 @@
         <item>Rename</item>
         <item>Detail</item>
     </string-array>
+    <string-array name="directory_arr">
+        <item>/</item>
+        <item>/mnt</item>
+        <item>/mnt/sdcard</item>
+    </string-array>
+    <string-array name="type_search_arr">
+        <item>Files and folders</item>
+        <item>Extension (.*)</item>
+    </string-array>
+
     <string name="paste">Paste</string>
     <string name="changeView">Change View</string>
     <string name="searching">Search</string>
     <string name="directory">Directory</string>
+
 </resources>
