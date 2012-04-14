@@ -663,5 +663,15 @@ public class ProcessFile {
 			e.printStackTrace(System.out);
 		}
 	}
+	
+	//search files and folders
+	public void search(){
+		try{
+			Intent intent = new Intent("com.eli.filemanager.SEARCH");
+			activity.startActivity(intent);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }

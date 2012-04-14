@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/search_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="10dp"
+                android:text="Searching"
+                android:textSize="24dp" />
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Directory"
+                android:textSize="18dp" />
+
+            <Spinner
+                android:id="@+id/directory"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:prompt="@string/directory" />
+
+            <TextView
+                android:id="@+id/name_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Searching name"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/name_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <CheckBox
+                android:id="@+id/sub_cbx"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Include subfolder" />
+
+            <CheckBox
+                android:id="@+id/case_cbx"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Case insensitive" />
+
+            <TextView
+                android:id="@+id/max_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Max size&apos;s files"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/name_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/min_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Min size&apos;s files"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/name_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/days_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="A few days ago"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/days_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/serch_btn"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="35dp"
+                android:layout_marginTop="35dp"
+                android:text="Search now" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

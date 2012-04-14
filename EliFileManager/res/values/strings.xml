@@ -14,4 +14,6 @@
     </string-array>
     <string name="paste">Paste</string>
     <string name="changeView">Change View</string>
+    <string name="searching">Search</string>
+    <string name="directory">Directory</string>
 </resources>
