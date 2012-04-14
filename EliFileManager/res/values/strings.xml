@@ -27,5 +27,5 @@
     <string name="changeView">Change View</string>
     <string name="searching">Search</string>
     <string name="directory">Directory</string>
-
+    <string name="setting">Setting</string>
 </resources>

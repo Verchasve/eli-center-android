@@ -65,6 +65,8 @@ public class ProcessFile {
 		gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 		nofileImg = (ImageView) activity.findViewById(R.id.ivNoFile);
 		
+		
+		
 		src.setOnKeyListener(onAddressKey());
 		getAllListFile("/mnt/sdcard");
 		changeView();
@@ -668,6 +670,15 @@ public class ProcessFile {
 	public void search(){
 		try{
 			Intent intent = new Intent("com.eli.filemanager.SEARCH");
+			activity.startActivity(intent);
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setting(){
+		try{
+			Intent intent = new Intent("com.eli.filemanager.SETTING");
 			activity.startActivity(intent);
 		}catch (Exception e) {
 			e.printStackTrace();
