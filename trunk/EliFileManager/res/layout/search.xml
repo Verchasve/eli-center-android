@@ -69,42 +69,6 @@
                 android:layout_height="wrap_content"
                 android:text="Case insensitive" />
 
-            <TextView
-                android:id="@+id/max_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Max size&apos;s files"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/max_et"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/min_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Min size&apos;s files"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/min_et"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
-            <TextView
-                android:id="@+id/days_tv"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="A few days ago"
-                android:textSize="18dp" />
-
-            <EditText
-                android:id="@+id/days_et"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
-
             <Button
                 android:id="@+id/serch_btn"
                 android:layout_width="fill_parent"
