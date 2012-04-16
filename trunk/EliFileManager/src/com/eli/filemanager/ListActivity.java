@@ -40,6 +40,11 @@ public class ListActivity extends Activity {
 					boolean isSearch = intent.getExtras().getBoolean("isSearch");
 					String src = intent.getStringExtra("src");
 					if(isSearch){
+						String[] temp = src.toString().split("/");
+						process.paths.clear();
+						for(String value : temp){
+							process.paths.add(value);
+						}
 						process.getAllListFile(src);
 						refresh();
 					}

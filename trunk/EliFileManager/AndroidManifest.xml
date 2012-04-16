@@ -30,5 +30,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ListSearchActivity">
+            <intent-filter>
+                <action android:name="com.eli.filemanager.LISTSEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

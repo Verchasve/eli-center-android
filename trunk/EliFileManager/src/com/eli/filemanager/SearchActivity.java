@@ -3,8 +3,10 @@ package com.eli.filemanager;
 import com.eli.filemanager.pojo.Files;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,33 +28,20 @@ public class SearchActivity extends Activity{
 		switch (id) {
         case ProcessSearch.DIALOG_DOWNLOAD_PROGRESS:
         	process.mProgressDialog = new ProgressDialog(this);
-        	process.mProgressDialog.setMessage("Searching...");
+        	process.mProgressDialog.setTitle("Searching...");
         	process.mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         	process.mProgressDialog.setCancelable(false);
+        	process.mProgressDialog.setCanceledOnTouchOutside(true);
+        	process.mProgressDialog.setButton(DialogInterface.BUTTON1, "Cancel" , new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			});
         	process.mProgressDialog.show();
             return process.mProgressDialog;
         default:
             return null;
         }
-	}
-	
-	public OnItemClickListener itemClick() {
-		OnItemClickListener clickListener = new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				Files object = (Files) parent.getItemAtPosition(position);
-				if (object.isFolder()) {
-					Intent intent = new Intent(SearchActivity.this,ListActivity.class);
-					intent.putExtra("isSearch", true);
-					intent.putExtra("src", object.getName());
-					startActivity(intent);
-				} else {
-					Intent intent = object.getAction();
-					startActivity(intent);
-				}
-			}
-		};
-		return clickListener;
 	}
 }
