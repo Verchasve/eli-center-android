@@ -264,9 +264,18 @@ public class ProcessSearch {
 			protected void onPostExecute(Void arg) {
 			    if (mProgressDialog.isShowing()){
 			    	mProgressDialog.dismiss();
-			    	initListSearch();
-			    	Intent intent = new Intent(activity,ListSearchActivity.class);
-			    	activity.startActivity(intent);
+			    	if(array.size() > 0){
+			    		initListSearch();
+				    	Intent intent = new Intent(activity,ListSearchActivity.class);
+				    	activity.startActivity(intent);
+			    	}else{
+				    	System.out.println("File not found");
+				    	AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+				    	builder.setTitle("Alert");
+				    	builder.setMessage("File not found");
+				    	builder.setPositiveButton("Ok", null);
+				    	builder.show();
+				    }
 			    }
 			}
 		}.execute("");
