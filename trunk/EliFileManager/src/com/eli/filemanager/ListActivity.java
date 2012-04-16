@@ -30,8 +30,6 @@ public class ListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
-		
-		process.onChangeSetting(this);
 	}
 
 	@Override
@@ -54,6 +52,7 @@ public class ListActivity extends Activity {
 					}
 				}
 			}
+			process.onChangeSetting(this);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
