@@ -35,6 +35,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.eli.filemanager.pojo.Files;
+import com.eli.util.Util;
 
 public class ProcessFile {
 
@@ -153,55 +154,55 @@ public class ProcessFile {
 				if (f.isFile()) {
 					Intent action = new Intent(Intent.ACTION_VIEW);
 					Bitmap bitmap;
-					if (checkExtendFile(f.getName(), ".txt")) {
+					if (Util.checkExtendFile(f.getName(), ".txt")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.text_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");
-					} else if (checkExtendFile(f.getName(), ".flv")
-							|| checkExtendFile(f.getName(), ".3gp")
-							|| checkExtendFile(f.getName(), ".avi")) {
+					} else if (Util.checkExtendFile(f.getName(), ".flv")
+							|| Util.checkExtendFile(f.getName(), ".3gp")
+							|| Util.checkExtendFile(f.getName(), ".avi")) {
 						bitmap = ThumbnailUtils.createVideoThumbnail(
 								f.getAbsolutePath(), Thumbnails.MICRO_KIND);
 						icon = new BitmapDrawable(bitmap);
 						action.setDataAndType(Uri.fromFile(f), "video/*");
-					} else if (checkExtendFile(f.getName(), ".mp3")) {
+					} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.mp3_file);
 						action.setDataAndType(Uri.fromFile(f), "audio/*");
-					} else if (checkExtendFile(f.getName(), ".doc")
-							|| checkExtendFile(f.getName(), ".docx")) {
+					} else if (Util.checkExtendFile(f.getName(), ".doc")
+							|| Util.checkExtendFile(f.getName(), ".docx")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.word_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");
-					} else if (checkExtendFile(f.getName(), ".ppt")
-							|| checkExtendFile(f.getName(), ".pptx")) {
+					} else if (Util.checkExtendFile(f.getName(), ".ppt")
+							|| Util.checkExtendFile(f.getName(), ".pptx")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.pptx_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");
-					} else if (checkExtendFile(f.getName(), ".xls")
-							|| checkExtendFile(f.getName(), ".xlsx")) {
+					} else if (Util.checkExtendFile(f.getName(), ".xls")
+							|| Util.checkExtendFile(f.getName(), ".xlsx")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.xlsx_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");
-					} else if (checkExtendFile(f.getName(), ".zip")
-							|| checkExtendFile(f.getName(), ".rar")) {
+					} else if (Util.checkExtendFile(f.getName(), ".zip")
+							|| Util.checkExtendFile(f.getName(), ".rar")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.rar_file);
 						action.setDataAndType(Uri.fromFile(f), "video/*");
-					} else if (checkExtendFile(f.getName(), ".jpg")
-							|| checkExtendFile(f.getName(), ".jpeg")
-							|| checkExtendFile(f.getName(), ".png")
-							|| checkExtendFile(f.getName(), ".bmp")
-							|| checkExtendFile(f.getName(), ".gif")) {
+					} else if (Util.checkExtendFile(f.getName(), ".jpg")
+							|| Util.checkExtendFile(f.getName(), ".jpeg")
+							|| Util.checkExtendFile(f.getName(), ".png")
+							|| Util.checkExtendFile(f.getName(), ".bmp")
+							|| Util.checkExtendFile(f.getName(), ".gif")) {
 						bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
 						icon = new BitmapDrawable(bitmap);
 						action.setDataAndType(Uri.fromFile(f), "image/*");
-					} else if (checkExtendFile(f.getName(), ".apk")) {
+					} else if (Util.checkExtendFile(f.getName(), ".apk")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.apk_file);
 						action.setDataAndType(Uri.fromFile(f),
 								"application/vnd.android.package-archive");
-					} else if (checkExtendFile(f.getName(), ".exe")) {
+					} else if (Util.checkExtendFile(f.getName(), ".exe")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.exe_file);
 					} else {
@@ -235,18 +236,6 @@ public class ProcessFile {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	// check type of file
-	private boolean checkExtendFile(String filename, String extend) {
-		int number = extend.length();
-		if (filename.length() > number) {
-			if (filename.substring(filename.length() - number).toLowerCase()
-					.equals(extend.toLowerCase())) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	// get sub folders and files

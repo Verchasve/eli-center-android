@@ -5,7 +5,10 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -32,7 +35,7 @@ public class ProcessSearch {
 	private CheckBox include_sub, case_sensitive;
 	private EditText name_search;
 	String url, search_str, directory_str, fectching_str;
-	public ArrayList<Files> array;
+	public static ArrayList<Files> array;
 	
 	public ProcessSearch(SearchActivity activity) {
 		this.activity = activity;
@@ -172,51 +175,77 @@ public class ProcessSearch {
 				}
 				Files files = null;
 				for (int i = 0; i < child.length; i++) {
-					if(SUB){
-						searchInSubFolder(child[i]);
-					}else{
-						System.out.println("child : " + child[i].getName());
-						if(child[i].getName().toString().indexOf(search_str) == 0){
-							files = new Files();
-							files.setName(child[i].getName());
-							files.setChildFile(child[i].getAbsolutePath());
-							array.add(files);
-							fectching_str = child[i].getAbsoluteFile().toString();
-							publishProgress(fectching_str);
+					if(!file.isHidden()){
+						if(SUB){
+							searchInSubFolder(child[i]);
+						}else{
+							System.out.println("child : " + child[i].getName());
+							if(child[i].getName().toString().indexOf(search_str) == 0){
+								files = new Files();
+								files.setName(child[i].getName());
+								if(child[i].isDirectory()){
+									files.setFolder(true);
+								}
+								files.setChildFile(child[i].getAbsolutePath());
+								array.add(files);
+							}
 						}
+						fectching_str = child[i].getAbsoluteFile().toString();
+						publishProgress(fectching_str);
 					}
 				}
 				return null;
+			}
+			
+			public void searchInSubFolder(File file){
+				try {
+					if(!file.isHidden()){
+						Files files = null;
+						if(file.isDirectory()){
+							File[] child = file.listFiles();
+							if(child == null || child.length == 0){
+								return;
+							}
+							if(file.getName().toString().indexOf(search_str) == 0){
+								System.out.println("folder");
+								files = new Files();
+								files.setName(file.getName());
+								files.setFolder(true);
+								files.setChildFile(file.getAbsolutePath());
+								array.add(files);
+							}
+							for (int i = 0; i < child.length; i++) {
+								searchInSubFolder(new File(file, child[i].getName()));
+								fectching_str = child[i].getAbsoluteFile().toString();
+								publishProgress(fectching_str);
+							}
+							return;
+						}else if(file.isFile()){
+							if(file.getName().toString().indexOf(search_str) == 0){
+								System.out.println("File");
+								files = new Files();
+								files.setName(file.getName());
+								files.setChildFile(file.getAbsolutePath());
+								array.add(files);
+								fectching_str = file.getAbsoluteFile().toString();
+								publishProgress(fectching_str);
+							}
+						}
+						
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 			@Override
 			protected void onPostExecute(Void arg) {
 			    if (mProgressDialog.isShowing()){
 			    	mProgressDialog.dismiss();
-			    	for (int i = 0; i < array.size(); i++) {
-						System.out.println("Item : " + array.get(i).getName());
-					}
+			    	Intent intent = new Intent(activity,ListSearchActivity.class);
+			    	activity.startActivity(intent);
 			    }
 			}
 		}.execute("");
-	}
-	
-	public void searchInSubFolder(File file){
-		try {
-			File[] child = file.listFiles();
-			Files files = null;
-			for (int i = 0; i < child.length; i++) {
-				if(child[i].getName().toString().indexOf(search_str) >= 0){
-					files = new Files();
-					files.setName(child[i].getName());
-					files.setChildFile(child[i].getAbsolutePath());
-					array.add(files);
-					fectching_str = child[i].getAbsoluteFile().toString();
-				}
-				searchInSubFolder(new File(file, child[i].getName()));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
