@@ -63,20 +63,14 @@
                 android:layout_height="wrap_content"
                 android:text="Include subfolder" />
 
-            <CheckBox
-                android:id="@+id/case_cbx"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Case insensitive" />
-
             <Button
                 android:id="@+id/serch_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:layout_marginBottom="35dp"
-                android:layout_marginTop="35dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="25dp"
                 android:text="Search now" />
         </LinearLayout>
     </ScrollView>
