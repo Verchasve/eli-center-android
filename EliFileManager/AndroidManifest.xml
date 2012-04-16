@@ -18,19 +18,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity">
+        <activity android:name=".SearchActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="com.eli.filemanager.SEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingActivity">
+        <activity android:name=".SettingActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="com.eli.filemanager.SETTING" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListSearchActivity">
+        <activity android:name=".ListSearchActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="com.eli.filemanager.LISTSEARCH" />
                 <category android:name="android.intent.category.DEFAULT" />
