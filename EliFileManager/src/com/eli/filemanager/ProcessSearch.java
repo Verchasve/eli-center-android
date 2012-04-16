@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.eli.filemanager.pojo.Files;
+import com.eli.util.Util;
 
 public class ProcessSearch {
 
@@ -179,15 +180,24 @@ public class ProcessSearch {
 						if(SUB){
 							searchInSubFolder(child[i]);
 						}else{
-							System.out.println("child : " + child[i].getName());
-							if(child[i].getName().toString().indexOf(search_str) == 0){
-								files = new Files();
-								files.setName(child[i].getName());
-								if(child[i].isDirectory()){
-									files.setFolder(true);
+							if(!TYPE){//search folder and file
+								if(child[i].getName().toString().indexOf(search_str) == 0){
+									files = new Files();
+									files.setName(child[i].getName());
+									if(child[i].isDirectory()){
+										files.setFolder(true);
+									}
+									files.setChildFile(child[i].getAbsolutePath());
+									array.add(files);
 								}
-								files.setChildFile(child[i].getAbsolutePath());
-								array.add(files);
+							}else{// search extendsion file (.*)
+								boolean flag = Util.checkExtendFile(child[i].getName().toString(), search_str);
+								if(flag){
+									files = new Files();
+									files.setName(child[i].getName());
+									files.setChildFile(child[i].getAbsolutePath());
+									array.add(files);
+								}
 							}
 						}
 						fectching_str = child[i].getAbsoluteFile().toString();
@@ -206,23 +216,26 @@ public class ProcessSearch {
 							if(child == null || child.length == 0){
 								return;
 							}
-							if(file.getName().toString().indexOf(search_str) == 0){
-								System.out.println("folder");
-								files = new Files();
-								files.setName(file.getName());
-								files.setFolder(true);
-								files.setChildFile(file.getAbsolutePath());
-								array.add(files);
+							if(!TYPE){
+								if(file.getName().toString().indexOf(search_str) == 0){
+									System.out.println("folder");
+									files = new Files();
+									files.setName(file.getName());
+									files.setFolder(true);
+									files.setChildFile(file.getAbsolutePath());
+									array.add(files);
+								}
 							}
 							for (int i = 0; i < child.length; i++) {
 								searchInSubFolder(new File(file, child[i].getName()));
 								fectching_str = child[i].getAbsoluteFile().toString();
 								publishProgress(fectching_str);
 							}
-							return;
+							fectching_str = file.getAbsoluteFile().toString();
+							publishProgress(fectching_str);
 						}else if(file.isFile()){
-							if(file.getName().toString().indexOf(search_str) == 0){
-								System.out.println("File");
+							boolean flag = Util.checkExtendFile(file.getName().toString(), search_str);
+							if(flag){
 								files = new Files();
 								files.setName(file.getName());
 								files.setChildFile(file.getAbsolutePath());
@@ -231,7 +244,6 @@ public class ProcessSearch {
 								publishProgress(fectching_str);
 							}
 						}
-						
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
