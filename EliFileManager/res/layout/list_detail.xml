@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
+    android:id="@+id/rlListDetail"
     android:background="@drawable/listview">
 
     <ImageView
@@ -20,7 +21,6 @@
         android:layout_toRightOf="@+id/ivFileImg"
         android:text="Android"
         android:textSize="18dp"
-        android:textColor="@color/white"
         android:maxLines="1"/>
 
     <TextView
@@ -30,7 +30,6 @@
         android:layout_alignBottom="@+id/ivFileImg"
         android:layout_alignLeft="@+id/tvFileName"
         android:text="TextView" 
-        android:textSize="13dp"
-        android:textColor="@color/gray_light" />
+        android:textSize="13dp" />
 
 </RelativeLayout>

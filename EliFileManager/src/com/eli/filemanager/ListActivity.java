@@ -28,6 +28,8 @@ public class ListActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
+		
+		process.onChangeSetting(this);
 	}
 
 	@Override

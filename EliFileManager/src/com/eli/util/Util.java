@@ -1,7 +1,7 @@
 package com.eli.util;
 
 public class Util {
-
+	
 	// check type of file
 	public static boolean checkExtendFile(String filename, String extend) {
 		int number = extend.length();

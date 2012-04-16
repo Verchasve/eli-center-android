@@ -14,6 +14,7 @@ import java.util.Comparator;
 import java.util.Date;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -33,14 +34,16 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
+import com.eli.filemanager.pojo.Users;
 import com.eli.util.Util;
 
 public class ProcessFile {
-
 	ListFileAdapter fileAdapter;
-
+	
 	ArrayList<String> paths;
 	ArrayList<Files> list, files, folders;
 	private ListActivity activity;
@@ -66,11 +69,16 @@ public class ProcessFile {
 		gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 		nofileImg = (ImageView) activity.findViewById(R.id.ivNoFile);
 		
-		
-		
 		src.setOnKeyListener(onAddressKey());
 		getAllListFile("/mnt/sdcard");
+		
 		changeView();
+		
+	}
+	
+
+	public void onChangeSetting(Context context){
+		LoadSetting.load(context);
 	}
 
 	// switch listview and gridview
