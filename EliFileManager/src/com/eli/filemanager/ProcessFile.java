@@ -92,15 +92,22 @@ public class ProcessFile {
 		hiden_move.setOnClickListener(onClickHiden(3));
 		
 		src.setOnKeyListener(onAddressKey());
-		getAllListFile("/mnt/sdcard");
-		
-		changeView();
+		getAllListFile("/mnt/sdcard");		
 		
 	}
 	
 
 	public void onChangeSetting(Context context){
 		LoadSetting.load(context);
+		Users users = LoadSetting.users;
+		System.out.println("DISPLAY "+users.getDisplay());
+		if(users.getDisplay()==0){
+			flag_change =true;
+			changeView();
+		}else if(users.getDisplay()==1){
+			flag_change =false;
+			changeView();
+		}
 	}
 
 	// switch listview and gridview
