@@ -16,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.eli.filemanager.pojo.Files;
 
@@ -63,6 +65,8 @@ public class ListActivity extends Activity {
 			process.nofileImg.setVisibility(ImageView.INVISIBLE);
 			for (int i = 0; i < process.list.size(); i++) {
 				process.fileAdapter.add(process.list.get(i));
+				process.fileAdapter.setMultiSelect(process.isMultiSelect);
+				process.fileAdapter.setPositions(process.positions);
 			}
 		} else {
 			process.nofileImg.setVisibility(ImageView.VISIBLE);
@@ -130,6 +134,29 @@ public class ListActivity extends Activity {
 		case R.id.setting:
 			process.setting();
 			return true;
+		case R.id.multiSelect:
+			if(process.isMultiSelect == false){
+				if(process.positions != null){
+					process.positions.clear();
+				}
+				if(process.multiSelect != null && process.multiSelect.size() > 0){
+					process.multiSelect.clear();
+				}
+				process.isMultiSelect = true;
+				process.hidden_lay.setVisibility(LinearLayout.VISIBLE);
+				Toast.makeText(this, "Multi select is now ON", Toast.LENGTH_SHORT).show();
+			} else {
+				if(process.positions != null){
+					process.positions.clear();
+				}
+				if(process.multiSelect != null && process.multiSelect.size() > 0){
+					process.multiSelect.clear();
+				}
+				process.multiSelect.clear();
+				process.hidden_lay.setVisibility(LinearLayout.GONE);
+				Toast.makeText(this, "Multi select is now OFF", Toast.LENGTH_SHORT).show();
+			}
+			refresh();
 		}
 		return true;
 	}
@@ -194,13 +221,25 @@ public class ListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				Files object = (Files) parent.getItemAtPosition(position);
-				if (object.isFolder()) {
-					process.paths.add(object.getName());
+				System.out.println("^^^^^^^^^^^^^^^^ {"+position+"}");
+				if(process.isMultiSelect){
+					String url = "";
+					Files object = (Files) parent.getItemAtPosition(position);
+					for (int i = 0; i < process.paths.size(); i++) {
+						url += File.separator + process.paths.get(i);
+					}
+					url += File.separator + object.getName();
+					process.addMultiPosition(object.getName(), url);
 					refresh();
 				} else {
-					Intent intent = object.getAction();
-					startActivity(intent);
+					Files object = (Files) parent.getItemAtPosition(position);
+					if (object.isFolder()) {
+						process.paths.add(object.getName());
+						refresh();
+					} else {
+						Intent intent = object.getAction();
+						startActivity(intent);
+					}
 				}
 			}
 		};

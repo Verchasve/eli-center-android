@@ -24,6 +24,7 @@
 
     <string name="paste">Paste</string>
     <string name="changeView">Change View</string>
+    <string name="multiSelect">Multi Select</string>
     <string name="searching">Search</string>
     <string name="directory">Directory</string>
     <string name="setting">Setting</string>
