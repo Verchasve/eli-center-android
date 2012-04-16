@@ -209,12 +209,10 @@ public class ProcessSearch {
 			public void searchInSubFolder(File file){
 				try {
 					if(!file.isHidden()){
+						fectching_str = file.getAbsoluteFile().toString();
+						publishProgress(fectching_str);
 						Files files = null;
 						if(file.isDirectory()){
-							File[] child = file.listFiles();
-							if(child == null || child.length == 0){
-								return;
-							}
 							if(!TYPE){
 								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
 									System.out.println("folder");
@@ -225,13 +223,16 @@ public class ProcessSearch {
 									array.add(files);
 								}
 							}
+							File[] child = file.listFiles();
+							if(child == null || child.length == 0){
+								return;
+							}
 							for (int i = 0; i < child.length; i++) {
-								searchInSubFolder(new File(file, child[i].getName()));
 								fectching_str = child[i].getAbsoluteFile().toString();
 								publishProgress(fectching_str);
+								searchInSubFolder(new File(file, child[i].getName()));
 							}
-							fectching_str = file.getAbsoluteFile().toString();
-							publishProgress(fectching_str);
+							
 						}else if(file.isFile()){
 							if(!TYPE){
 								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
