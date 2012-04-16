@@ -8,8 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
 
 public class ListFileAdapter extends ArrayAdapter<Files>{
@@ -28,12 +31,20 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;
+		
 		if(view == null){
 			view = layoutInflater.inflate(layout, null);
 		}		
-		
 		Files files = getItem(position);
-		
+
+		RelativeLayout rlayout;
+		LinearLayout lLayout;
+		if(view.findViewById(R.id.rlListDetail)!=null){
+			rlayout = (RelativeLayout) view.findViewById(R.id.rlListDetail);
+			rlayout.setBackgroundColor(R.color.white);
+		}else{
+			lLayout = (LinearLayout) view.findViewById(R.id.llGrid);			
+		}
 		ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
 		TextView name = (TextView) view.findViewById(R.id.tvFileName);
 		TextView child = null;

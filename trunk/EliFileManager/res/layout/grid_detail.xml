@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:padding="10dp"
+    android:id="@+id/llGrid"
     >
 
     <ImageView
@@ -20,7 +21,6 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:text="Android"
-        android:textColor="@color/white"
         android:textSize="14dp"
         android:gravity="center" />
 
