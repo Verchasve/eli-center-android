@@ -43,6 +43,39 @@
             android:background="@drawable/home" />
     </RelativeLayout>
 
+    
+    <LinearLayout
+    	android:id="@+id/hidden_buttons"
+    	android:orientation="horizontal"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:background="#000000"
+    	android:visibility="gone">    
+    	
+    	<Button
+    		android:id="@+id/hidden_delete"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+      		android:text="Delete"/>
+    	<Button
+    		android:id="@+id/hidden_copy"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:text="Copy"/>
+    	<Button
+    		android:id="@+id/hidden_move"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:text="Move" />
+    	<Button android:id="@+id/hidden_Cancel"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="1"
+    		android:text="Cancel" />
+    </LinearLayout>	
     <ListView
         android:id="@+id/lvFile"
         android:layout_width="fill_parent"
@@ -70,5 +103,5 @@
         android:layout_margin="50dp"
         android:src="@drawable/no_file"
         android:visibility="invisible" />
-
+    
 </LinearLayout>

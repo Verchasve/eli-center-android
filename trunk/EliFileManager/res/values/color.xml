@@ -3,9 +3,9 @@
 
     <color name="blue">#00A6FF</color>
     <color name="white">#FFFFFF</color>
+    <color name="bgItemSelect">#ff0d0d</color>
     <color name="black">#000000</color>
     <color name="gray_heavy">#333333</color>
     <color name="gray_light">#999999</color>
     <color name="grey">#CCCCCC</color>
-
 </resources>
