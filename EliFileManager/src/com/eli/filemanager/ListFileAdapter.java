@@ -65,19 +65,12 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		}		
 		Files files = getItem(position);
 
-		RelativeLayout rlayout;
-		LinearLayout lLayout;
-		if(view.findViewById(R.id.rlListDetail)!=null){
-			rlayout = (RelativeLayout) view.findViewById(R.id.rlListDetail);
-			rlayout.setBackgroundColor(R.color.white);
-		}else{
-			lLayout = (LinearLayout) view.findViewById(R.id.llGrid);			
-		}
 		ImageView icon = (ImageView) view.findViewById(R.id.ivFileImg);
 		TextView name = (TextView) view.findViewById(R.id.tvFileName);
 		ImageView iconCheck = (ImageView) view.findViewById(R.id.ivCheckImage);
 		TextView child = null;
 		try{
+			icon.setImageDrawable(files.getIcon());
 			if(view.findViewById(R.id.tvChild) != null){
 				child = (TextView) view.findViewById(R.id.tvChild);
 				child.setText(files.getChildFile());
