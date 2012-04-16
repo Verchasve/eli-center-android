@@ -33,13 +33,12 @@ public class ProcessSearch {
 	public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 	ProgressDialog mProgressDialog;
 	public static boolean SUB = false;
-	public static boolean CASE = false;
 	public static boolean TYPE = false;
 	
 	SearchActivity activity;
 	private Button search_btn;
 	private Spinner directory, type_search;
-	private CheckBox include_sub, case_sensitive;
+	private CheckBox include_sub;
 	private EditText name_search;
 	String url, search_str, directory_str, fectching_str;
 	public static ArrayList<Files> array;
@@ -50,7 +49,6 @@ public class ProcessSearch {
 		type_search = (Spinner)activity.findViewById(R.id.type_search);
 		name_search = (EditText)activity.findViewById(R.id.name_et);
 		include_sub = (CheckBox)activity.findViewById(R.id.sub_cbx);
-		case_sensitive = (CheckBox)activity.findViewById(R.id.case_cbx);
 		search_btn = (Button)activity.findViewById(R.id.serch_btn);
 		array = new ArrayList<Files>();
 		init();
@@ -141,17 +139,10 @@ public class ProcessSearch {
 			}else{
 				SUB = false;
 			}
-			if(case_sensitive.isChecked()){
-				System.out.println("case");
-				CASE = true;
-			}else{
-				CASE = false;
-			}
 			System.out.println("directory : " + directory_str);
 			System.out.println("type : " + TYPE);
 			System.out.println("search : " + search_str);
 			System.out.println("sub : " + SUB);
-			System.out.println("case : " + CASE);
 			
 			searching();
 			System.out.println("Finish");
@@ -187,7 +178,7 @@ public class ProcessSearch {
 							searchInSubFolder(child[i]);
 						}else{
 							if(!TYPE){//search folder and file
-								if(child[i].getName().toString().indexOf(search_str) == 0){
+								if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
 									files = new Files();
 									files.setName(child[i].getName());
 									if(child[i].isDirectory()){
@@ -197,7 +188,7 @@ public class ProcessSearch {
 									array.add(files);
 								}
 							}else{// search extendsion file (.*)
-								boolean flag = Util.checkExtendFile(child[i].getName().toString(), search_str);
+								boolean flag = Util.checkExtendFile(child[i].getName().toString().toUpperCase(), search_str.toUpperCase());
 								if(flag){
 									files = new Files();
 									files.setName(child[i].getName());
@@ -225,7 +216,7 @@ public class ProcessSearch {
 								return;
 							}
 							if(!TYPE){
-								if(file.getName().toString().indexOf(search_str) == 0){
+								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
 									System.out.println("folder");
 									files = new Files();
 									files.setName(file.getName());
@@ -243,7 +234,7 @@ public class ProcessSearch {
 							publishProgress(fectching_str);
 						}else if(file.isFile()){
 							if(!TYPE){
-								if(file.getName().toString().indexOf(search_str) == 0){
+								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
@@ -252,7 +243,7 @@ public class ProcessSearch {
 									publishProgress(fectching_str);
 								}
 							}else{
-								boolean flag = Util.checkExtendFile(file.getName().toString(), search_str);
+								boolean flag = Util.checkExtendFile(file.getName().toString().toUpperCase(), search_str.toUpperCase());
 								if(flag){
 									files = new Files();
 									files.setName(file.getName());
