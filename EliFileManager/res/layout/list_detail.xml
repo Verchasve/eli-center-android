@@ -21,7 +21,8 @@
         android:layout_toRightOf="@+id/ivFileImg"
         android:maxLines="1"
         android:text="Android"
-        android:textSize="18dp" />
+        android:textSize="18dp"
+        style="?filename" />
 
     <TextView
         android:id="@+id/tvChild"

@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/layout_border"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="10dp"
     android:id="@+id/llGrid"
+    style="?gridBorder"
     >
 
     <ImageView
@@ -22,6 +22,7 @@
         android:maxLines="1"
         android:text="Android"
         android:textSize="14dp"
-        android:gravity="center" />
+        android:gravity="center"
+        style="?filename" />
 
 </LinearLayout>
