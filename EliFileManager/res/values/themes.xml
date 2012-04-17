@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.White" parent="android:Theme">
+        <item name="list">@style/list_white</item>
+    </style>
+    
+    <style name="Theme.Black" parent="android:Theme">
+        <item name="list">@style/list_black</item>
+    </style>
+</resources>

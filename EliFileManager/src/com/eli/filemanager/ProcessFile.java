@@ -92,6 +92,7 @@ public class ProcessFile {
 		hiden_move.setOnClickListener(onClickHiden(3));
 		
 		src.setOnKeyListener(onAddressKey());
+		src.clearFocus();
 		getAllListFile("/mnt/sdcard");		
 		
 	}
@@ -107,6 +108,12 @@ public class ProcessFile {
 		}else if(users.getDisplay()==1){
 			flag_change =false;
 			changeView();
+		}
+		
+		if(users.getBackground()==1){			
+			context.setTheme(R.style.Theme_Black);
+		}else if(users.getBackground()==0){
+			context.setTheme(R.style.Theme_White);
 		}
 	}
 
