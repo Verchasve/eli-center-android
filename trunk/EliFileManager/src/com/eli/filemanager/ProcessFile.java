@@ -313,8 +313,10 @@ public class ProcessFile {
 			final EditText input = new EditText(activity);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 					LinearLayout.LayoutParams.FILL_PARENT,
-					LinearLayout.LayoutParams.WRAP_CONTENT);
-			input.setLayoutParams(lp);
+					LinearLayout.LayoutParams.WRAP_CONTENT);			
+			input.setLayoutParams(lp);			
+			input.setLines(1);
+			input.setSingleLine(true);
 			builder.setView(input);
 			builder.setTitle("Folder's name");
 			builder.setPositiveButton("Ok",
@@ -632,6 +634,8 @@ public class ProcessFile {
 					LinearLayout.LayoutParams.FILL_PARENT,
 					LinearLayout.LayoutParams.WRAP_CONTENT);
 			input.setLayoutParams(lp);
+			input.setLines(1);
+			input.setSingleLine(true);
 			builder.setView(input);
 			builder.setTitle("New Name");
 			final String tempName = name;
@@ -640,9 +644,15 @@ public class ProcessFile {
 					new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 							String newname = input.getText().toString();
-							if (newname == null && newname.equals(""))
+							if (newname == null || newname.equals("")){
+								builder.setTitle("Missing information");
+								builder.setMessage("Name is not empty");
+								builder.setPositiveButton("Ok", null);
+								builder.show();
 								return;
+							}
 							String path = "";
 							String despath;
 							for (int i = 0; i < paths.size(); i++) {
@@ -653,6 +663,13 @@ public class ProcessFile {
 							despath += File.separator + newname + tempType;
 							File file = new File(path);
 							File des = new File(despath);
+							if(des.exists()){
+								builder.setTitle("Missing information");
+								builder.setMessage("Name has already existed");
+								builder.setPositiveButton("Ok", null);
+								builder.show();
+								return;
+							}
 							file.renameTo(des);
 							activity.refresh();
 						}
