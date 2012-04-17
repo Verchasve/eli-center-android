@@ -27,5 +27,6 @@
     <string name="multiSelect">Multi Select</string>
     <string name="searching">Search</string>
     <string name="directory">Directory</string>
+    <string name="type">Type</string>
     <string name="setting">Setting</string>
 </resources>
