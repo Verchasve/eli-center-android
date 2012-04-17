@@ -11,6 +11,7 @@ import org.xmlpull.v1.XmlPullParser;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -55,6 +56,21 @@ public class UpdateActivity extends Activity {
 			});
 			builder.show();
 		}
+	}
+	
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		switch (id) {
+        case DIALOG_DOWNLOAD_PROGRESS:
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Downloading file...");
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mProgressDialog.setCancelable(false);
+            mProgressDialog.show();
+            return mProgressDialog;
+        default:
+            return null;
+        }
 	}
 	
 	public void nextToListActivity(){
