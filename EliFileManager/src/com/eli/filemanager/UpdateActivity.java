@@ -1,14 +1,24 @@
 package com.eli.filemanager;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
 import org.xmlpull.v1.XmlPullParser;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Xml;
 
 import com.eli.filemanager.pojo.App;
@@ -16,20 +26,113 @@ import com.eli.filemanager.pojo.App;
 public class UpdateActivity extends Activity {
 	public static String URL_LIST_PRODUCT = "http://14.63.212.204/eli-android-center/data/auto-update/listitem.xml";
 	private ArrayList<App> listApp;
+	ProgressDialog mProgressDialog;
+	public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
+	String link = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
 		if(isLastVersion()){
-			Intent intent = new Intent(this,ListActivity.class);
-			startActivity(intent);
-			finish();
+			nextToListActivity();
 		}else{
-			
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Update new version");
+			builder.setMessage("A new version of EliFileManager is available for update\n" +
+					"Would you like to update ?");
+			builder.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					downloading();
+				}
+			});
+			builder.setPositiveButton("Cancel", new AlertDialog.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					nextToListActivity();
+				}
+			});
+			builder.show();
 		}
 	}
+	
+	public void nextToListActivity(){
+		Intent intent = new Intent(this,ListActivity.class);
+		startActivity(intent);
+		finish();
+	}
 
+	public void downloading(){
+		new AsyncTask<String, String, String>(){
+
+			@Override
+		    protected void onPreExecute() {
+		        super.onPreExecute();
+		        showDialog(DIALOG_DOWNLOAD_PROGRESS);
+		    }
+			
+			protected void onProgressUpdate(String... progress) {
+		         mProgressDialog.setProgress(Integer.parseInt(progress[0]));
+		    }
+		 
+		    @Override
+		    protected void onPostExecute(String unused) {
+		        dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
+		        finish();
+		    }
+			
+			@Override
+			protected String doInBackground(String... arg0) {
+				try{
+					URL url = new URL(link);
+			        HttpURLConnection c = (HttpURLConnection) url.openConnection();
+			        c.setRequestMethod("GET");
+			        c.setDoOutput(true);
+			        c.connect();
+			        
+			        
+			        File file = new File(Environment.getExternalStorageDirectory() + "/elicenter/");
+					if(!file.exists()){
+						file.mkdir();
+					}
+			        
+					file = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
+					if(!file.exists()){
+						file.createNewFile();
+					}
+					
+					File outputFile = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
+			        FileOutputStream fos = new FileOutputStream(outputFile);
+
+			        InputStream is = c.getInputStream();
+
+			        byte[] buffer = new byte[1024];
+			        
+			        long total = 0;
+			        int count;
+			        int lenghtOfFile = c.getContentLength();
+			        while ((count = is.read(buffer)) != -1) {
+			            total += count;
+			            publishProgress(""+(int)((total*100)/lenghtOfFile));
+			            fos.write(buffer, 0, count);
+			        }
+			 
+			        fos.flush();
+			        fos.close();
+			        is.close();			
+
+			        Intent intentInstall = new Intent(Intent.ACTION_VIEW);
+			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk")),"application/vnd.android.package-archive");
+					startActivity(intentInstall);
+				}catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+		}.execute("");
+	}
+	
 	private boolean isLastVersion(){
 		try{
 		getProduct();
@@ -37,6 +140,7 @@ public class UpdateActivity extends Activity {
 		for(App a: listApp){
 			if(a.getPname().equals(manager.packageName)){
 				if(a.getVersionCode()>manager.versionCode){
+					link = a.getLink();
 					return false;
 				}
 			}
