@@ -3,15 +3,12 @@ package com.eli.filemanager;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.os.DropBoxManager;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.eli.filemanager.pojo.Files;
@@ -23,7 +20,16 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 	ArrayList<Files> arr;
 	boolean isMultiSelect = false;
 	private ArrayList<String> positions = new ArrayList<String>();
+	private boolean isListView = true;
 	
+	public boolean isListView() {
+		return isListView;
+	}
+
+	public void setListView(boolean isListView) {
+		this.isListView = isListView;
+	}
+
 	public boolean isMultiSelect() {
 		return isMultiSelect;
 	}
@@ -40,20 +46,22 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		this.positions = positions;
 	}
 
-	public ListFileAdapter(Context context, int textViewResourceId,ArrayList<Files> lst, boolean msl, ArrayList<String> pst) {
+	public ListFileAdapter(Context context, int textViewResourceId,ArrayList<Files> lst, boolean msl, ArrayList<String> pst, boolean isLV) {
 		super(context, textViewResourceId,lst);
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		layout = textViewResourceId;
 		arr = lst;
 		isMultiSelect = msl;
 		positions = pst;
+		isListView = isLV;
 	}
 	
-	public ListFileAdapter(Context context, int textViewResourceId,ArrayList<Files> lst) {
+	public ListFileAdapter(Context context, int textViewResourceId,ArrayList<Files> lst, boolean isLV) {
 		super(context, textViewResourceId,lst);
 		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		layout = textViewResourceId;
 		arr = lst;
+		isListView = isLV;
 	}
 	
 	@Override
@@ -76,15 +84,26 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 				child.setText(files.getChildFile());
 			}
 			name.setText(files.getName());
-			if(isMultiSelect){
-				iconCheck.setVisibility(ImageView.VISIBLE);
-				if(positions != null && positions.contains(files.getName())){
-					iconCheck.setImageDrawable(view.getResources().getDrawable(R.drawable.checkbox_checked));
+			if(isListView){
+				if(isMultiSelect){
+					iconCheck.setVisibility(ImageView.VISIBLE);
+					if(positions != null && positions.contains(files.getName())){
+						iconCheck.setImageDrawable(view.getResources().getDrawable(R.drawable.checkbox_checked));
+					} else {
+						iconCheck.setImageDrawable(view.getResources().getDrawable(R.drawable.checkbox_unchecked));
+					}
 				} else {
-					iconCheck.setImageDrawable(view.getResources().getDrawable(R.drawable.checkbox_unchecked));
+					iconCheck.setVisibility(ImageView.GONE);
 				}
 			} else {
 				iconCheck.setVisibility(ImageView.GONE);
+				if(isMultiSelect){
+					System.out.println("+++++++++++ Red");
+					if(positions != null && positions.contains(files.getName())){
+						System.out.println("+++++++++++ Red");
+						name.setTextColor(Color.RED);
+					}
+				}
 			}
 			
 		}catch (Exception e) {

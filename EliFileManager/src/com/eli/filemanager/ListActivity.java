@@ -79,6 +79,11 @@ public class ListActivity extends Activity {
 				process.fileAdapter.add(process.list.get(i));
 				process.fileAdapter.setMultiSelect(process.isMultiSelect);
 				process.fileAdapter.setPositions(process.positions);
+				if(process.flag_change){
+					process.fileAdapter.setListView(false);
+				} else {
+					process.fileAdapter.setListView(true);
+				}
 			}
 		} else {
 			process.nofileImg.setVisibility(ImageView.VISIBLE);
@@ -233,7 +238,6 @@ public class ListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				System.out.println("^^^^^^^^^^^^^^^^ {"+position+"}");
 				if(process.isMultiSelect){
 					String url = "";
 					Files object = (Files) parent.getItemAtPosition(position);
