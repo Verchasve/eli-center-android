@@ -19,7 +19,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
+import com.eli.filemanager.pojo.Users;
 
 public class ListActivity extends Activity {
 
@@ -27,9 +29,20 @@ public class ListActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		LoadSetting.load(this);
+		Users users = LoadSetting.users;
+		if(users.getBackground()==1){			
+			setTheme(R.style.Theme_Black);
+		}else if(users.getBackground()==0){
+			setTheme(R.style.Theme_White);
+		}
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
+	}
+	
+	public void destroy(){
+		finish();
 	}
 
 	@Override
@@ -52,10 +65,10 @@ public class ListActivity extends Activity {
 					}
 				}
 			}
-			process.onChangeSetting(this);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
+		process.onChangeSetting(this);
 	}
 
 	private void refreshAdapter() {

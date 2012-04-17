@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlListDetail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/listview"
     android:orientation="vertical"
-    android:padding="10dp"
-    android:id="@+id/rlListDetail"
-    android:background="@drawable/listview">
+    android:padding="10dp" >
 
     <ImageView
         android:id="@+id/ivFileImg"
         android:layout_width="48sp"
         android:layout_height="48sp"
-        android:src="@drawable/folder"/>
+        android:src="@drawable/folder" />
 
     <TextView
         android:id="@+id/tvFileName"
@@ -19,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/ivFileImg"
+        android:maxLines="1"
         android:text="Android"
-        android:textSize="18dp"
-        android:maxLines="1"/>
+        android:textSize="18dp" />
 
     <TextView
         android:id="@+id/tvChild"
@@ -29,9 +29,11 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/ivFileImg"
         android:layout_alignLeft="@+id/tvFileName"
-        android:text="TextView" 
-        android:textSize="13dp"
-        android:textColor="@color/gray_light" />
+        android:lines="1"
+        android:singleLine="true"
+        android:text="TextView"
+        android:textColor="@color/gray_light"
+        android:textSize="13dp" />
 
     <ImageView
         android:id="@+id/ivCheckImage"
