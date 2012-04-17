@@ -47,7 +47,7 @@ public class UpdateActivity extends Activity {
 					downloading();
 				}
 			});
-			builder.setPositiveButton("Cancel", new AlertDialog.OnClickListener() {
+			builder.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					nextToListActivity();
