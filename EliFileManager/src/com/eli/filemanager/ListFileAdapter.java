@@ -98,11 +98,12 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 			} else {
 				iconCheck.setVisibility(ImageView.GONE);
 				if(isMultiSelect){
-					System.out.println("+++++++++++ Red");
 					if(positions != null && positions.contains(files.getName())){
-						System.out.println("+++++++++++ Red");
-						name.setTextColor(Color.RED);
+						iconCheck.setVisibility(ImageView.VISIBLE);
+						iconCheck.setImageDrawable(view.getResources().getDrawable(R.drawable.check));
 					}
+				} else {
+					iconCheck.setVisibility(ImageView.GONE);
 				}
 			}
 			
