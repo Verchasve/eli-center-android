@@ -134,6 +134,19 @@ public class GetData {
 		item = new ListItem();
 	}
 
+	public void delete() {
+		if(listItem.size() > 0){
+			for (int i = 0; i < listItem.size(); i++) {
+				if(listItem.get(i).getId().equals(item.getId())){
+					listItem.remove(i);
+				}
+			}
+		}
+		writeData();
+		action = "";
+		item = new ListItem();
+	}
+	
 	private void writeData() {
 		try {
 

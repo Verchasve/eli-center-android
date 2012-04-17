@@ -8,7 +8,7 @@ body{font : 0.9em/21px Tahoma,Verdana,Geneva,serif;}
 .main-table{width: 100%;border-collapse: collapse;text-align: center;margin: auto;}
 .main-table tr th{padding: 3px 5px;background: #eee}
 .main-table tr td{padding: 3px 5px;border:1px solid #eee}
-.input-table{width: 600px;border-collapse: collapse;margin: auto;}
+.input-table{width: 650px;border-collapse: collapse;margin: auto;}
 .input-table tr td{padding: 5px}
 .input-table-first{font-weight:bold;width: 150px;}
 .input-panel{padding: 10px;border: 1px solid #ccc;width: auto}
