@@ -389,7 +389,72 @@ public class ProcessFile {
 			if (isMove == true) {
 				if (file.isDirectory()) {
 					if (file.exists()) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final EditText input = new EditText(activity);			
+							
+							String name = file.getName();
+							String tempPath = "";
+							for (int x = 0; x < paths.size(); x++) {
+								tempPath += File.separator + paths.get(i);
+							}
+							tempPath += File.separator + name;
+							
+							input.setText(name);
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT);
+							input.setLayoutParams(lp);
+							input.setLines(1);
+							input.setSingleLine(true);
+							builder.setView(input);
+							builder.setTitle("Copy file is exist!");
+							final String tempName = name;
+							builder.setPositiveButton("Copy",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											String newname = input.getText().toString();
+											if (newname == null || newname.equals("")){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name is not empty");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											String path = "";
+											String despath;
+											for (int i = 0; i < paths.size(); i++) {
+												path += File.separator + paths.get(i);
+											}
+											despath = path;
+											path += File.separator + tempName;
+											despath += File.separator + newname;
+											File file1 = new File(path);
+											File des = new File(despath);
+											if(des.exists()){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											try {
+												copyDirectory(file1, des);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										}
+									});
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						
+						/*AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 						builder.setTitle("Folder is exist!");
 						builder.setMessage("You want to replace folder?");
 						builder.setPositiveButton("Ok",
@@ -406,7 +471,7 @@ public class ProcessFile {
 									}
 								});
 						builder.setNegativeButton("Cancel", null);
-						builder.show();
+						builder.show();*/
 					} else if(paths.contains(file.getName())) {
 						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 						builder.setTitle("Copy Folder!");
@@ -419,7 +484,83 @@ public class ProcessFile {
 					}
 				} else {
 					if (file.exists()) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final EditText input = new EditText(activity);			
+							
+							String name = file.getName();
+							String tempPath = "";
+							for (int x = 0; x < paths.size(); x++) {
+								tempPath += File.separator + paths.get(i);
+							}
+							tempPath += File.separator + name;
+							File fileTemp = new File(tempPath);
+							
+							String type = "";
+							if(fileTemp.isFile()){
+								int index = name.lastIndexOf(".");
+								if (index > 0 && index <= name.length() - 2) {
+									String temp = name;
+									name = temp.substring(0, index);
+									type = temp.substring(index, temp.length());
+								}
+							}
+							input.setText(name);
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT);
+							input.setLayoutParams(lp);
+							input.setLines(1);
+							input.setSingleLine(true);
+							builder.setView(input);
+							builder.setTitle("Copy file is exist!");
+							final String tempName = name;
+							final String tempType = type;
+							builder.setPositiveButton("Copy",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											String newname = input.getText().toString();
+											if (newname == null || newname.equals("")){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name is not empty");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											String path = "";
+											String despath;
+											for (int i = 0; i < paths.size(); i++) {
+												path += File.separator + paths.get(i);
+											}
+											despath = path;
+											path += File.separator + tempName + tempType;
+											despath += File.separator + newname + tempType;
+											File file1 = new File(path);
+											File des = new File(despath);
+											if(des.exists()){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											try {
+												copyDirectory(file1, des);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										}
+									});
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						/*AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 						builder.setTitle("File is exist!");
 						builder.setMessage("You want to replace file?");
 						builder.setPositiveButton("Ok",
@@ -432,7 +573,7 @@ public class ProcessFile {
 									}
 								});
 						builder.setNegativeButton("Cancel", null);
-						builder.show();
+						builder.show();*/
 					} else {
 						copyFile(files, file);
 						files.delete();
