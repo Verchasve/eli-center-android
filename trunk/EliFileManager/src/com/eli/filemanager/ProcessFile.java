@@ -54,7 +54,7 @@ public class ProcessFile {
 	Button home_btn, back_btn;
 	private ListView listview;
 	private GridView gridview;
-	boolean flag_change = true;
+	public boolean flag_change = true;
 	ImageView nofileImg;
 	
 	LinearLayout hidden_lay;
@@ -124,7 +124,7 @@ public class ProcessFile {
 			gridview.setVisibility(GridView.VISIBLE);
 			listview.setVisibility(ListView.GONE);
 			fileAdapter = new ListFileAdapter(activity, R.layout.grid_detail,
-					list, isMultiSelect, positions);
+					list, isMultiSelect, positions, false);
 			gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 			gridview.setAdapter(fileAdapter);
 			gridview.setOnItemClickListener(activity.itemClick());
@@ -133,7 +133,7 @@ public class ProcessFile {
 			gridview.setVisibility(GridView.GONE);
 			listview.setVisibility(ListView.VISIBLE);
 			fileAdapter = new ListFileAdapter(activity, R.layout.list_detail,
-					list, isMultiSelect, positions);
+					list, isMultiSelect, positions, true);
 			listview = (ListView) activity.findViewById(R.id.lvFile);
 			listview.setAdapter(fileAdapter);
 			listview.setOnItemClickListener(activity.itemClick());
@@ -407,6 +407,12 @@ public class ProcessFile {
 								});
 						builder.setNegativeButton("Cancel", null);
 						builder.show();
+					} else if(paths.contains(file.getName())) {
+						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+						builder.setTitle("Copy Folder!");
+						builder.setMessage("The destination folder is subfolder of source folder.");
+						builder.setNegativeButton("Cancel", null);
+						builder.show();
 					} else {
 						copyDirectory(files, file);
 						deleteDirectory(files);
@@ -432,6 +438,8 @@ public class ProcessFile {
 						files.delete();
 					}
 				}
+				multiSelect.clear();
+				positions.clear();
 			} else {
 				if (files.isDirectory()) {
 					if (file.exists()) {
@@ -757,6 +765,7 @@ public class ProcessFile {
 					isMultiSelect = false;
 					positions.clear();
 					hidden_lay.setVisibility(LinearLayout.GONE);
+					activity.refresh();
 					break;
 				case 1:
 					isCopy = true;
