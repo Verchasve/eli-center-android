@@ -621,13 +621,23 @@ public class ProcessFile {
 	public void rename(String name) {
 		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			final EditText input = new EditText(activity);
-			int index = name.lastIndexOf(".");
+			final EditText input = new EditText(activity);			
+			
+			String tempPath = "";
+			for (int i = 0; i < paths.size(); i++) {
+				tempPath += File.separator + paths.get(i);
+			}
+			tempPath += File.separator + name;
+			File fileTemp = new File(tempPath);
+			
 			String type = "";
-			if (index > 0 && index <= name.length() - 2) {
-				String temp = name;
-				name = temp.substring(0, index);
-				type = temp.substring(index, temp.length());
+			if(fileTemp.isFile()){
+				int index = name.lastIndexOf(".");
+				if (index > 0 && index <= name.length() - 2) {
+					String temp = name;
+					name = temp.substring(0, index);
+					type = temp.substring(index, temp.length());
+				}
 			}
 			input.setText(name);
 			LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
