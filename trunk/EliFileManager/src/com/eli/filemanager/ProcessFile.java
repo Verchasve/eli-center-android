@@ -13,7 +13,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,7 +35,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
-import android.widget.RelativeLayout;
 
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
@@ -101,19 +99,12 @@ public class ProcessFile {
 	public void onChangeSetting(Context context){
 		LoadSetting.load(context);
 		Users users = LoadSetting.users;
-		System.out.println("DISPLAY "+users.getDisplay());
 		if(users.getDisplay()==0){
 			flag_change =true;
 			changeView();
 		}else if(users.getDisplay()==1){
 			flag_change =false;
 			changeView();
-		}
-		
-		if(users.getBackground()==1){			
-			context.setTheme(R.style.Theme_Black);
-		}else if(users.getBackground()==0){
-			context.setTheme(R.style.Theme_White);
 		}
 	}
 

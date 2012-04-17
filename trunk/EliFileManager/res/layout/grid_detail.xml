@@ -35,6 +35,7 @@
 	    android:gravity="center"
 	    android:maxLines="1"
 	    android:text="Android"
-	    android:textSize="14dp" />
+	    android:textSize="14dp" 
+	    style="?filename"/>
 
 </LinearLayout>
