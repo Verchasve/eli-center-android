@@ -7,6 +7,13 @@
 <h:head>
 	<title>Demo</title>
 	<h:outputStylesheet name="style.css" library="css"></h:outputStylesheet>
+	<script>
+	function onDelete(){
+		if(confirm('Are you sure?')){
+			return true;
+		} else return false;
+	}
+	</script>
 </h:head>
 <h:body>
 	<div class="main-content">
@@ -85,6 +92,8 @@
 									rendered="#{getData.action == 'update'}" />
 								<h:commandButton
 									value="Update All" action="#{getData.uploadFile}" />
+								<h:commandButton onclick="return onDelete();"
+									value="Delete" action="#{getData.delete}" rendered="#{getData.action == 'update'}"/>
 								<h:commandButton
 									value="Cancel" action="#{getData.cancel}" /></td>
 						</tr>
