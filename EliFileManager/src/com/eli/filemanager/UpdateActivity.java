@@ -21,6 +21,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Xml;
+import android.widget.TextView;
 
 import com.eli.filemanager.pojo.App;
 
@@ -30,30 +31,60 @@ public class UpdateActivity extends Activity {
 	ProgressDialog mProgressDialog;
 	public static final int DIALOG_DOWNLOAD_PROGRESS = 0;
 	String link = "";
+	TextView version;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.update);
-		if(isLastVersion()){
+		version = (TextView) findViewById(R.id.tvVersion);
+		try {
+			PackageInfo manager = getPackageManager().getPackageInfo(
+					getPackageName(), 0);
+			version.setText("Version "+manager.versionName);
+			
+			Thread timer = new Thread(){
+				public void run(){
+					try {
+						sleep(3000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}finally{
+						check();
+					}
+				}
+			};
+			timer.start();			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void check(){
+		if (isLastVersion()) {
 			nextToListActivity();
-		}else{
+		} else {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Update new version");
-			builder.setMessage("A new version of EliFileManager is available for update\n" +
-					"Would you like to update ?");
-			builder.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					downloading();
-				}
-			});
-			builder.setNegativeButton("Cancel", new AlertDialog.OnClickListener() {
-				@Override
-				public void onClick(DialogInterface dialog, int which) {
-					nextToListActivity();
-				}
-			});
+			builder.setMessage("A new version of EliFileManager is available for update\n"
+					+ "Would you like to update ?");
+			builder.setPositiveButton("Ok",
+					new AlertDialog.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int which) {
+							downloading();
+						}
+					});
+			builder.setNegativeButton("Cancel",
+					new AlertDialog.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog,
+								int which) {
+							nextToListActivity();
+						}
+					});
 			builder.show();
 		}
 	}
@@ -61,107 +92,117 @@ public class UpdateActivity extends Activity {
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
-        case DIALOG_DOWNLOAD_PROGRESS:
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Downloading file...");
-            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mProgressDialog.setCancelable(false);
-            mProgressDialog.show();
-            return mProgressDialog;
-        default:
-            return null;
-        }
+		case DIALOG_DOWNLOAD_PROGRESS:
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage("Downloading file...");
+			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.show();
+			return mProgressDialog;
+		default:
+			return null;
+		}
 	}
-	
-	public void nextToListActivity(){
-		Intent intent = new Intent(this,ListActivity.class);
+
+	public void nextToListActivity() {
+		Intent intent = new Intent(this, ListActivity.class);
 		startActivity(intent);
 		finish();
 	}
 
-	public void downloading(){
-		new AsyncTask<String, String, String>(){
+	public void downloading() {
+		new AsyncTask<String, String, String>() {
 
 			@Override
-		    protected void onPreExecute() {
-		        super.onPreExecute();
-		        showDialog(DIALOG_DOWNLOAD_PROGRESS);
-		    }
-			
+			protected void onPreExecute() {
+				super.onPreExecute();
+				showDialog(DIALOG_DOWNLOAD_PROGRESS);
+			}
+
 			protected void onProgressUpdate(String... progress) {
-		         mProgressDialog.setProgress(Integer.parseInt(progress[0]));
-		    }
-		 
-		    @Override
-		    protected void onPostExecute(String unused) {
-		        dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
-		        finish();
-		    }
-			
+				mProgressDialog.setProgress(Integer.parseInt(progress[0]));
+			}
+
+			@Override
+			protected void onPostExecute(String unused) {
+				dismissDialog(DIALOG_DOWNLOAD_PROGRESS);
+				finish();
+			}
+
 			@Override
 			protected String doInBackground(String... arg0) {
-				try{
+				try {
 					URL url = new URL(link);
-			        HttpURLConnection c = (HttpURLConnection) url.openConnection();
-			        c.setRequestMethod("GET");
-			        c.setDoOutput(true);
-			        c.connect();
-			        
-			        
-			        File file = new File(Environment.getExternalStorageDirectory() + "/elicenter/");
-					if(!file.exists()){
+					HttpURLConnection c = (HttpURLConnection) url
+							.openConnection();
+					c.setRequestMethod("GET");
+					c.setDoOutput(true);
+					c.connect();
+
+					File file = new File(
+							Environment.getExternalStorageDirectory()
+									+ "/elicenter/");
+					if (!file.exists()) {
 						file.mkdir();
 					}
-			        
-					file = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
-					if(!file.exists()){
+
+					file = new File(Environment.getExternalStorageDirectory()
+							+ "/elicenter/" + "eli-app.apk");
+					if (!file.exists()) {
 						file.createNewFile();
 					}
-					
-					File outputFile = new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk");
-			        FileOutputStream fos = new FileOutputStream(outputFile);
 
-			        InputStream is = c.getInputStream();
+					File outputFile = new File(
+							Environment.getExternalStorageDirectory()
+									+ "/elicenter/" + "eli-app.apk");
+					FileOutputStream fos = new FileOutputStream(outputFile);
 
-			        byte[] buffer = new byte[1024];
-			        
-			        long total = 0;
-			        int count;
-			        int lenghtOfFile = c.getContentLength();
-			        while ((count = is.read(buffer)) != -1) {
-			            total += count;
-			            publishProgress(""+(int)((total*100)/lenghtOfFile));
-			            fos.write(buffer, 0, count);
-			        }
-			 
-			        fos.flush();
-			        fos.close();
-			        is.close();			
+					InputStream is = c.getInputStream();
 
-			        Intent intentInstall = new Intent(Intent.ACTION_VIEW);
-			        intentInstall.setDataAndType(Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/elicenter/" + "eli-app.apk")),"application/vnd.android.package-archive");
+					byte[] buffer = new byte[1024];
+
+					long total = 0;
+					int count;
+					int lenghtOfFile = c.getContentLength();
+					while ((count = is.read(buffer)) != -1) {
+						total += count;
+						publishProgress(""
+								+ (int) ((total * 100) / lenghtOfFile));
+						fos.write(buffer, 0, count);
+					}
+
+					fos.flush();
+					fos.close();
+					is.close();
+
+					Intent intentInstall = new Intent(Intent.ACTION_VIEW);
+					intentInstall.setDataAndType(Uri.fromFile(new File(
+							Environment.getExternalStorageDirectory()
+									+ "/elicenter/" + "eli-app.apk")),
+							"application/vnd.android.package-archive");
 					startActivity(intentInstall);
-				}catch (Exception e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 				return null;
 			}
 		}.execute("");
 	}
-	
-	private boolean isLastVersion(){
-		try{
-		getProduct();
-		PackageInfo manager=getPackageManager().getPackageInfo(getPackageName(), 0);
-		for(App a: listApp){
-			if(a.getPname().equals(manager.packageName)){
-				if(a.getVersionCode()>manager.versionCode){
-					link = a.getLink();
-					return false;
+
+	private boolean isLastVersion() {
+		try {
+			getProduct();
+			PackageInfo manager = getPackageManager().getPackageInfo(
+					getPackageName(), 0);
+			for (App a : listApp) {
+				if (a.getPname().equals(manager.packageName)) {
+					if (a.getVersionCode() > manager.versionCode) {
+						link = a.getLink();
+						return false;
+					}
 				}
 			}
-		}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return true;
