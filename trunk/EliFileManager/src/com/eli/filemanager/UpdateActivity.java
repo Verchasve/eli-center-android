@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -20,6 +21,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Looper;
 import android.util.Xml;
 import android.widget.TextView;
 
@@ -46,7 +48,7 @@ public class UpdateActivity extends Activity {
 			Thread timer = new Thread(){
 				public void run(){
 					try {
-						sleep(3000);
+						sleep(1000);
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}finally{
@@ -65,6 +67,7 @@ public class UpdateActivity extends Activity {
 		if (isLastVersion()) {
 			nextToListActivity();
 		} else {
+			Looper.prepare();
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Update new version");
 			builder.setMessage("A new version of EliFileManager is available for update\n"
@@ -86,6 +89,7 @@ public class UpdateActivity extends Activity {
 						}
 					});
 			builder.show();
+			Looper.loop();
 		}
 	}
 	
