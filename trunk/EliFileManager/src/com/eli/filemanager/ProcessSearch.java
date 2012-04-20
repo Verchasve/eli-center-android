@@ -178,14 +178,29 @@ public class ProcessSearch {
 							searchInSubFolder(child[i]);
 						}else{
 							if(!TYPE){//search folder and file
-								if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
-									files = new Files();
-									files.setName(child[i].getName());
-									if(child[i].isDirectory()){
-										files.setFolder(true);
+								if(child[i].isFile()){
+									String temp = child[i].getName().toString().toUpperCase();
+									int index = temp.lastIndexOf(".");
+									temp = temp.substring(0,index);
+									if(temp.indexOf(search_str.toUpperCase()) >= 0){
+										files = new Files();
+										files.setName(child[i].getName());
+										if(child[i].isDirectory()){
+											files.setFolder(true);
+										}
+										files.setChildFile(child[i].getAbsolutePath());
+										array.add(files);
 									}
-									files.setChildFile(child[i].getAbsolutePath());
-									array.add(files);
+								}else{
+									if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
+										files = new Files();
+										files.setName(child[i].getName());
+										if(child[i].isDirectory()){
+											files.setFolder(true);
+										}
+										files.setChildFile(child[i].getAbsolutePath());
+										array.add(files);
+									}
 								}
 							}else{// search extendsion file (.*)
 								boolean flag = Util.checkExtendFile(child[i].getName().toString().toUpperCase(), search_str.toUpperCase());
@@ -235,7 +250,10 @@ public class ProcessSearch {
 							
 						}else if(file.isFile()){
 							if(!TYPE){
-								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
+								String temp = file.getName().toString().toUpperCase();
+								int index = temp.lastIndexOf(".");
+								temp = temp.substring(0,index);
+								if(temp.indexOf(search_str.toUpperCase()) >= 0){
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
