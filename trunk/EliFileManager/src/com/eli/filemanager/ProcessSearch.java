@@ -178,7 +178,7 @@ public class ProcessSearch {
 							searchInSubFolder(child[i]);
 						}else{
 							if(!TYPE){//search folder and file
-								if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
+								if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
 									files = new Files();
 									files.setName(child[i].getName());
 									if(child[i].isDirectory()){
@@ -214,7 +214,7 @@ public class ProcessSearch {
 						Files files = null;
 						if(file.isDirectory()){
 							if(!TYPE){
-								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
+								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
 									System.out.println("folder");
 									files = new Files();
 									files.setName(file.getName());
@@ -235,7 +235,7 @@ public class ProcessSearch {
 							
 						}else if(file.isFile()){
 							if(!TYPE){
-								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) == 0){
+								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
