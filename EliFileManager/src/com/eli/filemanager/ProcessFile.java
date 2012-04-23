@@ -853,7 +853,9 @@ public class ProcessFile {
 			info += "Name : " + file.getName() + "\n";
 			long size = file.length() / 1024;
 			last_modified.setTime(file.lastModified());
-			info += "Size : " + size + " KB\n";
+			if(file.isFile()){
+				info += "Size : " + size + " KB\n";
+			}
 			info += "Last modified : " + format.format(last_modified) + "\n";
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
