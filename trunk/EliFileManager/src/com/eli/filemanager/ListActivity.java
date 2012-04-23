@@ -147,7 +147,6 @@ public class ListActivity extends Activity {
 			return true;
 		case R.id.searching:
 			process.search();
-			finish();
 			return true;
 		case R.id.setting:
 			process.setting();
