@@ -164,6 +164,7 @@ public class ListActivity extends Activity {
 				process.hidden_lay.setVisibility(LinearLayout.VISIBLE);
 				Toast.makeText(this, "Multi select is now ON", Toast.LENGTH_SHORT).show();
 			} else {
+				process.isMultiSelect = false;
 				if(process.positions != null){
 					process.positions.clear();
 				}
