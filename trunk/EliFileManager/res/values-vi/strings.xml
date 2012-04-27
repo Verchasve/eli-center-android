@@ -27,7 +27,11 @@
         <item>Danh sách</item>
         <item>Dạng lưới</item>
     </string-array>
-
+	<string-array name="language_arr">
+        <item>English</item>
+        <item>Korean</item>
+        <item>Vietnamese</item>
+    </string-array>
     <string name="new_folder">Tạo thư mục</string>
     <string name="multiSelect">Chọn nhiều</string>
     <string name="changeView">Đổi giao diện</string>

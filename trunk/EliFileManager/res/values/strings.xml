@@ -3,6 +3,7 @@
 
     <string name="hello">Hello World, EliFileManagerActivity!</string>
     <string name="app_name">EliFileManager</string>
+
     <string-array name="option_arr">
         <item>Copy</item>
         <item>Cut</item>
@@ -18,7 +19,6 @@
         <item>Files and folders</item>
         <item>Extension (.*)</item>
     </string-array>
-    
     <string-array name="color_arr">
         <item>Black</item>
         <item>White</item>
@@ -26,6 +26,11 @@
     <string-array name="view_arr">
         <item>ListView</item>
         <item>GridView</item>
+    </string-array>
+    <string-array name="language_arr">
+        <item>English</item>
+        <item>Korean</item>
+        <item>Vietnamese</item>
     </string-array>
 
     <string name="new_folder">New folder</string>
@@ -41,7 +46,7 @@
     <string name="delete">Delete</string>
     <string name="copy">Copy</string>
     <string name="move">Move</string>
-    <string name="cancel">Cancel</string>    
+    <string name="cancel">Cancel</string>
     <string name="paste">Paste</string>
     <string name="directory">Directory</string>
     <string name="type">Type</string>
@@ -50,4 +55,5 @@
     <string name="saving">Saving</string>
     <string name="downloading">Downloading</string>
     <string name="loading">Loading</string>
+
 </resources>
