@@ -286,11 +286,11 @@ public class ProcessFile {
 				}
 			}
 		} catch (NullPointerException e) {
-			return fd + " Folder | " + f + " File";
+			return fd + " " + R.string.folder + " | " + f + " " + R.string.file;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return fd + " Folder | " + f + " File";
+		return fd + " " + R.string.folder + " | " + f + " " + R.string.file;
 	}
 
 	// sort a-z
