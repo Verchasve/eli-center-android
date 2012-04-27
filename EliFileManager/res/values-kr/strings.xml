@@ -47,7 +47,4 @@
     <string name="type">Type</string>
     <string name="backgroundcolor">Background Color</string>
     <string name="displaystyle">Display Style</string>
-    <string name="saving">Saving</string>
-    <string name="downloading">Downloading</string>
-    <string name="loading">Loading</string>
 </resources>

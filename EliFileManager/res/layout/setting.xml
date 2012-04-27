@@ -24,7 +24,7 @@
                     android:id="@+id/tvBackground"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Background Color" />
+                    android:text="@string/backgroundcolor" />
 
                 <Spinner
                     android:id="@+id/snBackground"
@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content" 
                     android:layout_below="@id/tvBackground"
                     android:prompt="@string/background_prompt"
-                    android:entries="@array/background_array"/>
+                    android:entries="@array/color_arr"/>
             </RelativeLayout>
 
             <RelativeLayout
@@ -44,7 +44,7 @@
                     android:id="@+id/tvDisplay"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Display Style" 
+                    android:text="@string/displaystyle" 
                     />
 
                 <Spinner
@@ -53,7 +53,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvDisplay" 
                     android:prompt="@string/display_prompt"
-                    android:entries="@array/display_array"/>
+                    android:entries="@array/view_arr"/>
 
             </RelativeLayout>
         </LinearLayout>

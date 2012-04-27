@@ -1,11 +1,14 @@
 package com.eli.filemanager;
 
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.dao.UsersDAO;
+import com.eli.util.Util;
 
 public class SettingActivity extends Activity {
 	Spinner backgroundSpinner;
@@ -29,6 +33,7 @@ public class SettingActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initLocale();
 		setContentView(R.layout.setting);
 
 		usersDAO = new UsersDAO(this);
@@ -39,9 +44,19 @@ public class SettingActivity extends Activity {
 		LoadSetting.load(this);
 		backgroundSpinner.setSelection(LoadSetting.users.getBackground());
 		displaySpinner.setSelection(LoadSetting.users.getDisplay());
-
 	}
 
+	public void initLocale(){
+		int key = Util.users.getLanguage();
+		String languageToLoad = Util.locale(key);  
+	    Locale locale = new Locale(languageToLoad);   
+	    Locale.setDefault(locale);  
+	    Configuration config = new Configuration();  
+	    config.locale = locale;  
+	    getBaseContext().getResources().updateConfiguration(config,   
+	    getBaseContext().getResources().getDisplayMetrics());  
+	}
+	
 	@Override
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {

@@ -2,10 +2,13 @@ package com.eli.filemanager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
 import com.eli.filemanager.pojo.Users;
+import com.eli.util.Util;
 
 public class ListActivity extends Activity {
 
@@ -37,8 +41,20 @@ public class ListActivity extends Activity {
 			setTheme(R.style.Theme_White);
 		}
 		super.onCreate(savedInstanceState);
+		initLocale(users.getLanguage());
+		Util.users = users;
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
+	}
+	
+	public void initLocale(int key){
+		String languageToLoad = Util.locale(key);  
+	    Locale locale = new Locale(languageToLoad);   
+	    Locale.setDefault(locale);  
+	    Configuration config = new Configuration();  
+	    config.locale = locale;  
+	    getBaseContext().getResources().updateConfiguration(config,   
+	    getBaseContext().getResources().getDisplayMetrics());  
 	}
 	
 	public void destroy(){
@@ -145,7 +161,7 @@ public class ListActivity extends Activity {
 				e.printStackTrace();
 			}
 			return true;
-		case R.id.searching:
+		case R.id.search:
 			process.search();
 			return true;
 		case R.id.setting:
