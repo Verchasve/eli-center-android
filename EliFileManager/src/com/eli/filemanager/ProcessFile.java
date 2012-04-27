@@ -95,7 +95,6 @@ public class ProcessFile {
 		
 	}
 	
-
 	public void onChangeSetting(Context context){
 		LoadSetting.load(context);
 		Users users = LoadSetting.users;
@@ -373,100 +372,101 @@ public class ProcessFile {
 					}).show();
 			return;
 		}
+		boolean isError = false;
+		for (int x = 0; x < multiSelect.size(); x++) {
+			final File files = multiSelect.get(x);
+			for (String strPath : paths) {
+				if(strPath.equals(files.getName())){
+					isError = true;
+					break;
+				}
+			}
+		}
+		if(isError){
+			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+			builder.setTitle("Copy Folder!");
+			builder.setMessage("The destination folder is subfolder of source folder.");
+			builder.setNegativeButton("Cancel", null);
+			builder.show();
+			return;
+		}
+		
 		for (int i = 0; i < multiSelect.size(); i++) {
 			final File files = multiSelect.get(i);
 			String path1 = path + File.separator + files.getName();
 			final File file_path = new File(path1);
+			
 			if (isMove == true) {
 				if (files.isDirectory()) {
-					System.out.println("Path file: " + path);
-					System.out.println("File name to path: " + files.getName());
-					System.out.println("File name to paste: " + file_path.getName());
-					boolean isError = false;
-					for (String strPath : paths) {
-						if(strPath.equals(files.getName())){
-							isError = true;
-							break;
-						}
-					}
-					if(isError){
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-						builder.setTitle("Copy Folder!");
-						builder.setMessage("The destination folder is subfolder of source folder.");
-						builder.setNegativeButton("Cancel", null);
-						builder.show();
-					} else {
-						if (file_path.exists()) {
-							try {
-								AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-								final EditText input = new EditText(activity);			
-								
-								String name = file_path.getName();
-								String tempPath = "";
-								for (int x = 0; x < paths.size(); x++) {
-									tempPath += File.separator + paths.get(i);
-								}
-								tempPath += File.separator + name;
-								
-								input.setText(name);
-								LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-										LinearLayout.LayoutParams.FILL_PARENT,
-										LinearLayout.LayoutParams.WRAP_CONTENT);
-								input.setLayoutParams(lp);
-								input.setLines(1);
-								input.setSingleLine(true);
-								builder.setView(input);
-								builder.setTitle("Copy file is exist!");
-								final String tempName = name;
-								builder.setPositiveButton("Copy",
-										new DialogInterface.OnClickListener() {
-											@Override
-											public void onClick(DialogInterface dialog, int which) {
-												AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-												String newname = input.getText().toString();
-												if (newname == null || newname.equals("")){
-													builder.setTitle("Missing information");
-													builder.setMessage("Name is not empty");
-													builder.setPositiveButton("Ok", null);
-													builder.show();
-													return;
-												}
-												String path = "";
-												String despath;
-												for (int i = 0; i < paths.size(); i++) {
-													path += File.separator + paths.get(i);
-												}
-												despath = path;
-												path += File.separator + tempName;
-												despath += File.separator + newname;
-												File file1 = new File(path);
-												File des = new File(despath);
-												if(des.exists()){
-													builder.setTitle("Missing information");
-													builder.setMessage("Name has already existed");
-													builder.setPositiveButton("Ok", null);
-													builder.show();
-													return;
-												}
-												try {
-													copyDirectory(file1, des);
-												} catch (IOException e) {
-													e.printStackTrace();
-												}
-											}
-										});
-								builder.setNegativeButton("Cancel", null);
-								builder.show();
-							} catch (Exception e) {
-								e.printStackTrace();
+					if (file_path.exists()) {
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final EditText input = new EditText(activity);			
+							
+							String name = file_path.getName();
+							String tempPath = "";
+							for (int x = 0; x < paths.size(); x++) {
+								tempPath += File.separator + paths.get(i);
 							}
-						}else {
-							copyDirectory(files, file_path);
-							deleteDirectory(files);
+							tempPath += File.separator + name;
+							
+							input.setText(name);
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT);
+							input.setLayoutParams(lp);
+							input.setLines(1);
+							input.setSingleLine(true);
+							builder.setView(input);
+							builder.setTitle("Copy file is exist!");
+							final String tempName = name;
+							builder.setPositiveButton("Copy",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											String newname = input.getText().toString();
+											if (newname == null || newname.equals("")){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name is not empty");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											String path = "";
+											String despath;
+											for (int i = 0; i < paths.size(); i++) {
+												path += File.separator + paths.get(i);
+											}
+											despath = path;
+											path += File.separator + tempName;
+											despath += File.separator + newname;
+											File file1 = new File(path);
+											File des = new File(despath);
+											if(des.exists()){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											try {
+												copyDirectory(file1, des);
+											} catch (IOException e) {
+												e.printStackTrace();
+											}
+										}
+									});
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
+					}else {
+						copyDirectory(files, file_path);
+						deleteDirectory(files);
 					}
 				} else {
-					System.out.println("Path is File");
 					if (file_path.exists()) {
 						
 						try {
@@ -879,7 +879,7 @@ public class ProcessFile {
 			e.printStackTrace();
 		}
 	}
-
+	
 	//event click hiden button when multi select
 	public OnClickListener onClickHiden(final int value) {
 		OnClickListener onClick = new OnClickListener() {
@@ -910,7 +910,14 @@ public class ProcessFile {
 					break;
 				case 2:
 					if(multiSelect.size() == 0){
-						Toast.makeText(activity, "No file to deleted", Toast.LENGTH_SHORT);
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							builder.setTitle("No file selected!");
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+						} catch (Exception e) {
+							e.printStackTrace(System.out);
+						}
 						return;
 					} else {
 						try {
@@ -923,7 +930,11 @@ public class ProcessFile {
 											for (File file : multiSelect ) {
 												processRemove(file);
 											}
+											positions.clear();
+											multiSelect.clear();
+											isMultiSelect = false;
 											activity.refresh();
+											hidden_lay.setVisibility(LinearLayout.GONE);
 										}
 									});
 							builder.setNegativeButton("Cancel", null);
@@ -931,9 +942,6 @@ public class ProcessFile {
 						} catch (Exception e) {
 							e.printStackTrace(System.out);
 						}
-						positions.clear();
-						activity.refresh();
-						Toast.makeText(activity, multiSelect.size() + " files deleted", Toast.LENGTH_SHORT);
 					}
 					break;
 				case 3:
@@ -955,7 +963,7 @@ public class ProcessFile {
 		};
 		return onClick;
 	}
-
+	
 	public void addMultiPosition(String name, String path) {
 		File f = new File(path);
 		if(positions == null)
@@ -984,4 +992,5 @@ public class ProcessFile {
 			multiSelect = new ArrayList<File>();
 		multiSelect.add(f);
 	}
+
 }
