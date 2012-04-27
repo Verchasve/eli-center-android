@@ -1,17 +1,15 @@
 package com.eli.filemanager;
 
-import com.eli.filemanager.pojo.Files;
+import java.util.Locale;
+
+import com.eli.util.Util;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 public class SearchActivity extends Activity{
 
@@ -19,8 +17,20 @@ public class SearchActivity extends Activity{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		initLocale();
 		setContentView(R.layout.search);
 		process = new ProcessSearch(this);
+	}
+	
+	public void initLocale(){
+		int key = Util.users.getLanguage();
+		String languageToLoad = Util.locale(key);  
+	    Locale locale = new Locale(languageToLoad);   
+	    Locale.setDefault(locale);  
+	    Configuration config = new Configuration();  
+	    config.locale = locale;  
+	    getBaseContext().getResources().updateConfiguration(config,   
+	    getBaseContext().getResources().getDisplayMetrics());  
 	}
 	
 	@Override

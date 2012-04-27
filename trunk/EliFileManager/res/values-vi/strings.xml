@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, EliFileManagerActivity!</string>
+    <string name="app_name">EliFileManager</string>
+    <string-array name="option_arr">
+        <item>Sao chép</item>
+        <item>Cắt</item>
+        <item>Xóa</item>
+        <item>Đổi tên</item>
+        <item>Chi tiết</item>
+    </string-array>
+    <string-array name="directory_arr">
+        <item>/mnt</item>
+        <item>/mnt/sdcard</item>
+    </string-array>
+    <string-array name="type_search_arr">
+        <item>Tập tin và thư mục</item>
+        <item>Đuôi mở rộng (.*)</item>
+    </string-array>
+    
+    <string-array name="color_arr">
+        <item>Đen</item>
+        <item>Trắng</item>
+    </string-array>
+    <string-array name="view_arr">
+        <item>Danh sách</item>
+        <item>Dạng lưới</item>
+    </string-array>
+
+    <string name="new_folder">Tạo thư mục</string>
+    <string name="multiSelect">Chọn nhiều</string>
+    <string name="changeView">Đổi giao diện</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="search_now">Tìm kiếm ngay</string>
+    <string name="searching">Tìm kiếm</string>
+    <string name="searching_name">Nội dung tìm kiếm</string>
+    <string name="setting">Cấu hình</string>
+    <string name="folder">Thư mục</string>
+    <string name="file">Tập tin</string>
+    <string name="delete">Xóa</string>
+    <string name="copy">Sao chép</string>
+    <string name="move">Di chuyển</string>
+    <string name="cancel">Hủy bỏ</string>    
+    <string name="paste">Dán</string>
+    <string name="directory">Đường dẫn</string>
+    <string name="type">Loại</string>
+    <string name="backgroundcolor">Màu nền</string>
+    <string name="displaystyle">Dạng hiển thị dữ liệu</string>
+</resources>

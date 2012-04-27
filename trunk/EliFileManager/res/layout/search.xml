@@ -23,14 +23,14 @@
                 android:gravity="center"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
-                android:text="Searching"
+                android:text="@string/searching"
                 android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/name_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Directory"
+                android:text="@string/directory"
                 android:textSize="18dp" />
 
             <Spinner
@@ -43,7 +43,7 @@
                 android:id="@+id/name_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Searching name"
+                android:text="@string/searching_name"
                 android:textSize="18dp" />
 
             <Spinner
@@ -73,7 +73,7 @@
                 android:paddingBottom="5dp"
                 android:layout_marginBottom="25dp"
                 android:layout_marginTop="25dp"
-                android:text="Search now" />
+                android:text="@string/search_now" />
         </LinearLayout>
     </ScrollView>
 

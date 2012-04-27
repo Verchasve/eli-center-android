@@ -4,6 +4,7 @@ public class Users {
 	private int id;
 	private int background;
 	private int display;
+	private int language;
 	public int getBackground() {
 		return background;
 	}
@@ -21,5 +22,11 @@ public class Users {
 	}
 	public int getId() {
 		return id;
+	}
+	public void setLanguage(int language) {
+		this.language = language;
+	}
+	public int getLanguage() {
+		return language;
 	}
 }
