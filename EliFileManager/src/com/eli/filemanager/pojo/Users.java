@@ -4,7 +4,7 @@ public class Users {
 	private int id;
 	private int background;
 	private int display;
-	private int language;
+	private int language = 0;
 	public int getBackground() {
 		return background;
 	}
