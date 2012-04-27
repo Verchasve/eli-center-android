@@ -62,4 +62,8 @@
 	<string name="chooselanguage">Choose a language</string>
 	<string name="option">Option</string>
 	<string name="inclcude">Include sub folder</string>
+	
+	<string name="name">Name</string>
+	<string name="lastmodified">Last modified</string>
+	<string name="size">Size</string>
 </resources>

@@ -61,4 +61,8 @@
 	<string name="chooselanguage">Chọn ngôn ngữ</string>
 	<string name="option">Option</string>
 	<string name="inclcude">Bao gồm thư mục con</string>
+	
+	<string name="name">Tên</string>
+	<string name="lastmodified">Ngày sửa</string>
+	<string name="size">Dụng lượng</string>
 </resources>

@@ -3,21 +3,15 @@ package com.eli.filemanager;
 import java.util.Locale;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
-import android.widget.TextView;
 
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.dao.UsersDAO;
@@ -88,7 +82,7 @@ public class SettingActivity extends Activity {
 			@Override
 			protected void onPreExecute() {
 				mProgressDialog = ProgressDialog.show(SettingActivity.this, "",
-						"Saving...", true);
+						R.string.saving + "...", true);
 			}
 
 			protected void onProgressUpdate(String... progress) {
