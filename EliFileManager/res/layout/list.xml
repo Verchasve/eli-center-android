@@ -59,24 +59,24 @@
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-      		android:text="Delete"/>
+      		android:text="@string/delete"/>
     	<Button
     		android:id="@+id/hidden_copy"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="Copy"/>
+    		android:text="@string/copy"/>
     	<Button
     		android:id="@+id/hidden_move"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="Move" />
+    		android:text="@string/move" />
     	<Button android:id="@+id/hidden_Cancel"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="Cancel" />
+    		android:text="@string/cancel" />
     </LinearLayout>	
     <ListView
         android:id="@+id/lvFile"

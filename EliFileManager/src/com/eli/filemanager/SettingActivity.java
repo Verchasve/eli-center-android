@@ -65,7 +65,7 @@ public class SettingActivity extends Activity {
 		switch (id) {
 		case ProcessSearch.DIALOG_DOWNLOAD_PROGRESS:
 			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setTitle("Saving...");
+			mProgressDialog.setTitle(R.string.saving + "...");
 			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();
