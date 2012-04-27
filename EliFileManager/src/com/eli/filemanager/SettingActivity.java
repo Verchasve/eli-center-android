@@ -26,6 +26,7 @@ import com.eli.util.Util;
 public class SettingActivity extends Activity {
 	Spinner backgroundSpinner;
 	Spinner displaySpinner;
+	Spinner languageSpinner;
 	SpinnerAdapter backgroundAdapter;
 	SpinnerAdapter displayAdapter;
 	ProgressDialog mProgressDialog;
@@ -40,10 +41,12 @@ public class SettingActivity extends Activity {
 
 		backgroundSpinner = (Spinner) findViewById(R.id.snBackground);
 		displaySpinner = (Spinner) findViewById(R.id.snDisplay);
+		languageSpinner = (Spinner) findViewById(R.id.snLanguage);
 
 		LoadSetting.load(this);
 		backgroundSpinner.setSelection(LoadSetting.users.getBackground());
 		displaySpinner.setSelection(LoadSetting.users.getDisplay());
+		languageSpinner.setSelection(LoadSetting.users.getLanguage());
 	}
 
 	public void initLocale(){
@@ -96,7 +99,7 @@ public class SettingActivity extends Activity {
 			protected Void doInBackground(String... arg0) {
 				publishProgress("Saving...");
 				usersDAO.saveData(backgroundSpinner.getSelectedItemPosition(),
-						displaySpinner.getSelectedItemPosition());
+						displaySpinner.getSelectedItemPosition(),languageSpinner.getSelectedItemPosition());
 				Intent intent = new Intent(SettingActivity.this,
 						ListActivity.class);
 				startActivity(intent);

@@ -10,4 +10,10 @@
         <item>List View</item>
         <item>Grid View</item>
     </string-array>
+    <string name="language_prompt">Choose Language</string>
+    <string-array name="language_array">
+        <item>English</item>
+        <item>Việt Nam</item>
+        <item>Grid View</item>
+    </string-array>
 </resources>

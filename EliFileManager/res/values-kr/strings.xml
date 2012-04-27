@@ -3,48 +3,54 @@
 
     <string name="hello">Hello World, EliFileManagerActivity!</string>
     <string name="app_name">EliFileManager</string>
+
     <string-array name="option_arr">
-        <item>Copy</item>
-        <item>Cut</item>
-        <item>Delete</item>
-        <item>Rename</item>
-        <item>Detail</item>
+        <item>복사</item>
+        <item>잘라내기</item>
+        <item>삭제</item>
+        <item>이름 바꾸기</item>
+        <item>세부</item>
     </string-array>
     <string-array name="directory_arr">
         <item>/mnt</item>
         <item>/mnt/sdcard</item>
     </string-array>
     <string-array name="type_search_arr">
-        <item>Files and folders</item>
-        <item>Extension (.*)</item>
+        <item>파일 및 폴더</item>
+        <item>확대 (.*)</item>
     </string-array>
-    
     <string-array name="color_arr">
-        <item>Black</item>
-        <item>White</item>
+        <item>흑색</item>
+        <item>흑색</item>
     </string-array>
     <string-array name="view_arr">
-        <item>ListView</item>
-        <item>GridView</item>
+        <item>리스트보기</item>
+        <item>그리드보기</item>
+    </string-array>
+    <string-array name="language_arr">
+        <item>English</item>
+        <item>Korean</item>
+        <item>Vietnamese</item>
     </string-array>
 
-    <string name="new_folder">New folder</string>
-    <string name="multiSelect">Multi Select</string>
-    <string name="changeView">Change View</string>
-    <string name="search">Search</string>
-    <string name="search_now">Search Now</string>
-    <string name="searching">Searching</string>
-    <string name="searching_name">Searching Name</string>
-    <string name="setting">Setting</string>
-    <string name="folder">Folder</string>
-    <string name="file">File</string>
-    <string name="delete">Delete</string>
-    <string name="copy">Copy</string>
-    <string name="move">Move</string>
-    <string name="cancel">Cancel</string>    
-    <string name="paste">Paste</string>
-    <string name="directory">Directory</string>
-    <string name="type">Type</string>
-    <string name="backgroundcolor">Background Color</string>
-    <string name="displaystyle">Display Style</string>
+    <string name="new_folder">새폴더</string>
+    <string name="multiSelect">다선택</string>
+    <string name="changeView">보기 바꾸기</string>
+    <string name="search">검색</string>
+    <string name="search_now">검색</string>
+    <string name="searching">검색중</string>
+    <string name="searching_name">이름 검색</string>
+    <string name="setting">설정</string>
+    <string name="folder">폴더</string>
+    <string name="file">파일</string>
+    <string name="delete">삭제</string>
+    <string name="copy">복사</string>
+    <string name="move">이동</string>
+    <string name="cancel">취소</string>
+    <string name="paste">붙여넣기</string>
+    <string name="directory">디렉터리</string>
+    <string name="type">종류</string>
+    <string name="backgroundcolor">배경색깔</string>
+    <string name="displaystyle">디스플레이형식</string>
+
 </resources>
