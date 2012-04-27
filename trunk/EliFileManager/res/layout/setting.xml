@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" 
                     android:layout_below="@id/tvBackground"
-                    android:prompt="@string/background_prompt"
+                    android:prompt="@string/choosebgcolor"
                     android:entries="@array/color_arr"/>
             </RelativeLayout>
 
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvDisplay" 
-                    android:prompt="@string/display_prompt"
+                    android:prompt="@string/choosedisplay"
                     android:entries="@array/view_arr"/>
 
             </RelativeLayout>
@@ -65,15 +65,15 @@
                     android:id="@+id/tvLanguage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/displaystyle" 
+                    android:text="@string/language" 
                     />
 
                 <Spinner
                     android:id="@+id/snLanguage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvDisplay" 
-                    android:prompt="@string/display_prompt"
+                    android:layout_below="@id/tvLanguage" 
+                    android:prompt="@string/chooselanguage"
                     android:entries="@array/language_arr"/>
 
             </RelativeLayout>

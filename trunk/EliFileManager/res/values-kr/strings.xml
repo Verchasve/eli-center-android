@@ -53,4 +53,13 @@
     <string name="backgroundcolor">배경색깔</string>
     <string name="displaystyle">디스플레이형식</string>
 
+    <string name="saving">Saving</string>
+    <string name="downloading">Downloading</string>
+    <string name="loading">Loading</string>
+	<string name="language">Language</string>
+	<string name="choosebgcolor">Choose a color background</string>
+	<string name="choosedisplay">Choose a display style</string>
+	<string name="chooselanguage">Choose a language</string>
+	<string name="option">Option</string>
+	<string name="inclcude">Include sub folder</string>
 </resources>

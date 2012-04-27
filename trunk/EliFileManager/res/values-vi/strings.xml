@@ -51,4 +51,14 @@
     <string name="type">Loại</string>
     <string name="backgroundcolor">Màu nền</string>
     <string name="displaystyle">Dạng hiển thị dữ liệu</string>
+    
+    <string name="saving">Đang lưu</string>
+    <string name="downloading">Đang tải</string>
+    <string name="loading">Đang cập nhật</string>
+	<string name="language">Ngôn ngữ</string>
+	<string name="choosebgcolor">Chọn màu nền</string>
+	<string name="choosedisplay">Chọn dạng hiển thị</string>
+	<string name="chooselanguage">Chọn ngôn ngữ</string>
+	<string name="option">Option</string>
+	<string name="inclcude">Bao gồm thư mục con</string>
 </resources>
