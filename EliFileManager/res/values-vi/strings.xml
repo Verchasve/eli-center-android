@@ -19,9 +19,9 @@
         <item>Đuôi mở rộng (.*)</item>
     </string-array>
     
-    <string-array name="color_arr">
-        <item>Đen</item>
+    <string-array name="color_arr">        
         <item>Trắng</item>
+        <item>Đen</item>
     </string-array>
     <string-array name="view_arr">
         <item>Danh sách</item>
@@ -31,6 +31,10 @@
         <item>English</item>
         <item>Korean</item>
         <item>Vietnamese</item>
+    </string-array>
+    <string-array name="icon_arr">
+        <item>The new</item>
+        <item>Classic</item>
     </string-array>
     <string name="new_folder">Tạo thư mục</string>
     <string name="multiSelect">Chọn nhiều</string>
@@ -59,6 +63,7 @@
 	<string name="choosebgcolor">Chọn màu nền</string>
 	<string name="choosedisplay">Chọn dạng hiển thị</string>
 	<string name="chooselanguage">Chọn ngôn ngữ</string>
+	<string name="chooseIcon">Chọn biểu tượng</string>
 	<string name="option">Option</string>
 	<string name="inclcude">Bao gồm thư mục con</string>
 	

@@ -56,27 +56,48 @@
                     android:entries="@array/view_arr"/>
 
             </RelativeLayout>
-             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content" 
-                android:background="@drawable/border_frame">
+            <RelativeLayout
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content" 
+               android:background="@drawable/border_frame">
 
-                <TextView
-                    android:id="@+id/tvLanguage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/language" 
-                    />
+               <TextView
+                   android:id="@+id/tvLanguage"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/language" 
+                   />
 
-                <Spinner
-                    android:id="@+id/snLanguage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/tvLanguage" 
-                    android:prompt="@string/chooselanguage"
-                    android:entries="@array/language_arr"/>
+               <Spinner
+                   android:id="@+id/snLanguage"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/tvLanguage" 
+                   android:prompt="@string/chooselanguage"
+                   android:entries="@array/language_arr"/>
 
-            </RelativeLayout>
+           </RelativeLayout>
+           <RelativeLayout
+               android:layout_width="fill_parent"
+               android:layout_height="wrap_content" 
+               android:background="@drawable/border_frame">
+
+               <TextView
+                   android:id="@+id/tvIcon"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:text="@string/chooseIcon" 
+                   />
+
+               <Spinner
+                   android:id="@+id/snIcon"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@id/tvIcon" 
+                   android:prompt="@string/chooseIcon"
+                   android:entries="@array/icon_arr"/>
+
+           </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

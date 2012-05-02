@@ -21,8 +21,10 @@ public class SettingActivity extends Activity {
 	Spinner backgroundSpinner;
 	Spinner displaySpinner;
 	Spinner languageSpinner;
+	Spinner iconSpinner;
 	SpinnerAdapter backgroundAdapter;
 	SpinnerAdapter displayAdapter;
+	
 	ProgressDialog mProgressDialog;
 	UsersDAO usersDAO;
 	@Override
@@ -36,11 +38,13 @@ public class SettingActivity extends Activity {
 		backgroundSpinner = (Spinner) findViewById(R.id.snBackground);
 		displaySpinner = (Spinner) findViewById(R.id.snDisplay);
 		languageSpinner = (Spinner) findViewById(R.id.snLanguage);
+		iconSpinner = (Spinner) findViewById(R.id.snIcon);
 
 		LoadSetting.load(this);
 		backgroundSpinner.setSelection(LoadSetting.users.getBackground());
 		displaySpinner.setSelection(LoadSetting.users.getDisplay());
 		languageSpinner.setSelection(LoadSetting.users.getLanguage());
+		iconSpinner.setSelection(LoadSetting.users.getIcon());
 	}
 
 	public void initLocale(){
@@ -92,8 +96,9 @@ public class SettingActivity extends Activity {
 			@Override
 			protected Void doInBackground(String... arg0) {
 				publishProgress("Saving...");
+				System.out.println("ABC "+iconSpinner.getSelectedItemPosition());
 				usersDAO.saveData(backgroundSpinner.getSelectedItemPosition(),
-						displaySpinner.getSelectedItemPosition(),languageSpinner.getSelectedItemPosition());
+						displaySpinner.getSelectedItemPosition(),languageSpinner.getSelectedItemPosition(),iconSpinner.getSelectedItemPosition());
 				Intent intent = new Intent(SettingActivity.this,
 						ListActivity.class);
 				startActivity(intent);

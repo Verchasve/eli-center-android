@@ -24,6 +24,7 @@ public class LoadSetting {
 				users.setBackground(cursor.getInt(2));
 				users.setDisplay(cursor.getInt(1));
 				users.setLanguage(cursor.getInt(3));
+				users.setIcon(cursor.getInt(4));
 			}
 			cursor.close();
 			db.close();
