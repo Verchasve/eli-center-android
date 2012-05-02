@@ -289,11 +289,11 @@ public class ProcessFile {
 				}
 			}
 		} catch (NullPointerException e) {
-			return fd + " " + R.string.folder + " | " + f + " " + R.string.file;
+			return fd + " " + activity.getString(R.string.folder) + " | " + f + " " + activity.getString(R.string.file);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return fd + " " + R.string.folder + " | " + f + " " + R.string.file;
+		return fd + " " + activity.getString(R.string.folder) + " | " + f + " " + activity.getString(R.string.file);
 	}
 
 	// sort a-z
