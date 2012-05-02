@@ -16,7 +16,7 @@ public class UsersDAO {
 		dbhelper = new DatabaseHelper(context);
 	}
 
-	public void saveData(int b, int dp,int l) {
+	public void saveData(int b, int dp,int l,int icon) {
 		try {
 			SQLiteDatabase db = dbhelper.getWritableDatabase();
 			ContentValues contentValue = new ContentValues();
@@ -24,6 +24,7 @@ public class UsersDAO {
 			contentValue.put(DatabaseHelper.BACKGROUND, b);
 			contentValue.put(DatabaseHelper.DISPLAY, dp);
 			contentValue.put(DatabaseHelper.LANGUAGE,l);
+			contentValue.put(DatabaseHelper.ICON,icon);
 			delete();
 			if (!db.isOpen()) {
 			    db = context.getApplicationContext().openOrCreateDatabase(

@@ -20,8 +20,8 @@
         <item>Extension (.*)</item>
     </string-array>
     <string-array name="color_arr">
-        <item>Black</item>
         <item>White</item>
+        <item>Black</item>
     </string-array>
     <string-array name="view_arr">
         <item>ListView</item>
@@ -32,7 +32,10 @@
         <item>Korean</item>
         <item>Vietnamese</item>
     </string-array>
-
+	<string-array name="icon_arr">
+        <item>The new</item>
+        <item>Classic</item>
+    </string-array>
     <string name="new_folder">New folder</string>
     <string name="multiSelect">Multi Select</string>
     <string name="changeView">Change View</string>
@@ -60,6 +63,7 @@
 	<string name="choosebgcolor">Choose a color background</string>
 	<string name="choosedisplay">Choose a display style</string>
 	<string name="chooselanguage">Choose a language</string>
+	<string name="chooseIcon">Choose a icon</string>
 	<string name="option">Option</string>
 	<string name="inclcude">Include sub folder</string>
 	

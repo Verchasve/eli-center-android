@@ -5,6 +5,8 @@ public class Users {
 	private int background;
 	private int display;
 	private int language = 0;
+	private int icon=0;
+	
 	public int getBackground() {
 		return background;
 	}
@@ -28,5 +30,11 @@ public class Users {
 	}
 	public int getLanguage() {
 		return language;
+	}
+	public void setIcon(int icon) {
+		this.icon = icon;
+	}
+	public int getIcon() {
+		return icon;
 	}
 }

@@ -54,6 +54,7 @@ public class ProcessFile {
 	private GridView gridview;
 	public boolean flag_change = true;
 	ImageView nofileImg;
+	String srcFolder;
 	
 	LinearLayout hidden_lay;
 	private 
@@ -92,7 +93,6 @@ public class ProcessFile {
 		src.setOnKeyListener(onAddressKey());
 		src.clearFocus();
 		getAllListFile("/mnt/sdcard");		
-		
 	}
 	
 	public void onChangeSetting(Context context){
@@ -250,8 +250,12 @@ public class ProcessFile {
 					ff.setAction(action);
 					files.add(ff);
 				} else if (f.isDirectory()) {
-					icon = activity.getResources().getDrawable(
+					if(LoadSetting.users.getIcon()==0)
+						icon = activity.getResources().getDrawable(
 							R.drawable.folder);
+					else
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_yellow);
 					Files ff = new Files();
 					ff.setIcon(icon);
 					ff.setName(f.getName());
