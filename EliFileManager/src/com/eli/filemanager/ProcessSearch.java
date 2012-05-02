@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
 
@@ -365,8 +366,12 @@ public class ProcessSearch {
 				}
 				f.setAction(action);
 			} else if (f.isFolder()) {
-				f.setIcon(activity.getResources().getDrawable(
+				if(LoadSetting.users.getIcon()==0)
+					f.setIcon(activity.getResources().getDrawable(
 						R.drawable.folder));
+				else
+					f.setIcon(activity.getResources().getDrawable(
+							R.drawable.folder_yellow));
 			}
 		}
 	}
