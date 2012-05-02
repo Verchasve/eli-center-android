@@ -57,8 +57,7 @@ public class ProcessFile {
 	String srcFolder;
 	
 	LinearLayout hidden_lay;
-	private 
-	Button hiden_cancel, hiden_copy, hiden_move, hiden_delete;
+	private Button hiden_cancel, hiden_copy, hiden_move, hiden_delete;
 	
 	ArrayList<File> multiSelect = new ArrayList<File>();
 	boolean isMultiSelect = false;
@@ -68,7 +67,7 @@ public class ProcessFile {
 	public ArrayList<String> positions = new ArrayList<String>();
 	
 	public ProcessFile(ListActivity activity) {
-		this.activity = activity;
+		this.activity = activity;		
 		paths = new ArrayList<String>();
 		paths.add("mnt");
 		paths.add("sdcard");
@@ -89,6 +88,7 @@ public class ProcessFile {
 		hiden_delete.setOnClickListener(onClickHiden(2));
 		hiden_move = (Button) activity.findViewById(R.id.hidden_move);
 		hiden_move.setOnClickListener(onClickHiden(3));
+		
 		
 		src.setOnKeyListener(onAddressKey());
 		src.clearFocus();

@@ -39,6 +39,8 @@ public class ListActivity extends Activity {
 			setTheme(R.style.Theme_Black);
 		}else if(users.getBackground()==0){
 			setTheme(R.style.Theme_White);
+		}else if(users.getBackground()==2){
+			setTheme(R.style.Theme_Bubble);
 		}
 		super.onCreate(savedInstanceState);
 		initLocale(users.getLanguage());

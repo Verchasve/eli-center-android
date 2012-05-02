@@ -22,6 +22,7 @@
     <string-array name="color_arr">
         <item>White</item>
         <item>Black</item>
+        <item>Bubble</item>
     </string-array>
     <string-array name="view_arr">
         <item>ListView</item>

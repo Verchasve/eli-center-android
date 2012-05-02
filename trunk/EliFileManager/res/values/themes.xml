@@ -13,4 +13,11 @@
         <item name="listBorder">@style/listBorder_black</item>
         <item name="gridBorder">@style/gridBorder_black</item>
     </style>
+    
+    <style name="Theme.Bubble" parent="android:Theme">
+        <item name="list">@style/list_bubble</item>
+        <item name="filename">@style/filename_bubble</item>
+        <item name="listBorder">@style/listBorder_bubble</item>
+        <item name="gridBorder">@style/gridBorder_bubble</item>
+    </style>
 </resources>
