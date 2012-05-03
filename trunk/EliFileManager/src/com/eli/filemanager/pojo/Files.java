@@ -8,6 +8,7 @@ import android.os.Parcelable;
 public class Files implements Parcelable{
 	private Drawable icon;
 	private String name;
+	private Long size;
 	private boolean isFolder = false;
 	private Intent action;
 	private String childFile;
@@ -58,5 +59,13 @@ public class Files implements Parcelable{
 		// TODO Auto-generated method stub
 	    dest.writeString(name);
 	    dest.writeString(childFile);
+	}
+
+	public void setSize(Long size) {
+		this.size = size;
+	}
+
+	public Long getSize() {
+		return size;
 	}
 }
