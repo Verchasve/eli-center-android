@@ -1,17 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.White" parent="android:Theme">
-        <item name="list">@style/list_white</item>
-        <item name="filename">@style/filename_white</item>
+    <style name="Theme.Blue" parent="android:Theme">
+        <item name="list">@style/list_blue</item>
+        <item name="filename">@style/filename_blue</item>
     </style>
     
-    <style name="Theme.Black" parent="android:Theme">
-        <item name="list">@style/list_black</item>
-        <item name="filename">@style/filename_black</item>
+    <style name="Theme.Cyan" parent="android:Theme">
+        <item name="list">@style/list_cyan</item>
+        <item name="filename">@style/filename_cyan</item>
     </style>
     
-    <style name="Theme.Bubble" parent="android:Theme">
-        <item name="list">@style/list_bubble</item>
-        <item name="filename">@style/filename_bubble</item>
+    <style name="Theme.Orange" parent="android:Theme">
+        <item name="list">@style/list_orange</item>
+        <item name="filename">@style/filename_orange</item>
+    </style>
+    
+    <style name="Theme.Green" parent="android:Theme">
+        <item name="list">@style/list_green</item>
+        <item name="filename">@style/filename_green</item>
+    </style>    
+    <style name="Theme.DarkGreen" parent="android:Theme">
+        <item name="list">@style/list_darkgreen</item>
+        <item name="filename">@style/filename_darkgreen</item>
     </style>
 </resources>

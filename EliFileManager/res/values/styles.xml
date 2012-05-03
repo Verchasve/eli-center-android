@@ -1,44 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="list_white">
-        <item name="android:background">@color/white</item>        
+    <style name="list_blue">
+        <item name="android:background">@drawable/bg_1</item>        
     </style>
-    <style name="filename_white">
-        <item name="android:textColor">@color/blue</item>
-    </style>
-    <style name="gridBorder_white">
-        <item name="android:background">@drawable/layout_border_white</item>
-    </style>
-    <style name="listBorder_white">
-        <item name="android:divider">@color/grey_light</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
-    
-    <style name="list_black">
-        <item name="android:background">@color/black</item>
-    </style>
-    <style name="filename_black">
+    <style name="filename_blue">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="gridBorder_black">
-        <item name="android:background">@drawable/layout_border_black</item>
-    </style>
-    <style name="listBorder_black">
-        <item name="android:divider">@color/gray_heavy</item>
-        <item name="android:dividerHeight">1dp</item>
-    </style>
     
-    <style name="list_bubble">
-        <item name="android:background">@drawable/bubble</item>
+    <style name="list_cyan">
+        <item name="android:background">@drawable/bg_2</item>        
     </style>
-    <style name="filename_bubble">
+    <style name="filename_cyan">
         <item name="android:textColor">@color/white</item>
     </style>
-    <style name="gridBorder_bubble">
-        <item name="android:background">@drawable/layout_border_black</item>
+    
+    <style name="list_orange">
+        <item name="android:background">@drawable/bg_3</item>        
     </style>
-    <style name="listBorder_bubble">
-        <item name="android:divider">@color/grey_light</item>
-        <item name="android:dividerHeight">1dp</item>
+    <style name="filename_orange">
+        <item name="android:textColor">@color/white</item>
     </style>
+    
+    <style name="list_green">
+        <item name="android:background">@drawable/bg_4</item>        
+    </style>
+    <style name="filename_green">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <style name="list_darkgreen">
+        <item name="android:background">@drawable/bg_5</item>        
+    </style>
+    <style name="filename_darkgreen">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
 </resources>

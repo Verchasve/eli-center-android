@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content" 
                     android:layout_below="@id/tvBackground"
                     android:prompt="@string/choosebgcolor"
-                    android:entries="@array/color_arr"/>
+                    android:entries="@array/background_arr"/>
             </RelativeLayout>
 
             <RelativeLayout

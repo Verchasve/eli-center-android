@@ -37,12 +37,16 @@ public class ListActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		LoadSetting.load(this);
 		Users users = LoadSetting.users;
-		if(users.getBackground()==1){			
-			setTheme(R.style.Theme_Black);
-		}else if(users.getBackground()==0){
-			setTheme(R.style.Theme_White);
+		if(users.getBackground()==0){			
+			setTheme(R.style.Theme_Blue);
+		}else if(users.getBackground()==1){
+			setTheme(R.style.Theme_Cyan);
 		}else if(users.getBackground()==2){
-			setTheme(R.style.Theme_Bubble);
+			setTheme(R.style.Theme_Orange);
+		}else if(users.getBackground()==3){
+			setTheme(R.style.Theme_Green);
+		}else if(users.getBackground()==4){
+			setTheme(R.style.Theme_DarkGreen);
 		}
 		super.onCreate(savedInstanceState);
 		initLocale();
@@ -297,6 +301,10 @@ public class ListActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.contextMenuSortingSize:
 			process.sortType = 1;
+			refresh();
+			break;
+		case R.id.contextMenuSortingName:
+			process.sortType = 0;
 			refresh();
 			break;
 		default:
