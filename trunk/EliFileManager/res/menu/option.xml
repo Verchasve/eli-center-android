@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/newFolder"
-        android:icon="@drawable/menu_folder"
+        android:icon="@drawable/menu_new"
         android:title="@string/new_folder"/>
     <item android:id="@+id/paste"
         android:icon="@drawable/menu_paste"
         android:title="@string/paste"/>
     <item android:id="@+id/sort"
-        android:icon="@drawable/menu_view"
-        android:title="@string/changeView"/>
+        android:icon="@drawable/menu_sort"
+        android:title="@string/sort"/>
    	<item android:id="@+id/multiSelect"
-   	    android:icon="@drawable/menu_multi_select"
+   	    android:icon="@drawable/menu_multi"
    	    android:title="@string/multiSelect"/>
     <item android:id="@+id/search"
         android:icon="@drawable/menu_search"

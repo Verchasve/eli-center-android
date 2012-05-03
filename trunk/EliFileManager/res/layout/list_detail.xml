@@ -33,7 +33,7 @@
         android:lines="1"
         android:singleLine="true"
         android:text="TextView"
-        android:textColor="@color/gray_light"
+        android:textColor="@color/white"
         android:textSize="13dp" />
 
     <ImageView

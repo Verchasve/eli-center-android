@@ -20,11 +20,11 @@
         <item>확대 (.*)</item>
     </string-array>
     <string-array name="background_arr">
-        <item>Style 1</item> 
-        <item>Style 2</item> 
-        <item>Style 3</item> 
-        <item>Style 4</item> 
-        <item>Style 5</item> 
+        <item>Blue</item> 
+        <item>Cyan</item> 
+        <item>Orange</item> 
+        <item>Green</item> 
+        <item>Dark Green</item> 
     </string-array>
     <string-array name="view_arr">
         <item>리스트보기</item>
@@ -39,7 +39,7 @@
         <item>Blue 1</item>
         <item>Blue 2</item>
         <item>Yellow 1</item>
-        <item>Yellow 1 2</item>
+        <item>Yellow 2</item>
     </string-array>
     <string name="new_folder">새폴더</string>
     <string name="multiSelect">다선택</string>
@@ -75,4 +75,5 @@
 	<string name="name">이름</string>
 	<string name="lastmodified">마지막 수정됨</string>
 	<string name="size">사이즈</string>
+	<string name="sort">Sort</string>
 </resources>

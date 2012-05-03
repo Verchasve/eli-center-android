@@ -257,10 +257,16 @@ public class ProcessFile {
 				} else if (f.isDirectory()) {
 					if(LoadSetting.users.getIcon()==0)
 						icon = activity.getResources().getDrawable(
-							R.drawable.folder);
-					else
+							R.drawable.folder_blue);
+					else if(LoadSetting.users.getIcon()==1)
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_blue2);
+					else if(LoadSetting.users.getIcon()==2)
 						icon = activity.getResources().getDrawable(
 								R.drawable.folder_yellow);
+					else if(LoadSetting.users.getIcon()==3)
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_yellow2);
 					Files ff = new Files();
 					ff.setIcon(icon);
 					ff.setName(f.getName());
