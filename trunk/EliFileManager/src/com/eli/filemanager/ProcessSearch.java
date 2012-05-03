@@ -246,6 +246,7 @@ public class ProcessSearch {
 					for(int i = 0; i < array.size(); i++){
 						files = array.get(i);
 						if(!files.isFolder()){
+							System.out.println(time + " _ " + files.getModified());
 							if(files.getModified() < time){
 								array.remove(i);
 								i--;	
