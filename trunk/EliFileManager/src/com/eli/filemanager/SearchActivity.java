@@ -2,6 +2,7 @@ package com.eli.filemanager;
 
 import java.util.Locale;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.util.Util;
 
 import android.app.Activity;
@@ -23,8 +24,7 @@ public class SearchActivity extends Activity{
 	}
 	
 	public void initLocale(){
-		int key = Util.users.getLanguage();
-		String languageToLoad = Util.locale(key);  
+		String languageToLoad = Util.locale(LoadSetting.users.getLanguage());  
 	    Locale locale = new Locale(languageToLoad);   
 	    Locale.setDefault(locale);  
 	    Configuration config = new Configuration();  

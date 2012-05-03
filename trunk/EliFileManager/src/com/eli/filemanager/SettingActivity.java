@@ -48,8 +48,7 @@ public class SettingActivity extends Activity {
 	}
 
 	public void initLocale(){
-		int key = Util.users.getLanguage();
-		String languageToLoad = Util.locale(key);  
+		String languageToLoad = Util.locale(LoadSetting.users.getLanguage());  
 	    Locale locale = new Locale(languageToLoad);   
 	    Locale.setDefault(locale);  
 	    Configuration config = new Configuration();  

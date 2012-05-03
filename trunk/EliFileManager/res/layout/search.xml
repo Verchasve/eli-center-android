@@ -20,9 +20,9 @@
                 android:id="@+id/search_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_marginBottom="20dp"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="@string/searching"
                 android:textSize="24dp" />
 
@@ -51,28 +51,58 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:prompt="@string/directory" />
-            
+
             <EditText
                 android:id="@+id/name_et"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:lines="1" />
+                android:lines="1"
+                android:singleLine="true" />
 
             <CheckBox
                 android:id="@+id/sub_cbx"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Include subfolder" />
+                android:text="@string/inclcude" />
+
+            <TextView
+                android:id="@+id/day_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Day ago"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/day_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:numeric="integer"
+                android:singleLine="true" />
+            
+            <TextView
+                android:id="@+id/size_tv"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Size less than"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/size_et"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:numeric="integer"
+                android:singleLine="true" />
 
             <Button
                 android:id="@+id/serch_btn"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
                 android:layout_marginBottom="25dp"
                 android:layout_marginTop="25dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:text="@string/search_now" />
         </LinearLayout>
     </ScrollView>
