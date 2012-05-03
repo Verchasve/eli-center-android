@@ -43,14 +43,13 @@ public class ListActivity extends Activity {
 			setTheme(R.style.Theme_Bubble);
 		}
 		super.onCreate(savedInstanceState);
-		initLocale(users.getLanguage());
-		Util.users = users;
+		initLocale();
 		setContentView(R.layout.list);
 		process = new ProcessFile(this);
 	}
 	
-	public void initLocale(int key){
-		String languageToLoad = Util.locale(key);  
+	public void initLocale(){
+		String languageToLoad = Util.locale(LoadSetting.users.getLanguage());  
 	    Locale locale = new Locale(languageToLoad);   
 	    Locale.setDefault(locale);  
 	    Configuration config = new Configuration();  
