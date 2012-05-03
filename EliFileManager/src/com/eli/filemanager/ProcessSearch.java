@@ -232,7 +232,7 @@ public class ProcessSearch {
 			}
 			
 			public void checkDay(){
-				String tempDay = name_search.getText().toString();
+				String tempDay = day_search.getText().toString();
 				if(!tempDay.equals("")){
 					Calendar current = Calendar.getInstance();
 					int day = Integer.parseInt(tempDay);
