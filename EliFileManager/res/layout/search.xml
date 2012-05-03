@@ -84,7 +84,7 @@
                 android:id="@+id/size_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Size less than"
+                android:text="Size less than (KB)"
                 android:textSize="18dp" />
 
             <EditText
