@@ -10,6 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -152,8 +154,9 @@ public class ListActivity extends Activity {
 		case R.id.newFolder:
 			process.createFolder();
 			return true;
-		case R.id.changeView:
-			process.changeView();
+		case R.id.sort:
+			registerForContextMenu(getCurrentFocus());
+			openContextMenu(getCurrentFocus());
 			return true;
 		case R.id.paste:
 			try {
@@ -279,5 +282,26 @@ public class ListActivity extends Activity {
 			}
 		};
 		return clickListener;
+	}
+	
+	//context menu sorting
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+	                                ContextMenuInfo menuInfo) {
+	    super.onCreateContextMenu(menu, v, menuInfo);
+	    MenuInflater inflater = getMenuInflater();
+	    inflater.inflate(R.menu.sorting, menu);
+	}
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.contextMenuSortingSize:
+			process.sortType = 1;
+			refresh();
+			break;
+		default:
+			break;
+		}
+		return super.onContextItemSelected(item);
 	}
 }

@@ -50,11 +50,12 @@ public class ProcessFile {
 	private EditText src;
 	private Drawable icon;
 	Button home_btn, back_btn;
-	private ListView listview;
-	private GridView gridview;
+	ListView listview;
+	GridView gridview;
 	public boolean flag_change = true;
 	ImageView nofileImg;
 	String srcFolder;
+	int sortType =0 ;
 	
 	LinearLayout hidden_lay;
 	private Button hiden_cancel, hiden_copy, hiden_move, hiden_delete;
@@ -93,6 +94,7 @@ public class ProcessFile {
 		src.setOnKeyListener(onAddressKey());
 		src.clearFocus();
 		getAllListFile("/mnt/sdcard");		
+		
 	}
 	
 	public void onChangeSetting(Context context){
@@ -106,6 +108,7 @@ public class ProcessFile {
 			changeView();
 		}
 	}
+	
 
 	// switch listview and gridview
 	public void changeView() {
@@ -248,6 +251,7 @@ public class ProcessFile {
 					ff.setName(f.getName());
 					ff.setFolder(false);
 					ff.setAction(action);
+					ff.setSize(f.length());
 					files.add(ff);
 				} else if (f.isDirectory()) {
 					if(LoadSetting.users.getIcon()==0)
@@ -264,8 +268,8 @@ public class ProcessFile {
 					folders.add(ff);
 				}
 			}
-			sort(files);
-			sort(folders);
+			sort(files,sortType);
+			sort(folders,sortType);
 			list = new ArrayList<Files>();
 			list.addAll(folders);
 			list.addAll(files);
@@ -297,14 +301,27 @@ public class ProcessFile {
 	}
 
 	// sort a-z
-	private void sort(ArrayList<Files> lst) {
-		Collections.sort(lst, new Comparator<Files>() {
-			@Override
-			public int compare(Files object1, Files object2) {
-				return object1.getName().toLowerCase()
-						.compareTo(object2.getName().toLowerCase());
-			}
-		});
+	private void sort(ArrayList<Files> lst,int sort) {
+
+		switch (sort){					
+			case 0:
+				Collections.sort(lst, new Comparator<Files>() {
+						@Override
+						public int compare(Files object1, Files object2) {
+							return object1.getName().toLowerCase()
+									.compareTo(object2.getName().toLowerCase());
+						}
+				});
+			break;
+			case 1:
+				Collections.sort(lst, new Comparator<Files>() {
+					@Override
+					public int compare(Files object1, Files object2) {
+						return object1.getSize().compareTo(object2.getSize());
+					}
+				});
+				break;
+		}
 	}
 
 	// create folder
@@ -996,5 +1013,4 @@ public class ProcessFile {
 			multiSelect = new ArrayList<File>();
 		multiSelect.add(f);
 	}
-
 }

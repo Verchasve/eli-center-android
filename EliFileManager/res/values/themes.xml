@@ -3,21 +3,15 @@
     <style name="Theme.White" parent="android:Theme">
         <item name="list">@style/list_white</item>
         <item name="filename">@style/filename_white</item>
-        <item name="listBorder">@style/listBorder_white</item>
-        <item name="gridBorder">@style/gridBorder_white</item>
     </style>
     
     <style name="Theme.Black" parent="android:Theme">
         <item name="list">@style/list_black</item>
         <item name="filename">@style/filename_black</item>
-        <item name="listBorder">@style/listBorder_black</item>
-        <item name="gridBorder">@style/gridBorder_black</item>
     </style>
     
     <style name="Theme.Bubble" parent="android:Theme">
         <item name="list">@style/list_bubble</item>
         <item name="filename">@style/filename_bubble</item>
-        <item name="listBorder">@style/listBorder_bubble</item>
-        <item name="gridBorder">@style/gridBorder_bubble</item>
     </style>
 </resources>
