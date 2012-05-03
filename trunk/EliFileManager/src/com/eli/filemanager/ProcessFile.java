@@ -55,7 +55,7 @@ public class ProcessFile {
 	public boolean flag_change = true;
 	ImageView nofileImg;
 	String srcFolder;
-	int sortType =0 ;
+	int sortType;
 	
 	LinearLayout hidden_lay;
 	private Button hiden_cancel, hiden_copy, hiden_move, hiden_delete;
@@ -95,6 +95,7 @@ public class ProcessFile {
 		src.clearFocus();
 		getAllListFile("/mnt/sdcard");		
 		
+		sortType=0;
 	}
 	
 	public void onChangeSetting(Context context){
@@ -269,7 +270,7 @@ public class ProcessFile {
 				}
 			}
 			sort(files,sortType);
-			sort(folders,sortType);
+			sort(folders,0);
 			list = new ArrayList<Files>();
 			list.addAll(folders);
 			list.addAll(files);
@@ -314,6 +315,14 @@ public class ProcessFile {
 				});
 			break;
 			case 1:
+				Collections.sort(lst, new Comparator<Files>() {
+					@Override
+					public int compare(Files object1, Files object2) {
+						return object1.getSize().compareTo(object2.getSize());
+					}
+				});
+				break;
+			case 2:
 				Collections.sort(lst, new Comparator<Files>() {
 					@Override
 					public int compare(Files object1, Files object2) {
@@ -864,13 +873,13 @@ public class ProcessFile {
 			}
 			path += File.separator + name;
 			File file = new File(path);
-			info += activity.getString(R.string.name) + " : " + file.getName() + "\n";
+			info += R.string.name + " : " + file.getName() + "\n";
 			long size = file.length() / 1024;
 			last_modified.setTime(file.lastModified());
 			if(file.isFile()){
-				info += activity.getString(R.string.size) + " : " + size + " KB\n";
+				info += R.string.size + " : " + size + " KB\n";
 			}
-			info += activity.getString(R.string.lastmodified) + " : " + format.format(last_modified) + "\n";
+			info += R.string.lastmodified + " : " + format.format(last_modified) + "\n";
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 			builder.setTitle("Details");

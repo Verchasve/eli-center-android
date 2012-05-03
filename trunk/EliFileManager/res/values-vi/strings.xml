@@ -19,9 +19,12 @@
         <item>Đuôi mở rộng (.*)</item>
     </string-array>
     
-    <string-array name="color_arr">        
-        <item>Trắng</item>
-        <item>Đen</item>
+    <string-array name="background_arr">
+        <item>Style 1</item> 
+        <item>Style 2</item> 
+        <item>Style 3</item> 
+        <item>Style 4</item> 
+        <item>Style 5</item> 
     </string-array>
     <string-array name="view_arr">
         <item>Danh sách</item>
@@ -32,9 +35,11 @@
         <item>Korean</item>
         <item>Vietnamese</item>
     </string-array>
-    <string-array name="icon_arr">
-        <item>The new</item>
-        <item>Classic</item>
+   <string-array name="icon_arr">
+        <item>Blue 1</item>
+        <item>Blue 2</item>
+        <item>Yellow 1</item>
+        <item>Yellow 1 2</item>
     </string-array>
     <string name="new_folder">Tạo thư mục</string>
     <string name="multiSelect">Chọn nhiều</string>

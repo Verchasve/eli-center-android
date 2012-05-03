@@ -29,11 +29,6 @@ public class LoadSetting {
 			cursor.close();
 			db.close();
 			
-			if(users.getBackground()==0){
-				background=R.color.white;
-			}else if(users.getBackground()==1){
-				background = R.color.black;
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
