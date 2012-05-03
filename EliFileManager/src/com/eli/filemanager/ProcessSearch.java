@@ -2,6 +2,7 @@ package com.eli.filemanager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -42,6 +43,7 @@ public class ProcessSearch {
 	private CheckBox include_sub;
 	private EditText name_search;
 	private EditText size_search;
+	private EditText day_search;
 	long sizeFile;
 	String url, search_str, directory_str, fectching_str;
 	public static ArrayList<Files> array;
@@ -52,6 +54,7 @@ public class ProcessSearch {
 		type_search = (Spinner)activity.findViewById(R.id.type_search);
 		name_search = (EditText)activity.findViewById(R.id.name_et);
 		size_search = (EditText)activity.findViewById(R.id.size_et);
+		day_search = (EditText)activity.findViewById(R.id.day_et);
 		include_sub = (CheckBox)activity.findViewById(R.id.sub_cbx);
 		search_btn = (Button)activity.findViewById(R.id.serch_btn);
 		array = new ArrayList<Files>();
@@ -223,8 +226,30 @@ public class ProcessSearch {
 						publishProgress(fectching_str);
 					}
 				}
+				checkDay();
 				checkSize();
 				return null;
+			}
+			
+			public void checkDay(){
+				String tempDay = name_search.getText().toString();
+				if(!tempDay.equals("")){
+					Calendar current = Calendar.getInstance();
+					int day = Integer.parseInt(tempDay);
+					int result = current.get(Calendar.DAY_OF_MONTH) - day;
+					current.set(Calendar.DAY_OF_MONTH, result);
+					long time = current.getTimeInMillis();
+					Files files;
+					for(int i = 0; i < array.size(); i++){
+						files = array.get(i);
+						if(!files.isFolder()){
+							if(files.getModified().getTime() < time){
+								array.remove(i);
+								i--;	
+							}
+						}
+					}
+				}
 			}
 			
 			public void checkSize(){
