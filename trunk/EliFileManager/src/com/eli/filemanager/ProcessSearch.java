@@ -198,6 +198,7 @@ public class ProcessSearch {
 										}
 										files.setChildFile(child[i].getAbsolutePath());
 										files.setSize(child[i].length()/1024);
+										files.setModified(child[i].lastModified());
 										array.add(files);
 									}
 								}else{
@@ -208,6 +209,7 @@ public class ProcessSearch {
 											files.setFolder(true);
 										}
 										files.setChildFile(child[i].getAbsolutePath());
+										files.setModified(child[i].lastModified());
 										array.add(files);
 									}
 								}
@@ -218,6 +220,7 @@ public class ProcessSearch {
 									files.setName(child[i].getName());
 									files.setChildFile(child[i].getAbsolutePath());
 									files.setSize(child[i].length()/1024);
+									files.setModified(child[i].lastModified());
 									array.add(files);
 								}
 							}
@@ -243,7 +246,7 @@ public class ProcessSearch {
 					for(int i = 0; i < array.size(); i++){
 						files = array.get(i);
 						if(!files.isFolder()){
-							if(files.getModified().getTime() < time){
+							if(files.getModified() < time){
 								array.remove(i);
 								i--;	
 							}
@@ -283,6 +286,7 @@ public class ProcessSearch {
 									files.setName(file.getName());
 									files.setFolder(true);
 									files.setChildFile(file.getAbsolutePath());
+									files.setModified(file.lastModified());
 									array.add(files);
 								}
 							}
@@ -308,6 +312,7 @@ public class ProcessSearch {
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
 									files.setSize(file.length()/1024);
+									files.setModified(file.lastModified());
 									array.add(files);
 									fectching_str = file.getAbsoluteFile().toString();
 									publishProgress(fectching_str);
@@ -319,6 +324,7 @@ public class ProcessSearch {
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
 									files.setSize(file.length()/1024);
+									files.setModified(file.lastModified());
 									array.add(files);
 									fectching_str = file.getAbsoluteFile().toString();
 									publishProgress(fectching_str);
