@@ -275,7 +275,9 @@ public class ProcessSearch {
 							if(!TYPE){
 								String temp = file.getName().toString().toUpperCase();
 								int index = temp.lastIndexOf(".");
-								temp = temp.substring(0,index);
+								if(index > 0){
+									temp = temp.substring(0,index);
+								}
 								if(temp.indexOf(search_str.toUpperCase()) >= 0){
 									files = new Files();
 									files.setName(file.getName());

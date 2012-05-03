@@ -1,5 +1,7 @@
 package com.eli.filemanager.pojo;
 
+import java.util.Date;
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
@@ -12,6 +14,7 @@ public class Files implements Parcelable{
 	private boolean isFolder = false;
 	private Intent action;
 	private String childFile;
+	private Date modfy;
 	
 	public Files(){}
 	
@@ -67,5 +70,13 @@ public class Files implements Parcelable{
 
 	public Long getSize() {
 		return size;
+	}
+
+	public void setModfy(Date modfy) {
+		this.modfy = modfy;
+	}
+
+	public Date getModfy() {
+		return modfy;
 	}
 }
