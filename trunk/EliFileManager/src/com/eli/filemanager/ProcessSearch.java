@@ -41,6 +41,8 @@ public class ProcessSearch {
 	private Spinner directory, type_search;
 	private CheckBox include_sub;
 	private EditText name_search;
+	private EditText size_search;
+	long sizeFile;
 	String url, search_str, directory_str, fectching_str;
 	public static ArrayList<Files> array;
 	
@@ -49,6 +51,7 @@ public class ProcessSearch {
 		directory = (Spinner)activity.findViewById(R.id.directory);
 		type_search = (Spinner)activity.findViewById(R.id.type_search);
 		name_search = (EditText)activity.findViewById(R.id.name_et);
+		size_search = (EditText)activity.findViewById(R.id.size_et);
 		include_sub = (CheckBox)activity.findViewById(R.id.sub_cbx);
 		search_btn = (Button)activity.findViewById(R.id.serch_btn);
 		array = new ArrayList<Files>();
@@ -140,6 +143,7 @@ public class ProcessSearch {
 			}else{
 				SUB = false;
 			}
+			
 			System.out.println("directory : " + directory_str);
 			System.out.println("type : " + TYPE);
 			System.out.println("search : " + search_str);
@@ -190,6 +194,7 @@ public class ProcessSearch {
 											files.setFolder(true);
 										}
 										files.setChildFile(child[i].getAbsolutePath());
+										files.setSize(child[i].length()/1024);
 										array.add(files);
 									}
 								}else{
@@ -209,6 +214,7 @@ public class ProcessSearch {
 									files = new Files();
 									files.setName(child[i].getName());
 									files.setChildFile(child[i].getAbsolutePath());
+									files.setSize(child[i].length()/1024);
 									array.add(files);
 								}
 							}
@@ -217,9 +223,25 @@ public class ProcessSearch {
 						publishProgress(fectching_str);
 					}
 				}
-				
-				
+				checkSize();
 				return null;
+			}
+			
+			public void checkSize(){
+				String tempSize = size_search.getText().toString();
+				if(!tempSize.equals("")){
+					long size = Long.parseLong(tempSize);
+					Files files;
+					for(int i = 0; i < array.size(); i++){
+						files = array.get(i);
+						if(!files.isFolder()){
+							if(files.getSize() > size){
+								array.remove(i);
+								i--;
+							}
+						}
+					}
+				}
 			}
 			
 			public void searchInSubFolder(File file){
@@ -258,6 +280,7 @@ public class ProcessSearch {
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
+									files.setSize(file.length()/1024);
 									array.add(files);
 									fectching_str = file.getAbsoluteFile().toString();
 									publishProgress(fectching_str);
@@ -268,6 +291,7 @@ public class ProcessSearch {
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
+									files.setSize(file.length()/1024);
 									array.add(files);
 									fectching_str = file.getAbsoluteFile().toString();
 									publishProgress(fectching_str);
