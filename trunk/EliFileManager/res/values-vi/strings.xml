@@ -20,6 +20,8 @@
     </string-array>
     
     <string-array name="background_arr">
+        <item>Black</item>
+        <item>Gray</item>
         <item>Blue</item> 
         <item>Cyan</item> 
         <item>Orange</item> 
@@ -74,6 +76,7 @@
 	
 	<string name="name">Tên</string>
 	<string name="lastmodified">Ngày sửa</string>
-	<string name="size">Dụng lượng</string>
-	<string name="sort">Sort</string>
+	<string name="size">Dung lượng</string>
+	<string name="sort">Sắp xếp</string>
+	<string name="refresh">Làm mới</string>
 </resources>

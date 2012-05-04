@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="list_black">
+        <item name="android:background">@color/black</item>        
+    </style>
+    <style name="filename_black">
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <style name="list_gray">
+        <item name="android:background">@color/grey</item>        
+    </style>
+    <style name="filename_gray">
+        <item name="android:textColor">@color/black</item>
+    </style>
+    
     <style name="list_blue">
         <item name="android:background">@drawable/bg_1</item>        
     </style>
