@@ -14,7 +14,7 @@ public class Files implements Parcelable{
 	private boolean isFolder = false;
 	private Intent action;
 	private String childFile;
-	private long modified;
+	private Long modified;
 	
 	public Files(){}
 	
@@ -72,11 +72,11 @@ public class Files implements Parcelable{
 		return size;
 	}
 
-	public void setModified(long modified) {
+	public void setModified(Long modified) {
 		this.modified = modified;
 	}
 
-	public long getModified() {
+	public Long getModified() {
 		return modified;
 	}
 }

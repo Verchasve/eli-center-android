@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.Black" parent="android:Theme">
+        <item name="list">@style/list_black</item>
+        <item name="filename">@style/filename_black</item>
+    </style>
+        
+    <style name="Theme.Gray" parent="android:Theme">
+        <item name="list">@style/list_gray</item>
+        <item name="filename">@style/filename_gray</item>
+    </style>
+    
     <style name="Theme.Blue" parent="android:Theme">
         <item name="list">@style/list_blue</item>
         <item name="filename">@style/filename_blue</item>
@@ -18,7 +28,8 @@
     <style name="Theme.Green" parent="android:Theme">
         <item name="list">@style/list_green</item>
         <item name="filename">@style/filename_green</item>
-    </style>    
+    </style>  
+      
     <style name="Theme.DarkGreen" parent="android:Theme">
         <item name="list">@style/list_darkgreen</item>
         <item name="filename">@style/filename_darkgreen</item>

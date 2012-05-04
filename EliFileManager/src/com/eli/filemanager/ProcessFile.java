@@ -307,7 +307,6 @@ public class ProcessFile {
 		return fd + " " + activity.getString(R.string.folder) + " | " + f + " " + activity.getString(R.string.file);
 	}
 
-	// sort a-z
 	private void sort(ArrayList<Files> lst,int sort) {
 
 		switch (sort){					
@@ -332,7 +331,7 @@ public class ProcessFile {
 				Collections.sort(lst, new Comparator<Files>() {
 					@Override
 					public int compare(Files object1, Files object2) {
-						return object1.getSize().compareTo(object2.getSize());
+						return object1.getModified().compareTo(object2.getModified());
 					}
 				});
 				break;

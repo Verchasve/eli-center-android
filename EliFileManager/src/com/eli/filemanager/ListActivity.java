@@ -38,15 +38,21 @@ public class ListActivity extends Activity {
 		LoadSetting.load(this);
 		Users users = LoadSetting.users;
 		if(users.getBackground()==0){			
-			setTheme(R.style.Theme_Blue);
+			setTheme(R.style.Theme_Black);
 		}else if(users.getBackground()==1){
-			setTheme(R.style.Theme_Cyan);
+			setTheme(R.style.Theme_Gray);
 		}else if(users.getBackground()==2){
-			setTheme(R.style.Theme_Orange);
+			setTheme(R.style.Theme_Blue);
 		}else if(users.getBackground()==3){
-			setTheme(R.style.Theme_Green);
+			setTheme(R.style.Theme_Cyan);
 		}else if(users.getBackground()==4){
+			setTheme(R.style.Theme_Orange);
+		}else if(users.getBackground()==5){
+			setTheme(R.style.Theme_Green);
+		}else if(users.getBackground()==6){
 			setTheme(R.style.Theme_DarkGreen);
+		}else{			
+			setTheme(R.style.Theme_Black);
 		}
 		super.onCreate(savedInstanceState);
 		initLocale();
@@ -161,6 +167,9 @@ public class ListActivity extends Activity {
 		case R.id.sort:
 			registerForContextMenu(getCurrentFocus());
 			openContextMenu(getCurrentFocus());
+			return true;
+		case R.id.refresh:
+			refresh();
 			return true;
 		case R.id.paste:
 			try {
@@ -301,6 +310,10 @@ public class ListActivity extends Activity {
 		switch (item.getItemId()) {
 		case R.id.contextMenuSortingSize:
 			process.sortType = 1;
+			refresh();
+			break;
+		case R.id.contextMenuSortingLastModified:
+			process.sortType = 2;
 			refresh();
 			break;
 		case R.id.contextMenuSortingName:

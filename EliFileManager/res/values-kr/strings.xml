@@ -20,6 +20,8 @@
         <item>확대 (.*)</item>
     </string-array>
     <string-array name="background_arr">
+        <item>Black</item>
+        <item>Gray</item>
         <item>Blue</item> 
         <item>Cyan</item> 
         <item>Orange</item> 
@@ -75,5 +77,6 @@
 	<string name="name">이름</string>
 	<string name="lastmodified">마지막 수정됨</string>
 	<string name="size">사이즈</string>
-	<string name="sort">Sort</string>
+	<string name="sort">종류</string>
+	<string name="refresh">새로고침</string>
 </resources>
