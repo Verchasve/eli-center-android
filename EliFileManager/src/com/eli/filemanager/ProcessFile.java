@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -12,6 +13,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xmlpull.v1.XmlSerializer;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -24,6 +40,8 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
+import android.util.Log;
+import android.util.Xml;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -67,6 +85,10 @@ public class ProcessFile {
 	String path = "";
 	public ArrayList<String> positions = new ArrayList<String>();
 	
+	ArrayList<File> fileFavorite = new ArrayList<File>();
+	public ListView listBookmark;
+	ListBookmarkAdapter bookmarkAdapter;
+	
 	public ProcessFile(ListActivity activity) {
 		this.activity = activity;		
 		paths = new ArrayList<String>();
@@ -96,6 +118,8 @@ public class ProcessFile {
 		getAllListFile("/mnt/sdcard");		
 		
 		sortType=0;
+		
+		readBookmark();
 	}
 	
 	public void onChangeSetting(Context context){
@@ -118,7 +142,7 @@ public class ProcessFile {
 			gridview.setVisibility(GridView.VISIBLE);
 			listview.setVisibility(ListView.GONE);
 			fileAdapter = new ListFileAdapter(activity, R.layout.grid_detail,
-					list, isMultiSelect, positions, false);
+					list, isMultiSelect, positions, false, fileFavorite);
 			gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 			gridview.setAdapter(fileAdapter);
 			gridview.setOnItemClickListener(activity.itemClick());
@@ -127,7 +151,7 @@ public class ProcessFile {
 			gridview.setVisibility(GridView.GONE);
 			listview.setVisibility(ListView.VISIBLE);
 			fileAdapter = new ListFileAdapter(activity, R.layout.list_detail,
-					list, isMultiSelect, positions, true);
+					list, isMultiSelect, positions, true, fileFavorite);
 			listview = (ListView) activity.findViewById(R.id.lvFile);
 			listview.setAdapter(fileAdapter);
 			listview.setOnItemClickListener(activity.itemClick());
@@ -1027,4 +1051,94 @@ public class ProcessFile {
 			multiSelect = new ArrayList<File>();
 		multiSelect.add(f);
 	}
+	
+	public void readBookmark() {
+		fileFavorite.clear();
+		try {
+			String url = "/mnt/sdcard/elicenter/eli_bk.xml";
+			File fXmlFile = new File(url);
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(fXmlFile);
+			doc.getDocumentElement().normalize();
+
+			NodeList nList = doc.getElementsByTagName("file");
+
+			for (int temp = 0; temp < nList.getLength(); temp++) {
+				Node nNode = nList.item(temp);
+				if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+					Element eElement = (Element) nNode;
+					File f = new File(getTagValue("path", eElement));
+
+					fileFavorite.add(f);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void writeBookmark() {
+		try {
+
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+			// root elements
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("bookmarks");
+			doc.appendChild(rootElement);
+
+			for (File f : fileFavorite) {
+				// item elements
+				Element itemE = doc.createElement("file");
+				rootElement.appendChild(itemE);
+
+				// id elements
+				Element idE = doc.createElement("path");
+				idE.appendChild(doc.createTextNode(f.getAbsolutePath()));
+				itemE.appendChild(idE);
+			}
+
+			// write the content into xml file
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			Transformer transformer = transformerFactory.newTransformer();
+			DOMSource source = new DOMSource(doc);
+			String url = "/mnt/sdcard/elicenter/eli_bk.xml";
+			StreamResult result = new StreamResult(new File(url));
+			transformer.transform(source, result);
+
+		} catch (ParserConfigurationException pce) {
+			pce.printStackTrace();
+		} catch (TransformerException tfe) {
+			tfe.printStackTrace();
+		}
+	}
+
+	public String getTagValue(String sTag, Element eElement) {
+		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
+		Node nValue = (Node) nlList.item(0);
+		return nValue.getNodeValue();
+	}
+
+	public void addFileBookmark(String name) {
+		String url = "";
+		for (int i = 0; i < paths.size(); i++) {
+			url += File.separator + paths.get(i);
+		}
+		url += File.separator + name;
+		File file = new File(url);
+		if(fileFavorite.contains(file)){
+			fileFavorite.remove(file);
+			writeBookmark();
+			readBookmark();
+		} else {
+			fileFavorite.add(file);
+			writeBookmark();
+			readBookmark();
+		}
+		
+		activity.refresh();
+	}
+
 }

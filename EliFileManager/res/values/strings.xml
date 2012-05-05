@@ -10,6 +10,7 @@
         <item>Delete</item>
         <item>Rename</item>
         <item>Detail</item>
+        <item>Favorite</item>
     </string-array>
     <string-array name="directory_arr">
         <item>/mnt</item>
@@ -79,6 +80,8 @@
 	<string name="size">Size</string>
 	<string name="sort">Sort</string>
 	<string name="refresh">Refresh</string>
+	
+	<string name="bookmark">Bookmarks</string>
 	
 	<string name="sizeless">Size less than</string>
 	<string name="dayago">Last modified (day ago)</string>

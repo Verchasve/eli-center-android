@@ -10,6 +10,7 @@
         <item>삭제</item>
         <item>이름 바꾸기</item>
         <item>세부</item>
+        <item>즐겨찾기</item>
     </string-array>
     <string-array name="directory_arr">
         <item>/mnt</item>
@@ -79,6 +80,8 @@
 	<string name="size">사이즈</string>
 	<string name="sort">종류</string>
 	<string name="refresh">새로고침</string>
+	
+	<string name="bookmark">Bookmarks</string>
 	
 	<string name="sizeless">미만 크기</string>
 	<string name="dayago">최종 수정일 (일 전)</string>

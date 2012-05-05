@@ -9,6 +9,7 @@
         <item>Xóa</item>
         <item>Đổi tên</item>
         <item>Chi tiết</item>
+        <item>Ưa thích</item>
     </string-array>
     <string-array name="directory_arr">
         <item>/mnt</item>
@@ -79,6 +80,8 @@
 	<string name="size">Dung lượng</string>
 	<string name="sort">Sắp xếp</string>
 	<string name="refresh">Làm mới</string>
+	
+	<string name="bookmark">Bookmarks</string>
 	
 	<string name="sizeless">Dung lượng nhỏ hơn</string>
 	<string name="dayago">Thời gian sửa đổi (ngày)</string>

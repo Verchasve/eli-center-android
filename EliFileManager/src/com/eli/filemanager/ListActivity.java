@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -22,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.eli.filemanager.dao.LoadSetting;
@@ -181,6 +183,9 @@ public class ListActivity extends Activity {
 		case R.id.search:
 			process.search();
 			return true;
+		case R.id.bookmark:
+			openBookmarks();
+			return true;
 		case R.id.setting:
 			process.setting();
 			finish();
@@ -255,6 +260,9 @@ public class ListActivity extends Activity {
 							case 4:
 								process.details(name);
 								break;
+							case 5:
+								process.addFileBookmark(name);
+								break;
 							default:
 								break;
 							}
@@ -268,6 +276,30 @@ public class ListActivity extends Activity {
 		}
 	}
 
+	public void openBookmarks() {
+		try {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Bookmark");
+
+			/*process.listBookmark = new ListView(this);
+			process.bookmarkAdapter = new ListBookmarkAdapter(this, R.layout.bookmark_detail, process.fileFavorite);
+			process.listBookmark.setAdapter(process.bookmarkAdapter);*/
+
+			process.listBookmark = new ListView(this);
+			process.bookmarkAdapter = new ListBookmarkAdapter(this, R.layout.bookmark_detail, process.fileFavorite);
+			process.listBookmark.setAdapter(process.bookmarkAdapter);
+			process.listBookmark.setOnItemClickListener(itemBookmarkClick());
+			
+			builder.setView(process.listBookmark);
+			builder.setPositiveButton("Cancel", null);
+			final Dialog dialog = builder.create();
+
+			dialog.show();
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
+	
 	public OnItemClickListener itemClick() {
 		OnItemClickListener clickListener = new OnItemClickListener() {
 			@Override
@@ -324,5 +356,23 @@ public class ListActivity extends Activity {
 			break;
 		}
 		return super.onContextItemSelected(item);
+	}
+
+	public OnItemClickListener itemBookmarkClick() {
+		OnItemClickListener clickListener = new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+				int position, long id) {
+				Files object = (Files) parent.getItemAtPosition(position);
+				if (object.isFolder()) {
+					process.paths.add(object.getName());
+					refresh();
+				} else {
+					Intent intent = object.getAction();
+					startActivity(intent);
+				}
+			}
+		};
+		return clickListener;
 	}
 }
