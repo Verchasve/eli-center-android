@@ -70,7 +70,7 @@
 	<string name="choosebgcolor">배경색깔선택 </string>
 	<string name="choosedisplay">디스플레이선택</string>
 	<string name="chooselanguage">언어선택</string>
-	<string name="chooseIcon">Choose a icon</string>
+	<string name="chooseIcon">아이콘을 선택</string>
 	<string name="option">선택</string>
 	<string name="inclcude">포함</string>
 	
@@ -80,6 +80,6 @@
 	<string name="sort">종류</string>
 	<string name="refresh">새로고침</string>
 	
-	<string name="sizeless">Size less than</string>
-	<string name="dayago">Last modified (day ago)</string>
+	<string name="sizeless">미만 크기</string>
+	<string name="dayago">최종 수정일 (일 전)</string>
 </resources>
