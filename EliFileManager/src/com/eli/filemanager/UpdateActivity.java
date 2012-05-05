@@ -98,7 +98,7 @@ public class UpdateActivity extends Activity {
 		switch (id) {
 		case DIALOG_DOWNLOAD_PROGRESS:
 			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setMessage(R.string.downloading + "...");
+			mProgressDialog.setMessage(getString(R.string.downloading) + "...");
 			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();

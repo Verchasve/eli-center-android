@@ -62,7 +62,7 @@ public class SettingActivity extends Activity {
 		switch (id) {
 		case ProcessSearch.DIALOG_DOWNLOAD_PROGRESS:
 			mProgressDialog = new ProgressDialog(this);
-			mProgressDialog.setTitle(R.string.saving + "...");
+			mProgressDialog.setTitle(getString(R.string.saving) + "...");
 			mProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();
@@ -85,7 +85,7 @@ public class SettingActivity extends Activity {
 			@Override
 			protected void onPreExecute() {
 				mProgressDialog = ProgressDialog.show(SettingActivity.this, "",
-						R.string.saving + "...", true);
+						getString(R.string.saving) + "...", true);
 			}
 
 			protected void onProgressUpdate(String... progress) {
