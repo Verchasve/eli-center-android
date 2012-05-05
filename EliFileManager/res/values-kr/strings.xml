@@ -79,4 +79,7 @@
 	<string name="size">사이즈</string>
 	<string name="sort">종류</string>
 	<string name="refresh">새로고침</string>
+	
+	<string name="sizeless">Size less than</string>
+	<string name="dayago">Last modified (day ago)</string>
 </resources>
