@@ -51,7 +51,6 @@
     	android:orientation="horizontal"
     	android:layout_width="fill_parent"
     	android:layout_height="wrap_content"
-    	android:background="#000000"
     	android:visibility="gone">    
     	
     	<Button
@@ -59,24 +58,32 @@
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-      		android:text="@string/delete"/>
+      		android:text="@string/delete"
+      		style="@style/button_text"
+      		android:background="@drawable/blue_button"/>
     	<Button
     		android:id="@+id/hidden_copy"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="@string/copy"/>
+    		android:text="@string/copy"
+      		style="@style/button_text"
+      		android:background="@drawable/blue_button"/>
     	<Button
     		android:id="@+id/hidden_move"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="@string/move" />
+    		android:text="@string/move"
+      		style="@style/button_text"
+      		android:background="@drawable/blue_button"/>
     	<Button android:id="@+id/hidden_Cancel"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="1"
-    		android:text="@string/cancel" />
+    		android:text="@string/cancel"
+      		style="@style/button_text"
+      		android:background="@drawable/blue_button"/>
     </LinearLayout>	
     <ListView
         android:id="@+id/lvFile"
