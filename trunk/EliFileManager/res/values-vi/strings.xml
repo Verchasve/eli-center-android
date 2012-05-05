@@ -79,4 +79,7 @@
 	<string name="size">Dung lượng</string>
 	<string name="sort">Sắp xếp</string>
 	<string name="refresh">Làm mới</string>
+	
+	<string name="sizeless">Dung lượng nhỏ hơn</string>
+	<string name="dayago">Thời gian sửa đổi (ngày)</string>
 </resources>

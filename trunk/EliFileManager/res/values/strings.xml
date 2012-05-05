@@ -79,4 +79,7 @@
 	<string name="size">Size</string>
 	<string name="sort">Sort</string>
 	<string name="refresh">Refresh</string>
+	
+	<string name="sizeless">Size less than</string>
+	<string name="dayago">Last modified (day ago)</string>
 </resources>
