@@ -878,13 +878,13 @@ public class ProcessFile {
 			}
 			path += File.separator + name;
 			File file = new File(path);
-			info += R.string.name + " : " + file.getName() + "\n";
+			info += activity.getString(R.string.name) + " : " + file.getName() + "\n";
 			long size = file.length() / 1024;
 			last_modified.setTime(file.lastModified());
 			if(file.isFile()){
-				info += R.string.size + " : " + size + " KB\n";
+				info += activity.getString(R.string.size) + " : " + size + " KB\n";
 			}
-			info += R.string.lastmodified + " : " + format.format(last_modified) + "\n";
+			info += activity.getString(R.string.lastmodified) + " : " + format.format(last_modified) + "\n";
 
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 			builder.setTitle("Details");
