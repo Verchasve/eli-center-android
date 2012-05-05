@@ -14,6 +14,8 @@ public class LoadSetting {
 	public static void load(Context context){
 		DatabaseHelper  dbhelper = new DatabaseHelper(context);
 		users = new Users();
+		users.setBackground(0);
+		users.setDisplay(1);
 		try {
 			SQLiteDatabase db = dbhelper.getWritableDatabase();
 			String query = "select * from " + DatabaseHelper.TABLE_NAME
