@@ -395,30 +395,6 @@ public class ListActivity extends Activity {
 		return super.onContextItemSelected(item);
 	}
 
-	public OnItemClickListener itemBookmarkClick() {
-		OnItemClickListener clickListener = new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-				int position, long id) {
-				File object = (File) parent.getItemAtPosition(position);
-				if (object.isDirectory()) {
-					String[] temp = object.getAbsolutePath().toString().split("/");
-					process.paths.clear();
-					for(String value : temp){
-						process.paths.add(value);
-					}
-					process.getAllListFile(object.getAbsolutePath());
-					refresh();
-				} else {
-					Files filex = setFileDefault(object);
-					Intent intent = filex.getAction();
-					startActivity(intent);
-				}
-			}
-		};
-		return clickListener;
-	}
-	
 	public Files setFileDefault(File f) {
 		Intent action = new Intent(Intent.ACTION_VIEW);
 		Bitmap bitmap;
