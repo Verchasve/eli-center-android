@@ -4,17 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 
 import com.eli.filemanager.dao.LoadSetting;
-import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.view.LayoutInflater;
 import android.view.View;

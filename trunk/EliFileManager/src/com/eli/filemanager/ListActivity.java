@@ -292,20 +292,40 @@ public class ListActivity extends Activity {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Bookmark");
 
-			/*process.listBookmark = new ListView(this);
-			process.bookmarkAdapter = new ListBookmarkAdapter(this, R.layout.bookmark_detail, process.fileFavorite);
-			process.listBookmark.setAdapter(process.bookmarkAdapter);*/
-
 			process.listBookmark = new ListView(this);
 			process.bookmarkAdapter = new ListBookmarkAdapter(this, R.layout.bookmark_detail, process.fileFavorite);
 			process.listBookmark.setAdapter(process.bookmarkAdapter);
-			process.listBookmark.setOnItemClickListener(itemBookmarkClick());
+			//process.listBookmark.setOnItemClickListener(itemBookmarkClick());
 			
 			builder.setView(process.listBookmark);
 			builder.setPositiveButton("Cancel", null);
 			final Dialog dialog = builder.create();
 
 			dialog.show();
+			
+			process.listBookmark.setOnItemClickListener(new OnItemClickListener() {
+
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view,
+						int position, long id) {
+					File object = (File) parent.getItemAtPosition(position);
+					if (object.isDirectory()) {
+						String[] temp = object.getAbsolutePath().toString().split("/");
+						process.paths.clear();
+						for(String value : temp){
+							process.paths.add(value);
+						}
+						process.getAllListFile(object.getAbsolutePath());
+						refresh();
+					} else {
+						Files filex = setFileDefault(object);
+						Intent intent = filex.getAction();
+						startActivity(intent);
+					}
+					dialog.dismiss();
+				}
+				
+			});
 		} catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
@@ -382,7 +402,12 @@ public class ListActivity extends Activity {
 				int position, long id) {
 				File object = (File) parent.getItemAtPosition(position);
 				if (object.isDirectory()) {
-					process.path = object.getAbsolutePath();
+					String[] temp = object.getAbsolutePath().toString().split("/");
+					process.paths.clear();
+					for(String value : temp){
+						process.paths.add(value);
+					}
+					process.getAllListFile(object.getAbsolutePath());
 					refresh();
 				} else {
 					Files filex = setFileDefault(object);
