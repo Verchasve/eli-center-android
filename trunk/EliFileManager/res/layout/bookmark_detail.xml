@@ -7,13 +7,20 @@
     android:orientation="vertical"
     android:padding="10dp" >
 
+    <ImageView
+        android:id="@+id/bkImageFile"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:src="@drawable/folder_blue" />
+
     <TextView
         android:id="@+id/bkFileName"
         style="?filename"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/bkImageFile"
         android:maxLines="1"
         android:text="Android"
         android:textSize="18dp" />
