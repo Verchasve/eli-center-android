@@ -83,6 +83,26 @@
 	
 	<string name="bookmark">Bookmarks</string>
 	
-	<string name="sizeless">Size less than</string>
+	<string name="sizeless">Size less than (KB)</string>
 	<string name="dayago">Last modified (day ago)</string>
+	
+	<string-array name="day_arr">
+	    <item></item>
+        <item>A week ago</item>
+        <item>Two weeks ago</item>
+        <item>Three weeks ago</item>
+        <item>A month ago</item>
+        <item>Three months ago</item>
+        <item>Six months ago</item>
+        <item>Nine months ago</item>
+        <item>Twelve months ago</item>
+    </string-array>
+    
+	<string-array name="size_arr">
+        <item></item>
+        <item>5000</item>
+        <item>20000</item>
+        <item>50000</item>
+        <item>100000</item>
+    </string-array>
 </resources>

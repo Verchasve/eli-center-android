@@ -85,4 +85,24 @@
 	
 	<string name="sizeless">미만 크기</string>
 	<string name="dayago">최종 수정일 (일 전)</string>
+	
+	<string-array name="day_arr">
+	    <item>모든</item>
+        <item>일주일 전</item>
+        <item>두 주 전</item>
+        <item>3 주 전에</item>
+        <item>달 전</item>
+        <item>세 달 전</item>
+        <item>여섯 달 전</item>
+        <item>9 개월 전에</item>
+        <item>12 개월 전</item>
+    </string-array>
+    
+	<string-array name="size_arr">
+        <item>모든</item>
+        <item>5000</item>
+        <item>20000</item>
+        <item>50000</item>
+        <item>100000</item>
+    </string-array>
 </resources>

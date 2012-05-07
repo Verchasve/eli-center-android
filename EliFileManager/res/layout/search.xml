@@ -72,28 +72,24 @@
                 android:text="@string/dayago"
                 android:textSize="18dp" />
 
-            <EditText
-                android:id="@+id/day_et"
+            <Spinner
+                android:id="@+id/day_spinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
-                android:numeric="integer"
-                android:singleLine="true" />
+                android:prompt="@string/dayago"/>
             
             <TextView
                 android:id="@+id/size_tv"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/sizeless"
-                android:textSize="18dp" />
+                android:textSize="18dp"/>
 
-            <EditText
-                android:id="@+id/size_et"
+            <Spinner
+                android:id="@+id/size_spinner"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:lines="1"
-                android:numeric="integer"
-                android:singleLine="true" />
+                android:prompt="@string/sizeless"/>
 
             <Button
                 android:id="@+id/serch_btn"

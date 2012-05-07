@@ -83,6 +83,26 @@
 	
 	<string name="bookmark">Bookmarks</string>
 	
-	<string name="sizeless">Dung lượng nhỏ hơn</string>
+	<string name="sizeless">Dung lượng nhỏ hơn (KB)</string>
 	<string name="dayago">Thời gian sửa đổi (ngày)</string>
+	
+	<string-array name="day_arr">
+	    <item></item>
+        <item>1 tuần trước</item>
+        <item>2 tuần trước</item>
+        <item>3 tuần trước</item>
+        <item>1 tháng trước</item>
+        <item>3 tháng trước</item>
+        <item>6 tháng trước</item>
+        <item>9 tháng trước</item>
+        <item>12 tháng trước</item>
+    </string-array>
+    
+	<string-array name="size_arr">
+        <item></item>
+        <item>5000</item>
+        <item>20000</item>
+        <item>50000</item>
+        <item>100000</item>
+    </string-array>
 </resources>
