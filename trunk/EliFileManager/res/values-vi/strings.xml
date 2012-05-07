@@ -85,6 +85,8 @@
 	
 	<string name="sizeless">Dung lượng nhỏ hơn (KB)</string>
 	<string name="dayago">Thời gian sửa đổi (ngày)</string>
+	<string name="history">Truy cập gần đây</string>
+	<string name="clear">Xóa</string>
 	
 	<string-array name="day_arr">
 	    <item></item>

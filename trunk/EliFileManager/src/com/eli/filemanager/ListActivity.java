@@ -197,6 +197,9 @@ public class ListActivity extends Activity {
 			process.setting();
 			finish();
 			return true;
+		case R.id.history:
+			process.history();
+			return true;
 		case R.id.multiSelect:
 			if(process.isMultiSelect == false){
 				if(process.positions != null){
@@ -323,6 +326,9 @@ public class ListActivity extends Activity {
 					refresh();
 				} else {
 					Files object = (Files) parent.getItemAtPosition(position);
+					if(!process.checkExistFile(object, Util.listHistory)){						
+						Util.listHistory.add(object);
+					}
 					if (object.isFolder()) {
 						process.paths.add(object.getName());
 						refresh();

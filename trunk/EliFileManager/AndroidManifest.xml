@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.eli.filemanager"
-    android:versionCode="10"
-    android:versionName="1.8" >
+    android:versionCode="11"
+    android:versionName="1.9" >
 
     <uses-sdk android:minSdkVersion="8" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -43,6 +43,12 @@
         <activity android:name=".ListSearchActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="com.eli.filemanager.LISTSEARCH" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".HistoryActivity" android:configChanges="keyboardHidden|orientation">
+            <intent-filter>
+                <action android:name="com.eli.filemanager.HISTORY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

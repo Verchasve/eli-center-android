@@ -15,6 +15,7 @@ public class Files implements Parcelable{
 	private Intent action;
 	private String childFile;
 	private Long modified;
+	private String path;
 	
 	public Files(){}
 	
@@ -78,5 +79,13 @@ public class Files implements Parcelable{
 
 	public Long getModified() {
 		return modified;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getPath() {
+		return path;
 	}
 }

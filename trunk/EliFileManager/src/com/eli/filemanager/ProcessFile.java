@@ -30,6 +30,7 @@ import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlSerializer;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -40,18 +41,25 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
+import android.text.Layout;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.eli.filemanager.dao.LoadSetting;
@@ -61,6 +69,8 @@ import com.eli.util.Util;
 
 public class ProcessFile {
 	ListFileAdapter fileAdapter;
+	
+	Dialog dialog ;
 	
 	ArrayList<String> paths;
 	ArrayList<Files> list, files, folders;
@@ -118,7 +128,6 @@ public class ProcessFile {
 		getAllListFile("/mnt/sdcard");		
 		
 		sortType=0;
-		
 		readBookmark();
 	}
 	
@@ -277,6 +286,7 @@ public class ProcessFile {
 					ff.setFolder(false);
 					ff.setAction(action);
 					ff.setSize(f.length());
+					ff.setPath(f.getAbsolutePath());
 					files.add(ff);
 				} else if (f.isDirectory()) {
 					if(LoadSetting.users.getIcon()==0)
@@ -296,6 +306,7 @@ public class ProcessFile {
 					ff.setName(f.getName());
 					ff.setFolder(true);
 					ff.setChildFile(getChildFile(f.getAbsolutePath()));
+					ff.setPath(f.getAbsolutePath());
 					folders.add(ff);
 				}
 			}
@@ -1141,4 +1152,71 @@ public class ProcessFile {
 		activity.refresh();
 	}
 
+	public void history() {
+		dialog = new Dialog(activity);
+		dialog.setTitle(activity.getString(R.string.history));
+		
+		ListView listhistory = new ListView(activity);
+		HistoryFileAdapter adapter = new HistoryFileAdapter(activity,R.layout.history_detail,Util.listHistory);		
+		listhistory.setAdapter(adapter);
+		listhistory.setOnItemClickListener(historyClick());
+		
+		Button clearButton = new Button(activity);
+		clearButton.setText(activity.getString(R.string.clear));
+		clearButton.setGravity(Gravity.CENTER);
+		clearButton.setOnClickListener(clearButton());
+		
+		LinearLayout layout  = new LinearLayout(activity);
+		layout.setBackgroundColor(R.color.black);
+		layout.setOrientation(LinearLayout.VERTICAL);
+		
+		layout.addView(listhistory);
+		layout.addView(clearButton);
+		
+		dialog.setContentView(layout);
+		dialog.show();		
+	}
+	
+	private OnItemClickListener historyClick(){
+		OnItemClickListener clickListener = new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Files object = (Files) parent.getItemAtPosition(position);
+				if (object.isFolder()) {
+					String[] temp = object.getPath().split("/");
+					paths.clear();
+					for(String a:temp){
+						paths.add(a);
+					}
+					activity.refresh();
+					dialog.dismiss();
+				} else {
+					Intent intent = object.getAction();
+					activity.startActivity(intent);
+				}
+			}
+		};
+		return clickListener;
+	}
+	
+	private OnClickListener clearButton(){
+		OnClickListener temp = new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Util.listHistory = new ArrayList<Files>();
+				dialog.dismiss();
+			}
+		};
+		return temp;
+	}
+
+	public boolean checkExistFile(Files file,ArrayList<Files> arr){
+		for (Files f:arr) {
+			if(file.getPath().equals(f.getPath())){
+				return true;
+			}
+		}
+		return false;
+	}
 }
