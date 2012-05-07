@@ -69,6 +69,13 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		this.fileFavorite = fileFavorite;
 	}
 	
+	public ListFileAdapter(Context context, int textViewResourceId,ArrayList<Files> lst) {
+		super(context, textViewResourceId,lst);
+		layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		layout = textViewResourceId;
+		arr = lst;
+	}
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = convertView;

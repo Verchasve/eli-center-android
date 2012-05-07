@@ -36,48 +36,64 @@ public class ProcessSearch {
 	ProgressDialog mProgressDialog;
 	public static boolean SUB = false;
 	public static boolean TYPE = false;
-	
+
 	SearchActivity activity;
 	private Button search_btn;
-	private Spinner directory, type_search;
+	private Spinner directory, type_search, day_spiner, size_spiner;
 	private CheckBox include_sub;
 	private EditText name_search;
-	private EditText size_search;
-	private EditText day_search;
 	long sizeFile;
 	String url, search_str, directory_str, fectching_str;
 	public static ArrayList<Files> array;
-	
+
 	public ProcessSearch(SearchActivity activity) {
 		this.activity = activity;
-		directory = (Spinner)activity.findViewById(R.id.directory);
-		type_search = (Spinner)activity.findViewById(R.id.type_search);
-		name_search = (EditText)activity.findViewById(R.id.name_et);
-		size_search = (EditText)activity.findViewById(R.id.size_et);
-		day_search = (EditText)activity.findViewById(R.id.day_et);
-		include_sub = (CheckBox)activity.findViewById(R.id.sub_cbx);
-		search_btn = (Button)activity.findViewById(R.id.serch_btn);
+		directory = (Spinner) activity.findViewById(R.id.directory);
+		type_search = (Spinner) activity.findViewById(R.id.type_search);
+		name_search = (EditText) activity.findViewById(R.id.name_et);
+		size_spiner = (Spinner) activity.findViewById(R.id.size_spinner);
+		day_spiner = (Spinner) activity.findViewById(R.id.day_spinner);
+		include_sub = (CheckBox) activity.findViewById(R.id.sub_cbx);
+		search_btn = (Button) activity.findViewById(R.id.serch_btn);
 		array = new ArrayList<Files>();
 		init();
 	}
 
-	public void init(){
-		ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(activity, R.array.directory_arr ,android.R.layout.simple_spinner_item);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        directory.setAdapter(adapter1);
-        directory.setSelection(0);
-        directory.setOnItemSelectedListener(onItemDirectory());
-        
-        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(activity, R.array.type_search_arr ,android.R.layout.simple_spinner_item);
-        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        type_search.setAdapter(adapter2);
-        type_search.setSelection(0);
-        type_search.setOnItemSelectedListener(onItemTypeSearch());
-        
-        search_btn.setOnClickListener(onClickSearchListener());
+	public void init() {
+		ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(
+				activity, R.array.directory_arr,
+				android.R.layout.simple_spinner_item);
+		adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		directory.setAdapter(adapter1);
+		directory.setSelection(0);
+		directory.setOnItemSelectedListener(onItemDirectory());
+
+		ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
+				activity, R.array.type_search_arr,
+				android.R.layout.simple_spinner_item);
+		adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		type_search.setAdapter(adapter2);
+		type_search.setSelection(0);
+		type_search.setOnItemSelectedListener(onItemTypeSearch());
+
+		ArrayAdapter<CharSequence> adapter3 = ArrayAdapter
+				.createFromResource(activity, R.array.day_arr,
+						android.R.layout.simple_spinner_item);
+		adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		day_spiner.setAdapter(adapter3);
+		day_spiner.setSelection(0);
+
+		ArrayAdapter<CharSequence> adapter4 = ArrayAdapter.createFromResource(
+				activity, R.array.size_arr,
+				android.R.layout.simple_spinner_item);
+		adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		size_spiner.setAdapter(adapter4);
+		size_spiner.setSelection(0);
+
+		search_btn.setOnClickListener(onClickSearchListener());
 	}
-	
-	public OnItemSelectedListener onItemDirectory(){
+
+	public OnItemSelectedListener onItemDirectory() {
 		OnItemSelectedListener onSelect = new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -85,14 +101,15 @@ public class ProcessSearch {
 				String name = parent.getItemAtPosition(position).toString();
 				directory_str = name;
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		};
 		return onSelect;
 	}
-	
-	public OnItemSelectedListener onItemTypeSearch(){
+
+	public OnItemSelectedListener onItemTypeSearch() {
 		OnItemSelectedListener onSelect = new OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
@@ -110,116 +127,129 @@ public class ProcessSearch {
 					break;
 				}
 			}
+
 			@Override
 			public void onNothingSelected(AdapterView<?> arg0) {
 			}
 		};
 		return onSelect;
 	}
-	
-	public OnClickListener onClickSearchListener(){
+
+	public OnClickListener onClickSearchListener() {
 		OnClickListener onSearchClick = new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				search_str = name_search.getText().toString().trim();
-				if(search_str == null || search_str.equals("")){
+				if (search_str == null || search_str.equals("")) {
 					System.out.println("ABC");
-					AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							activity);
 					builder.setTitle("Missing");
 					builder.setMessage("You have to type searching name");
 					builder.setPositiveButton("Ok", null);
 					builder.show();
 					name_search.requestFocus();
-				}else{
+				} else {
 					processOptionSearch();
 				}
 			}
 		};
 		return onSearchClick;
 	}
-	
-	public void processOptionSearch(){
-		try{
-			if(include_sub.isChecked()){
+
+	public void processOptionSearch() {
+		try {
+			if (include_sub.isChecked()) {
 				System.out.println("sub");
-				SUB = true; 
-			}else{
+				SUB = true;
+			} else {
 				SUB = false;
 			}
-			
+
 			System.out.println("directory : " + directory_str);
 			System.out.println("type : " + TYPE);
 			System.out.println("search : " + search_str);
 			System.out.println("sub : " + SUB);
-			
+
 			searching();
 			System.out.println("Finish");
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public void searching(){
-		new AsyncTask<String, String, Void>(){
-			
+
+	public void searching() {
+		new AsyncTask<String, String, Void>() {
+
 			@Override
-		    protected void onPreExecute() {
-				mProgressDialog = ProgressDialog.show(activity, "", "Loading...", true);
-		    }
-			
+			protected void onPreExecute() {
+				mProgressDialog = ProgressDialog.show(activity, "",
+						"Loading...", true);
+			}
+
 			protected void onProgressUpdate(String... progress) {
-		         mProgressDialog.setMessage(progress[0]);
-		    }
-			
+				mProgressDialog.setMessage(progress[0]);
+			}
+
 			@Override
 			protected Void doInBackground(String... params) {
 				array.clear();
 				File file = new File(directory_str);
 				File[] child = file.listFiles();
-				if(child.length == 0){
+				if (child.length == 0) {
 					return null;
 				}
 				Files files = null;
 				for (int i = 0; i < child.length; i++) {
-					if(!file.isHidden()){
-						if(SUB){
+					if (!file.isHidden()) {
+						if (SUB) {
 							searchInSubFolder(child[i]);
-						}else{
-							if(!TYPE){//search folder and file
-								if(child[i].isFile()){
-									String temp = child[i].getName().toString().toUpperCase();
+						} else {
+							if (!TYPE) {// search folder and file
+								if (child[i].isFile()) {
+									String temp = child[i].getName().toString()
+											.toUpperCase();
 									int index = temp.lastIndexOf(".");
-									temp = temp.substring(0,index);
-									if(temp.indexOf(search_str.toUpperCase()) >= 0){
+									temp = temp.substring(0, index);
+									if (temp.indexOf(search_str.toUpperCase()) >= 0) {
 										files = new Files();
 										files.setName(child[i].getName());
-										if(child[i].isDirectory()){
+										if (child[i].isDirectory()) {
 											files.setFolder(true);
 										}
-										files.setChildFile(child[i].getAbsolutePath());
-										files.setSize(child[i].length()/1024);
-										files.setModified(child[i].lastModified());
+										files.setChildFile(child[i]
+												.getAbsolutePath());
+										files.setSize(child[i].length() / 1024);
+										files.setModified(child[i]
+												.lastModified());
 										array.add(files);
 									}
-								}else{
-									if(child[i].getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
+								} else {
+									if (child[i].getName().toString()
+											.toUpperCase()
+											.indexOf(search_str.toUpperCase()) >= 0) {
 										files = new Files();
 										files.setName(child[i].getName());
-										if(child[i].isDirectory()){
+										if (child[i].isDirectory()) {
 											files.setFolder(true);
 										}
-										files.setChildFile(child[i].getAbsolutePath());
-										files.setModified(child[i].lastModified());
+										files.setChildFile(child[i]
+												.getAbsolutePath());
+										files.setModified(child[i]
+												.lastModified());
 										array.add(files);
 									}
 								}
-							}else{// search extendsion file (.*)
-								boolean flag = Util.checkExtendFile(child[i].getName().toString().toUpperCase(), search_str.toUpperCase());
-								if(flag){
+							} else {// search extendsion file (.*)
+								boolean flag = Util.checkExtendFile(child[i]
+										.getName().toString().toUpperCase(),
+										search_str.toUpperCase());
+								if (flag) {
 									files = new Files();
 									files.setName(child[i].getName());
-									files.setChildFile(child[i].getAbsolutePath());
-									files.setSize(child[i].length()/1024);
+									files.setChildFile(child[i]
+											.getAbsolutePath());
+									files.setSize(child[i].length() / 1024);
 									files.setModified(child[i].lastModified());
 									array.add(files);
 								}
@@ -229,42 +259,61 @@ public class ProcessSearch {
 						publishProgress(fectching_str);
 					}
 				}
-				checkDay();
-				checkSize();
+				 if(array.size() > 0){
+					 checkDay();
+					 checkSize();
+				 }
 				return null;
 			}
-			
-			public void checkDay(){
-				String tempDay = day_search.getText().toString();
-				if(!tempDay.equals("")){
+
+			public void checkDay() {
+				String tempDay = "";
+				int itemSelect = day_spiner.getSelectedItemPosition();
+				int day = 0;
+				switch (itemSelect) {
+				case 0:
+					tempDay = "";
+					break;
+				case 1:
+					day = 7;
+					break;
+				case 2:
+					day = 14;
+					break;
+				case 3:
+					day = 21;
+					break;
+				case 4:
+					day = 30;
+					break;
+				case 5:
+					day = 90;
+					break;
+				case 6:
+					day = 180;
+					break;
+				case 7:
+					day = 180;
+					break;
+				case 8:
+					day = 365;
+					break;
+				default:
+					tempDay = "";
+					break;
+				}
+				if (!tempDay.equals("")) {
 					Calendar current = Calendar.getInstance();
-					int day = Integer.parseInt(tempDay);
 					int result = current.get(Calendar.DAY_OF_MONTH) - day;
 					current.set(Calendar.DAY_OF_MONTH, result);
 					long time = current.getTimeInMillis();
 					Files files;
-					for(int i = 0; i < array.size(); i++){
+					for (int i = 0; i < array.size(); i++) {
 						files = array.get(i);
-						if(!files.isFolder()){
-							System.out.println(time + " _ " + files.getModified());
-							if(files.getModified() < time){
-								array.remove(i);
-								i--;	
-							}
-						}
-					}
-				}
-			}
-			
-			public void checkSize(){
-				String tempSize = size_search.getText().toString();
-				if(!tempSize.equals("")){
-					long size = Long.parseLong(tempSize);
-					Files files;
-					for(int i = 0; i < array.size(); i++){
-						files = array.get(i);
-						if(!files.isFolder()){
-							if(files.getSize() > size){
+						if (!files.isFolder()) {
+							System.out.println(time + " _ "
+									+ files.getModified());
+							if (files.getModified() < time) {
 								array.remove(i);
 								i--;
 							}
@@ -272,16 +321,35 @@ public class ProcessSearch {
 					}
 				}
 			}
-			
-			public void searchInSubFolder(File file){
+
+			public void checkSize() {
+				String tempSize = size_spiner.getSelectedItem().toString()
+						.trim();
+				if (!tempSize.equals("")) {
+					long size = Long.parseLong(tempSize);
+					Files files;
+					for (int i = 0; i < array.size(); i++) {
+						files = array.get(i);
+						if (!files.isFolder()) {
+							if (files.getSize() > size) {
+								array.remove(i);
+								i--;
+							}
+						}
+					}
+				}
+			}
+
+			public void searchInSubFolder(File file) {
 				try {
-					if(!file.isHidden()){
+					if (!file.isHidden()) {
 						fectching_str = file.getAbsoluteFile().toString();
 						publishProgress(fectching_str);
 						Files files = null;
-						if(file.isDirectory()){
-							if(!TYPE){
-								if(file.getName().toString().toUpperCase().indexOf(search_str.toUpperCase()) >= 0){
+						if (file.isDirectory()) {
+							if (!TYPE) {
+								if (file.getName().toString().toUpperCase()
+										.indexOf(search_str.toUpperCase()) >= 0) {
 									System.out.println("folder");
 									files = new Files();
 									files.setName(file.getName());
@@ -292,42 +360,49 @@ public class ProcessSearch {
 								}
 							}
 							File[] child = file.listFiles();
-							if(child == null || child.length == 0){
+							if (child == null || child.length == 0) {
 								return;
 							}
 							for (int i = 0; i < child.length; i++) {
-								fectching_str = child[i].getAbsoluteFile().toString();
+								fectching_str = child[i].getAbsoluteFile()
+										.toString();
 								publishProgress(fectching_str);
-								searchInSubFolder(new File(file, child[i].getName()));
+								searchInSubFolder(new File(file,
+										child[i].getName()));
 							}
-							
-						}else if(file.isFile()){
-							if(!TYPE){
-								String temp = file.getName().toString().toUpperCase();
+
+						} else if (file.isFile()) {
+							if (!TYPE) {
+								String temp = file.getName().toString()
+										.toUpperCase();
 								int index = temp.lastIndexOf(".");
-								if(index > 0){
-									temp = temp.substring(0,index);
+								if (index > 0) {
+									temp = temp.substring(0, index);
 								}
-								if(temp.indexOf(search_str.toUpperCase()) >= 0){
+								if (temp.indexOf(search_str.toUpperCase()) >= 0) {
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
-									files.setSize(file.length()/1024);
+									files.setSize(file.length() / 1024);
 									files.setModified(file.lastModified());
 									array.add(files);
-									fectching_str = file.getAbsoluteFile().toString();
+									fectching_str = file.getAbsoluteFile()
+											.toString();
 									publishProgress(fectching_str);
 								}
-							}else{
-								boolean flag = Util.checkExtendFile(file.getName().toString().toUpperCase(), search_str.toUpperCase());
-								if(flag){
+							} else {
+								boolean flag = Util.checkExtendFile(file
+										.getName().toString().toUpperCase(),
+										search_str.toUpperCase());
+								if (flag) {
 									files = new Files();
 									files.setName(file.getName());
 									files.setChildFile(file.getAbsolutePath());
-									files.setSize(file.length()/1024);
+									files.setSize(file.length() / 1024);
 									files.setModified(file.lastModified());
 									array.add(files);
-									fectching_str = file.getAbsoluteFile().toString();
+									fectching_str = file.getAbsoluteFile()
+											.toString();
 									publishProgress(fectching_str);
 								}
 							}
@@ -337,30 +412,31 @@ public class ProcessSearch {
 					e.printStackTrace();
 				}
 			}
-			
+
 			@Override
 			protected void onPostExecute(Void arg) {
-			    if (mProgressDialog.isShowing()){
-			    	mProgressDialog.dismiss();
-			    	if(array.size() > 0){
-			    		initListSearch();
-				    	Intent intent = new Intent(activity,ListSearchActivity.class);
-				    	activity.startActivity(intent);
-			    	}else{
-				    	System.out.println("File not found");
-				    	AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-				    	builder.setTitle("Alert");
-				    	builder.setMessage("File not found");
-				    	builder.setPositiveButton("Ok", null);
-				    	builder.show();
-				    }
-			    }
+				if (mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					if (array.size() > 0) {
+						initListSearch();
+						Intent intent = new Intent(activity,
+								ListSearchActivity.class);
+						activity.startActivity(intent);
+					} else {
+						System.out.println("File not found");
+						AlertDialog.Builder builder = new AlertDialog.Builder(
+								activity);
+						builder.setTitle("Alert");
+						builder.setMessage("File not found");
+						builder.setPositiveButton("Ok", null);
+						builder.show();
+					}
+				}
 			}
 		}.execute("");
 	}
-	
 
-	public void initListSearch(){
+	public void initListSearch() {
 		Files f = null;
 		for (int i = 0; i < array.size(); i++) {
 			f = array.get(i);
@@ -370,38 +446,45 @@ public class ProcessSearch {
 				if (Util.checkExtendFile(f.getName(), ".txt")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.text_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "text/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "text/*");
 				} else if (Util.checkExtendFile(f.getName(), ".flv")
 						|| Util.checkExtendFile(f.getName(), ".3gp")
 						|| Util.checkExtendFile(f.getName(), ".avi")) {
 					bitmap = ThumbnailUtils.createVideoThumbnail(
 							f.getChildFile(), Thumbnails.MICRO_KIND);
 					f.setIcon(new BitmapDrawable(bitmap));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "video/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "video/*");
 				} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.mp3_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "audio/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "audio/*");
 				} else if (Util.checkExtendFile(f.getName(), ".doc")
 						|| Util.checkExtendFile(f.getName(), ".docx")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.word_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "text/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "text/*");
 				} else if (Util.checkExtendFile(f.getName(), ".ppt")
 						|| Util.checkExtendFile(f.getName(), ".pptx")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.pptx_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "text/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "text/*");
 				} else if (Util.checkExtendFile(f.getName(), ".xls")
 						|| Util.checkExtendFile(f.getName(), ".xlsx")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.xlsx_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "text/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "text/*");
 				} else if (Util.checkExtendFile(f.getName(), ".zip")
 						|| Util.checkExtendFile(f.getName(), ".rar")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.rar_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "video/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "video/*");
 				} else if (Util.checkExtendFile(f.getName(), ".jpg")
 						|| Util.checkExtendFile(f.getName(), ".jpeg")
 						|| Util.checkExtendFile(f.getName(), ".png")
@@ -409,11 +492,13 @@ public class ProcessSearch {
 						|| Util.checkExtendFile(f.getName(), ".gif")) {
 					bitmap = BitmapFactory.decodeFile(f.getChildFile());
 					f.setIcon(new BitmapDrawable(bitmap));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())), "image/*");
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())), "image/*");
 				} else if (Util.checkExtendFile(f.getName(), ".apk")) {
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.apk_file));
-					action.setDataAndType(Uri.fromFile(new File(f.getChildFile())),
+					action.setDataAndType(
+							Uri.fromFile(new File(f.getChildFile())),
 							"application/vnd.android.package-archive");
 				} else if (Util.checkExtendFile(f.getName(), ".exe")) {
 					f.setIcon(activity.getResources().getDrawable(
@@ -424,9 +509,9 @@ public class ProcessSearch {
 				}
 				f.setAction(action);
 			} else if (f.isFolder()) {
-				if(LoadSetting.users.getIcon()==0)
+				if (LoadSetting.users.getIcon() == 0)
 					f.setIcon(activity.getResources().getDrawable(
-						R.drawable.folder));
+							R.drawable.folder));
 				else
 					f.setIcon(activity.getResources().getDrawable(
 							R.drawable.folder_yellow));
