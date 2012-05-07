@@ -3,7 +3,6 @@ package com.eli.filemanager;
 import java.io.File;
 import java.util.ArrayList;
 
-import android.R.bool;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
