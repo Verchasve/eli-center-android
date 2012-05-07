@@ -2,6 +2,7 @@ package com.eli.filemanager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -326,9 +327,12 @@ public class ListActivity extends Activity {
 					refresh();
 				} else {
 					Files object = (Files) parent.getItemAtPosition(position);
-					if(!process.checkExistFile(object, Util.listHistory)){						
-						Util.listHistory.add(object);
+					if(process.checkExistFile(object, Util.listHistory)){						
+						Util.listHistory.remove(object);
 					}
+					Util.listHistory.add(object);
+					Collections.reverse(Util.listHistory);
+					
 					if (object.isFolder()) {
 						process.paths.add(object.getName());
 						refresh();
