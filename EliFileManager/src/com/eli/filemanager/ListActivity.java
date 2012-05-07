@@ -10,7 +10,14 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore.Video.Thumbnails;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.KeyEvent;
@@ -363,16 +370,86 @@ public class ListActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 				int position, long id) {
-				Files object = (Files) parent.getItemAtPosition(position);
-				if (object.isFolder()) {
-					process.paths.add(object.getName());
+				File object = (File) parent.getItemAtPosition(position);
+				if (object.isDirectory()) {
+					process.path = object.getAbsolutePath();
 					refresh();
 				} else {
-					Intent intent = object.getAction();
+					Files filex = setFileDefault(object);
+					Intent intent = filex.getAction();
 					startActivity(intent);
 				}
 			}
 		};
 		return clickListener;
+	}
+	
+	public Files setFileDefault(File f) {
+		Intent action = new Intent(Intent.ACTION_VIEW);
+		Bitmap bitmap;
+		Drawable icon;
+		if (Util.checkExtendFile(f.getName(), ".txt")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.text_file);
+			action.setDataAndType(Uri.fromFile(f), "text/*");
+		} else if (Util.checkExtendFile(f.getName(), ".flv")
+				|| Util.checkExtendFile(f.getName(), ".3gp")
+				|| Util.checkExtendFile(f.getName(), ".avi")) {
+			bitmap = ThumbnailUtils.createVideoThumbnail(
+					f.getAbsolutePath(), Thumbnails.MICRO_KIND);
+			icon = new BitmapDrawable(bitmap);
+			action.setDataAndType(Uri.fromFile(f), "video/*");
+		} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.mp3_file);
+			action.setDataAndType(Uri.fromFile(f), "audio/*");
+		} else if (Util.checkExtendFile(f.getName(), ".doc")
+				|| Util.checkExtendFile(f.getName(), ".docx")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.word_file);
+			action.setDataAndType(Uri.fromFile(f), "text/*");
+		} else if (Util.checkExtendFile(f.getName(), ".ppt")
+				|| Util.checkExtendFile(f.getName(), ".pptx")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.pptx_file);
+			action.setDataAndType(Uri.fromFile(f), "text/*");
+		} else if (Util.checkExtendFile(f.getName(), ".xls")
+				|| Util.checkExtendFile(f.getName(), ".xlsx")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.xlsx_file);
+			action.setDataAndType(Uri.fromFile(f), "text/*");
+		} else if (Util.checkExtendFile(f.getName(), ".zip")
+				|| Util.checkExtendFile(f.getName(), ".rar")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.rar_file);
+			action.setDataAndType(Uri.fromFile(f), "video/*");
+		} else if (Util.checkExtendFile(f.getName(), ".jpg")
+				|| Util.checkExtendFile(f.getName(), ".jpeg")
+				|| Util.checkExtendFile(f.getName(), ".png")
+				|| Util.checkExtendFile(f.getName(), ".bmp")
+				|| Util.checkExtendFile(f.getName(), ".gif")) {
+			bitmap = BitmapFactory.decodeFile(f.getAbsolutePath());
+			icon = new BitmapDrawable(bitmap);
+			action.setDataAndType(Uri.fromFile(f), "image/*");
+		} else if (Util.checkExtendFile(f.getName(), ".apk")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.apk_file);
+			action.setDataAndType(Uri.fromFile(f),
+					"application/vnd.android.package-archive");
+		} else if (Util.checkExtendFile(f.getName(), ".exe")) {
+			icon = this.getResources().getDrawable(
+					R.drawable.exe_file);
+		} else {
+			icon = this.getResources().getDrawable(
+					R.drawable.unknown_file);
+		}
+		Files ff = new Files();
+		ff.setIcon(icon);
+		ff.setName(f.getName());
+		ff.setFolder(false);
+		ff.setAction(action);
+		ff.setSize(f.length());
+		
+		return ff;
 	}
 }
