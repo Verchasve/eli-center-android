@@ -25,6 +25,8 @@
 	            android:title="@string/setting"/>
 	        <item android:id="@+id/sort"
 			    android:title="@string/sort"/>
+	        <item android:id="@+id/history"
+			    android:title="@string/history"/>
 	    </menu>
     </item>
 </menu>

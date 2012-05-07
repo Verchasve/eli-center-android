@@ -85,6 +85,8 @@
 	
 	<string name="sizeless">Size less than (KB)</string>
 	<string name="dayago">Last modified (day ago)</string>
+	<string name="history">History</string>
+	<string name="clear">Clear</string>
 	
 	<string-array name="day_arr">
 	    <item></item>

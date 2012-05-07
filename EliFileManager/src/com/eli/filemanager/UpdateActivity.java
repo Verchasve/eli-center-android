@@ -26,6 +26,7 @@ import android.util.Xml;
 import android.widget.TextView;
 
 import com.eli.filemanager.pojo.App;
+import com.eli.util.Util;
 
 public class UpdateActivity extends Activity {
 	public static String URL_LIST_PRODUCT = "http://14.63.212.204/eli-android-center/data/auto-update/listitem.xml";
@@ -56,8 +57,7 @@ public class UpdateActivity extends Activity {
 					}
 				}
 			};
-			timer.start();			
-			
+			timer.start();	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

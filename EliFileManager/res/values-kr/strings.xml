@@ -85,6 +85,8 @@
 	
 	<string name="sizeless">미만 크기</string>
 	<string name="dayago">최종 수정일 (일 전)</string>
+	<string name="history">역사</string>
+	<string name="clear">취소</string>
 	
 	<string-array name="day_arr">
 	    <item>모든</item>
