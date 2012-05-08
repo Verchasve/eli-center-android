@@ -113,7 +113,6 @@ public class ListActivity extends Activity {
 	private void refreshAdapter() {
 		process.fileAdapter.clear();
 		if (process.list.size() > 0) {
-			process.nofileImg.setVisibility(ImageView.INVISIBLE);
 			for (int i = 0; i < process.list.size(); i++) {
 				process.fileAdapter.add(process.list.get(i));
 				process.fileAdapter.setMultiSelect(process.isMultiSelect);
@@ -124,8 +123,6 @@ public class ListActivity extends Activity {
 					process.fileAdapter.setListView(true);
 				}
 			}
-		} else {
-			process.nofileImg.setVisibility(ImageView.VISIBLE);
 		}
 		process.fileAdapter.notifyDataSetChanged();
 	}

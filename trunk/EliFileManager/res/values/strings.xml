@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, EliFileManagerActivity!</string>
-    <string name="app_name">EliFileManager</string>
+    <string name="app_name">ELI File</string>
 
     <string-array name="option_arr">
         <item>Copy</item>

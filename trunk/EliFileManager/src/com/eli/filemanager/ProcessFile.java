@@ -73,7 +73,6 @@ public class ProcessFile {
 	ListView listview;
 	GridView gridview;
 	public boolean flag_change = true;
-	ImageView nofileImg;
 	String srcFolder;
 	int sortType;
 	
@@ -103,7 +102,6 @@ public class ProcessFile {
 		home_btn.setOnClickListener(onHomeClick());
 		listview = (ListView) activity.findViewById(R.id.lvFile);
 		gridview = (GridView) activity.findViewById(R.id.gridViewFile);
-		nofileImg = (ImageView) activity.findViewById(R.id.ivNoFile);
 		hidden_lay = (LinearLayout)activity.findViewById(R.id.hidden_buttons);
 		hiden_cancel = (Button) activity.findViewById(R.id.hidden_Cancel);
 		hiden_cancel.setOnClickListener(onClickHiden(0));
