@@ -29,8 +29,8 @@
 	    
 	    <ImageView
 	        android:id="@+id/ivBookmark"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
+	        android:layout_width="48sp"
+	        android:layout_height="48sp"
 	        android:layout_alignParentBottom="true"
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignTop="@+id/ivCheckImage"
