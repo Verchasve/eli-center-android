@@ -215,7 +215,9 @@ public class ProcessFile {
 				if (f.isFile()) {
 					Intent action = new Intent(Intent.ACTION_VIEW);
 					Bitmap bitmap;
-					if (Util.checkExtendFile(f.getName(), ".txt")) {
+					if (Util.checkExtendFile(f.getName(), ".txt")
+							|| Util.checkExtendFile(f.getName(), ".xml")
+							|| Util.checkExtendFile(f.getName(), ".csv")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.text_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");

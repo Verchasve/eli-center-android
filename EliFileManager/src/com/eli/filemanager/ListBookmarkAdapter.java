@@ -69,6 +69,8 @@ public class ListBookmarkAdapter extends ArrayAdapter<File> {
 		} else {
 			if (Util.checkExtendFile(f.getName(), ".txt")) {
 				iView.setImageDrawable(view.getResources().getDrawable(R.drawable.text_file));
+			} else if (Util.checkExtendFile(f.getName(), ".xml")) {
+				iView.setImageDrawable(view.getResources().getDrawable(R.drawable.xml_file));
 			} else if (Util.checkExtendFile(f.getName(), ".flv")
 					|| Util.checkExtendFile(f.getName(), ".3gp")
 					|| Util.checkExtendFile(f.getName(), ".avi")) {
