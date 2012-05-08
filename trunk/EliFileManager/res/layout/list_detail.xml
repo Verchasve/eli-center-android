@@ -47,8 +47,8 @@
     
     <ImageView 
         android:id="@+id/ivBookmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="23sp"
+        android:layout_height="23sp"
         android:layout_alignBottom="@+id/ivFileImg"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvFileName"
