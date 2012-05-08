@@ -4,7 +4,6 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -27,7 +26,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xmlpull.v1.XmlSerializer;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,25 +39,19 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore.Video.Thumbnails;
-import android.text.Layout;
-import android.util.Log;
-import android.util.Xml;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.eli.filemanager.dao.LoadSetting;
@@ -613,21 +605,6 @@ public class ProcessFile {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-						
-						/*AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-						builder.setTitle("File is exist!");
-						builder.setMessage("You want to replace file?");
-						builder.setPositiveButton("Ok",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										copyFile(files, file);
-										files.delete();
-									}
-								});
-						builder.setNegativeButton("Cancel", null);
-						builder.show();*/
 					} else {
 						copyFile(files, file_path);
 						files.delete();
@@ -1219,4 +1196,5 @@ public class ProcessFile {
 		}
 		return false;
 	}
+
 }

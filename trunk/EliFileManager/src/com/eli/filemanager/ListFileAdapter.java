@@ -109,7 +109,7 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 					iconCheck.setVisibility(ImageView.GONE);
 					boolean isCheck = false;
 					for (File ifile : fileFavorite) {
-						if (ifile.getName().equals(files.getName())) {
+						if (ifile.getAbsolutePath().equals(files.getPath())) {
 							isCheck = true;
 							break;
 						}
