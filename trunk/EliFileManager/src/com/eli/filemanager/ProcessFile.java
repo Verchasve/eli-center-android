@@ -221,6 +221,10 @@ public class ProcessFile {
 						icon = activity.getResources().getDrawable(
 								R.drawable.text_file);
 						action.setDataAndType(Uri.fromFile(f), "text/*");
+					}else if (Util.checkExtendFile(f.getName(), ".xml")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.xml_file);
+						action.setDataAndType(Uri.fromFile(f), "text/*");
 					} else if (Util.checkExtendFile(f.getName(), ".flv")
 							|| Util.checkExtendFile(f.getName(), ".3gp")
 							|| Util.checkExtendFile(f.getName(), ".avi")) {
