@@ -4,19 +4,22 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" 
     android:background="@color/grey_light">
-    <ImageView 
+    <TextView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:src="@drawable/logo"
+        android:text="ELI FILE"
+        android:gravity="center"
+        android:id="@+id/tvName"
+        android:textSize="50dp"
+        android:textStyle="bold"
         android:layout_centerVertical="true"
-        android:id="@+id/logoImg"/>
+        android:textColor="@color/gray_heavy"/>
     <TextView 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Version 1.0.2"
         android:gravity="center"
-        android:layout_below="@id/logoImg"
+        android:layout_below="@id/tvName"
         android:id="@+id/tvVersion"
         android:textColor="@color/gray_light"/>
     
