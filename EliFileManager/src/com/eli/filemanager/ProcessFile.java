@@ -216,7 +216,6 @@ public class ProcessFile {
 					Intent action = new Intent(Intent.ACTION_VIEW);
 					Bitmap bitmap;
 					if (Util.checkExtendFile(f.getName(), ".txt")
-							|| Util.checkExtendFile(f.getName(), ".xml")
 							|| Util.checkExtendFile(f.getName(), ".csv")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.text_file);
@@ -1071,6 +1070,11 @@ public class ProcessFile {
 	}
 	
 	public void writeBookmark() {
+		File fParent = new File("/mnt/sdcard/elicenter");
+		if(!fParent.exists()){
+			fParent.mkdir();
+		}
+		
 		try {
 
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -1099,7 +1103,7 @@ public class ProcessFile {
 			String url = "/mnt/sdcard/elicenter/eli_bk.xml";
 			StreamResult result = new StreamResult(new File(url));
 			transformer.transform(source, result);
-
+			
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {
