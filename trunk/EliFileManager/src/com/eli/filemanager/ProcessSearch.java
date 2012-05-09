@@ -1,6 +1,8 @@
 package com.eli.filemanager;
 
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -13,8 +15,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -267,12 +267,11 @@ public class ProcessSearch {
 			}
 
 			public void checkDay() {
-				String tempDay = "";
 				int itemSelect = day_spiner.getSelectedItemPosition();
 				int day = 0;
 				switch (itemSelect) {
 				case 0:
-					tempDay = "";
+					day = 0;
 					break;
 				case 1:
 					day = 7;
@@ -293,27 +292,25 @@ public class ProcessSearch {
 					day = 180;
 					break;
 				case 7:
-					day = 180;
+					day = 270;
 					break;
 				case 8:
 					day = 365;
 					break;
 				default:
-					tempDay = "";
+					day = 0;
 					break;
 				}
-				if (!tempDay.equals("")) {
+				if (day != 0) {
 					Calendar current = Calendar.getInstance();
-					int result = current.get(Calendar.DAY_OF_MONTH) - day;
-					current.set(Calendar.DAY_OF_MONTH, result);
-					long time = current.getTimeInMillis();
+					int MILLIS_IN_DAY = 1000 * 60 * 60 * 24;
+					long result = current.getTimeInMillis() - (day*MILLIS_IN_DAY);
+					DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 					Files files;
 					for (int i = 0; i < array.size(); i++) {
 						files = array.get(i);
 						if (!files.isFolder()) {
-							System.out.println(time + " _ "
-									+ files.getModified());
-							if (files.getModified() < time) {
+							if (files.getModified() < result) {
 								array.remove(i);
 								i--;
 							}
