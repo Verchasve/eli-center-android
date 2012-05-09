@@ -1,10 +1,9 @@
 package com.eli.util;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
-import android.content.Context;
-import android.content.res.Configuration;
 
 import com.eli.filemanager.pojo.Files;
 import com.eli.filemanager.pojo.Users;
@@ -16,7 +15,7 @@ public class Util {
 	public static final int VI = 2;
 	public static Users users = null;
 	public static ArrayList<Files> listHistory= new ArrayList<Files>();
-	
+	public static DateFormat format1= new SimpleDateFormat("dd/MM/yyyy hh:mm");
 	
 	public static String locale(int key){
 		String locale = "";

@@ -117,7 +117,7 @@ public class ListActivity extends Activity {
 				process.fileAdapter.add(process.list.get(i));
 				process.fileAdapter.setMultiSelect(process.isMultiSelect);
 				process.fileAdapter.setPositions(process.positions);
-				if(process.flag_change){
+				if(process.flag_change == 1){
 					process.fileAdapter.setListView(false);
 				} else {
 					process.fileAdapter.setListView(true);
