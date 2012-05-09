@@ -49,14 +49,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
-import com.eli.filemanager.pojo.Users;
 import com.eli.util.Util;
 
 public class ProcessFile {
@@ -70,9 +68,9 @@ public class ProcessFile {
 	private EditText src;
 	private Drawable icon;
 	Button home_btn, back_btn;
-	ListView listview;
+	ListView listview,viewDetail;
 	GridView gridview;
-	public boolean flag_change = true;
+	int flag_change;
 	String srcFolder;
 	int sortType;
 	
@@ -101,6 +99,7 @@ public class ProcessFile {
 		home_btn = (Button) activity.findViewById(R.id.btHome);
 		home_btn.setOnClickListener(onHomeClick());
 		listview = (ListView) activity.findViewById(R.id.lvFile);
+		viewDetail = (ListView) activity.findViewById(R.id.detailListView);
 		gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 		hidden_lay = (LinearLayout)activity.findViewById(R.id.hidden_buttons);
 		hiden_cancel = (Button) activity.findViewById(R.id.hidden_Cancel);
@@ -123,38 +122,68 @@ public class ProcessFile {
 	
 	public void onChangeSetting(Context context){
 		LoadSetting.load(context);
-		Users users = LoadSetting.users;
-		if(users.getDisplay()==0){
-			flag_change =true;
-			changeView();
-		}else if(users.getDisplay()==1){
-			flag_change =false;
-			changeView();
+		switch (LoadSetting.users.getDisplay()) {
+		case 0:
+			flag_change = 1;
+			break;
+		case 1:
+			flag_change = 2;
+			break;
+		case 2:
+			flag_change = 3;
+			break;
+		default:
+			flag_change = 1;
+			break;
 		}
+		changeView();
 	}
 	
 
 	// switch listview and gridview
 	public void changeView() {
-		flag_change = !flag_change;
-		if (flag_change) {
+		switch (flag_change) {
+		case 1:
 			gridview.setVisibility(GridView.VISIBLE);
 			listview.setVisibility(ListView.GONE);
+			viewDetail.setVisibility(ListView.GONE);
+			fileAdapter = new ListFileAdapter(activity, R.layout.grid_detail,
+					list, isMultiSelect, positions, false, fileFavorite);
+			gridview.setAdapter(fileAdapter);
+			gridview.setOnItemClickListener(activity.itemClick());
+			gridview.setOnItemLongClickListener(activity.itemLongClick());
+			break;
+		case 2:
+			gridview.setVisibility(GridView.GONE);
+			listview.setVisibility(ListView.VISIBLE);
+			viewDetail.setVisibility(ListView.GONE);
+			fileAdapter = new ListFileAdapter(activity, R.layout.list_detail,
+					list, isMultiSelect, positions, true, fileFavorite);
+			listview.setAdapter(fileAdapter);
+			listview.setOnItemClickListener(activity.itemClick());
+			listview.setOnItemLongClickListener(activity.itemLongClick());
+			break;
+		case 3:
+			gridview.setVisibility(GridView.GONE);
+			listview.setVisibility(ListView.GONE);
+			viewDetail.setVisibility(ListView.VISIBLE);
+			fileAdapter = new ListFileAdapter(activity, R.layout.view_detail,
+					list, isMultiSelect, positions, true, fileFavorite);
+			viewDetail.setAdapter(fileAdapter);
+			viewDetail.setOnItemClickListener(activity.itemClick());
+			viewDetail.setOnItemLongClickListener(activity.itemLongClick());
+			break;
+		default:
+			gridview.setVisibility(GridView.VISIBLE);
+			listview.setVisibility(ListView.GONE);
+			viewDetail.setVisibility(ListView.GONE);
 			fileAdapter = new ListFileAdapter(activity, R.layout.grid_detail,
 					list, isMultiSelect, positions, false, fileFavorite);
 			gridview = (GridView) activity.findViewById(R.id.gridViewFile);
 			gridview.setAdapter(fileAdapter);
 			gridview.setOnItemClickListener(activity.itemClick());
 			gridview.setOnItemLongClickListener(activity.itemLongClick());
-		} else {
-			gridview.setVisibility(GridView.GONE);
-			listview.setVisibility(ListView.VISIBLE);
-			fileAdapter = new ListFileAdapter(activity, R.layout.list_detail,
-					list, isMultiSelect, positions, true, fileFavorite);
-			listview = (ListView) activity.findViewById(R.id.lvFile);
-			listview.setAdapter(fileAdapter);
-			listview.setOnItemClickListener(activity.itemClick());
-			listview.setOnItemLongClickListener(activity.itemLongClick());
+			break;
 		}
 	}
 	
@@ -281,6 +310,8 @@ public class ProcessFile {
 					ff.setFolder(false);
 					ff.setAction(action);
 					ff.setSize(f.length());
+					ff.setModified(f.lastModified());
+					ff.setChildFile(ff.getSize()/(1024*1024)+" MB | "+ Util.format1.format(ff.getModified()));
 					ff.setPath(f.getAbsolutePath());
 					files.add(ff);
 				} else if (f.isDirectory()) {

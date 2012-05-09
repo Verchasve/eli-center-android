@@ -30,8 +30,9 @@
         <item>Dark Green</item> 
     </string-array>
     <string-array name="view_arr">
-        <item>Danh sách</item>
         <item>Dạng lưới</item>
+        <item>Danh sách</item>
+        <item>Dạng Chi tiết</item>
     </string-array>
 	<string-array name="language_arr">
         <item>English</item>
