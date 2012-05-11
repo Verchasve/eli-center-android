@@ -43,6 +43,15 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/home" />
+
+        <ImageView
+            android:id="@+id/historyImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/tvCurrentFile"
+            android:layout_centerVertical="true"
+            android:src="@drawable/down_icon" />
+
     </RelativeLayout>
 
     

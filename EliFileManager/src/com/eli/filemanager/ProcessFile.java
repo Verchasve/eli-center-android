@@ -49,6 +49,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -61,6 +62,7 @@ public class ProcessFile {
 	ListFileAdapter fileAdapter;
 	
 	Dialog dialog ;
+	ImageView historyIcon;
 	
 	ArrayList<String> paths;
 	ArrayList<Files> list, files, folders;
@@ -110,7 +112,8 @@ public class ProcessFile {
 		hiden_delete.setOnClickListener(onClickHiden(2));
 		hiden_move = (Button) activity.findViewById(R.id.hidden_move);
 		hiden_move.setOnClickListener(onClickHiden(3));
-		
+		historyIcon = (ImageView) activity.findViewById(R.id.historyImageView);
+		historyIcon.setOnClickListener(onHistoryClick());
 		
 		src.setOnKeyListener(onAddressKey());
 		src.clearFocus();
@@ -204,6 +207,17 @@ public class ProcessFile {
 			}
 		};
 		return onAddressKey;
+	}
+	
+	private OnClickListener onHistoryClick(){
+		OnClickListener click  = new OnClickListener() {			
+			@Override
+			public void onClick(View v) {
+				history();
+			}
+		};
+		
+		return click;
 	}
 
 	// event back click
