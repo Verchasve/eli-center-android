@@ -507,20 +507,12 @@ public class ProcessFile {
 			final File file_path = new File(path1);
 			
 			if (isMove == true) {
-				if (files.isDirectory()) {
-					if (file_path.exists()) {
+				if (files.isDirectory()) { // File is Folder (move)
+					if (file_path.exists()) { // Folder is exist (move)
 						try {
 							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-							final EditText input = new EditText(activity);			
-							
-							String name = file_path.getName();
-							String tempPath = "";
-							for (int x = 0; x < paths.size(); x++) {
-								tempPath += File.separator + paths.get(i);
-							}
-							tempPath += File.separator + name;
-							
-							input.setText(name);
+							final EditText input = new EditText(activity);
+							input.setText(file_path.getName());
 							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -528,40 +520,31 @@ public class ProcessFile {
 							input.setLines(1);
 							input.setSingleLine(true);
 							builder.setView(input);
-							builder.setTitle("Copy file is exist!");
-							final String tempName = name;
-							builder.setPositiveButton("Copy",
+							builder.setTitle("Rename Folder");
+							builder.setPositiveButton("Ok",
 									new DialogInterface.OnClickListener() {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {
 											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-											String newname = input.getText().toString();
-											if (newname == null || newname.equals("")){
+											String newName = input.getText().toString();
+											if (newName == null || newName.equals("")){
 												builder.setTitle("Missing information");
 												builder.setMessage("Name is not empty");
 												builder.setPositiveButton("Ok", null);
 												builder.show();
 												return;
 											}
-											String path = "";
-											String despath;
-											for (int i = 0; i < paths.size(); i++) {
-												path += File.separator + paths.get(i);
-											}
-											despath = path;
-											path += File.separator + tempName;
-											despath += File.separator + newname;
-											File file1 = new File(path);
-											File des = new File(despath);
-											if(des.exists()){
+											File fileRename = new File(path + File.separator + newName);
+											if(fileRename.exists()){
 												builder.setTitle("Missing information");
-												builder.setMessage("Name has already existed");
+												builder.setMessage("Name folder has already existed");
 												builder.setPositiveButton("Ok", null);
 												builder.show();
-												return;
 											}
 											try {
-												copyDirectory(file1, des);
+												copyDirectory(files, fileRename);
+												deleteDirectory(files);
+												activity.refresh();
 											} catch (IOException e) {
 												e.printStackTrace();
 											}
@@ -569,38 +552,21 @@ public class ProcessFile {
 									});
 							builder.setNegativeButton("Cancel", null);
 							builder.show();
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}else {
 						copyDirectory(files, file_path);
 						deleteDirectory(files);
+						activity.refresh();
 					}
 				} else {
 					if (file_path.exists()) {
-						
 						try {
 							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-							final EditText input = new EditText(activity);			
-							
-							String name = file_path.getName();
-							String tempPath = "";
-							for (int x = 0; x < paths.size(); x++) {
-								tempPath += File.separator + paths.get(i);
-							}
-							tempPath += File.separator + name;
-							File fileTemp = new File(tempPath);
-							
-							String type = "";
-							if(fileTemp.isFile()){
-								int index = name.lastIndexOf(".");
-								if (index > 0 && index <= name.length() - 2) {
-									String temp = name;
-									name = temp.substring(0, index);
-									type = temp.substring(index, temp.length());
-								}
-							}
-							input.setText(name);
+							final EditText input = new EditText(activity);
+							input.setText(file_path.getName());
 							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 									LinearLayout.LayoutParams.FILL_PARENT,
 									LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -608,41 +574,82 @@ public class ProcessFile {
 							input.setLines(1);
 							input.setSingleLine(true);
 							builder.setView(input);
-							builder.setTitle("Copy file is exist!");
-							final String tempName = name;
-							final String tempType = type;
-							builder.setPositiveButton("Copy",
+							builder.setTitle("Rename file");
+							builder.setPositiveButton("Ok",
 									new DialogInterface.OnClickListener() {
 										@Override
 										public void onClick(DialogInterface dialog, int which) {
 											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-											String newname = input.getText().toString();
-											if (newname == null || newname.equals("")){
+											String newName = input.getText().toString();
+											if (newName == null || newName.equals("")){
 												builder.setTitle("Missing information");
 												builder.setMessage("Name is not empty");
 												builder.setPositiveButton("Ok", null);
 												builder.show();
 												return;
 											}
-											String path = "";
-											String despath;
-											for (int i = 0; i < paths.size(); i++) {
-												path += File.separator + paths.get(i);
-											}
-											despath = path;
-											path += File.separator + tempName + tempType;
-											despath += File.separator + newname + tempType;
-											File file1 = new File(path);
-											File des = new File(despath);
-											if(des.exists()){
+											File fileRename = new File(path + File.separator + newName);
+											if(fileRename.exists()){
 												builder.setTitle("Missing information");
-												builder.setMessage("Name has already existed");
+												builder.setMessage("Name folder has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+											}
+											copyFile(files, fileRename);
+											files.delete();
+											activity.refresh();
+										}
+									});
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						copyFile(files, file_path);
+						files.delete();
+						activity.refresh();
+					}
+				}
+			} else { // If copy
+				if (files.isDirectory()) { // File is Folder (Copy)
+					if (file_path.exists()) { // Folder is exist (Copy)
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final EditText input = new EditText(activity);
+							input.setText(file_path.getName());
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT);
+							input.setLayoutParams(lp);
+							input.setLines(1);
+							input.setSingleLine(true);
+							builder.setView(input);
+							builder.setTitle("Rename Folder");
+							builder.setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											String newName = input.getText().toString();
+											if (newName == null || newName.equals("")){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name is not empty");
 												builder.setPositiveButton("Ok", null);
 												builder.show();
 												return;
 											}
+											File fileRename = new File(path + File.separator + newName);
+											if(fileRename.exists()){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name folder has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+											}
 											try {
-												copyDirectory(file1, des);
+												copyDirectory(files, fileRename);
+												activity.refresh();
 											} catch (IOException e) {
 												e.printStackTrace();
 											}
@@ -650,61 +657,67 @@ public class ProcessFile {
 									});
 							builder.setNegativeButton("Cancel", null);
 							builder.show();
+							
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					} else {
+						copyDirectory(files, file_path);
+						activity.refresh();
+					}
+				} else {
+					if (file_path.exists()) {
+						try {
+							AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+							final EditText input = new EditText(activity);
+							input.setText(file_path.getName());
+							LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+									LinearLayout.LayoutParams.FILL_PARENT,
+									LinearLayout.LayoutParams.WRAP_CONTENT);
+							input.setLayoutParams(lp);
+							input.setLines(1);
+							input.setSingleLine(true);
+							builder.setView(input);
+							builder.setTitle("Rename file");
+							builder.setPositiveButton("Ok",
+									new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+											String newName = input.getText().toString();
+											if (newName == null || newName.equals("")){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name is not empty");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+												return;
+											}
+											File fileRename = new File(path + File.separator + newName);
+											if(fileRename.exists()){
+												builder.setTitle("Missing information");
+												builder.setMessage("Name folder has already existed");
+												builder.setPositiveButton("Ok", null);
+												builder.show();
+											}
+											copyFile(files, fileRename);
+											activity.refresh();
+										}
+									});
+							builder.setNegativeButton("Cancel", null);
+							builder.show();
+							
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					} else {
 						copyFile(files, file_path);
-						files.delete();
-					}
-				}
-			} else {
-				if (files.isDirectory()) {
-					if (file_path.exists()) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-						builder.setTitle("Folder is exist!");
-						builder.setMessage("You want to replace folder?");
-						builder.setPositiveButton("Ok",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										try {
-											copyDirectory(files, file_path);
-										} catch (IOException e) {
-											e.printStackTrace();
-										}
-									}
-								});
-						builder.setNegativeButton("Cancel", null);
-						builder.show();
-					} else {
-						copyDirectory(files, file_path);
-					}
-				} else {
-					if (file_path.exists()) {
-						AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-						builder.setTitle("Folder is exist!");
-						builder.setMessage("You want to replace folder?");
-						builder.setPositiveButton("Ok",
-								new DialogInterface.OnClickListener() {
-									@Override
-									public void onClick(DialogInterface dialog,
-											int which) {
-										copyFile(files, file_path);
-									}
-								});
-						builder.setNegativeButton("Cancel", null);
-						builder.show();
-					} else {
-						copyFile(files, file_path);
+						activity.refresh();
 					}
 				}
 			}
 		}
 		multiSelect.clear();
 		positions.clear();
-		activity.refresh();
 	}
 
 	// copy directory
@@ -856,7 +869,7 @@ public class ProcessFile {
 	public void rename(String name) {
 		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-			final EditText input = new EditText(activity);			
+			final EditText input = new EditText(activity);		
 			
 			String tempPath = "";
 			for (int i = 0; i < paths.size(); i++) {
