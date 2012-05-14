@@ -59,6 +59,7 @@ import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
 
 public class ProcessFile {
+	int local;
 	ListFileAdapter fileAdapter;
 	
 	Dialog dialog ;
@@ -121,6 +122,7 @@ public class ProcessFile {
 		
 		sortType=0;
 		readBookmark();
+		local = 1;
 	}
 	
 	public void onChangeSetting(Context context){
@@ -246,6 +248,7 @@ public class ProcessFile {
 		};
 		return onHomeClick;
 	}
+	
 
 	// get files and folders of folder
 	public void getAllListFile(String path) {
