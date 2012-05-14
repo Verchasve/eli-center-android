@@ -1,4 +1,4 @@
-package com.eli.filemanager;
+package com.eli.filemanager.smb;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -21,9 +21,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -57,11 +54,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.eli.filemanager.HistoryFileAdapter;
+import com.eli.filemanager.ListBookmarkAdapter;
+import com.eli.filemanager.ListFileAdapter;
+import com.eli.filemanager.R;
 import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
 
-public class ProcessFile {
+public class ProcessFileSmb {
 	int local;
 	ListFileAdapter fileAdapter;
 	
@@ -69,8 +70,8 @@ public class ProcessFile {
 	ImageView historyIcon;
 	
 	ArrayList<String> paths;
-	ArrayList<Files> list, files, folders;
-	private ListActivity activity;
+	ArrayList<SmbFile> list, files, folders;
+	private ListActivitySmb activity;
 	private EditText src;
 	private Drawable icon;
 	Button home_btn, back_btn;
@@ -94,7 +95,7 @@ public class ProcessFile {
 	public ListView listBookmark;
 	ListBookmarkAdapter bookmarkAdapter;
 	
-	public ProcessFile(ListActivity activity) {
+	public ProcessFileSmb(ListActivitySmb activity) {
 		this.activity = activity;		
 		paths = new ArrayList<String>();
 		paths.add("mnt");
