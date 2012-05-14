@@ -52,5 +52,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".ListActivitySmb" android:configChanges="keyboardHidden|orientation">
+            <intent-filter>
+                <action android:name="com.eli.filemanager.smb.ListActivitySmb" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>
