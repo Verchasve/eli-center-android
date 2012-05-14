@@ -1,13 +1,12 @@
 package com.eli.filemanager.pojo;
 
-import java.util.Date;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class Files implements Parcelable{
+public class Files{
 	private Drawable icon;
 	private String name;
 	private Long size;
@@ -50,19 +49,6 @@ public class Files implements Parcelable{
 
 	public String getChildFile() {
 		return childFile;
-	}
-
-	@Override
-	public int describeContents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void writeToParcel(Parcel dest, int flags) {
-		// TODO Auto-generated method stub
-	    dest.writeString(name);
-	    dest.writeString(childFile);
 	}
 
 	public void setSize(Long size) {
