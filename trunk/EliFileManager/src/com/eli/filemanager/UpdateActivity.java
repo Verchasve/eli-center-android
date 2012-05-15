@@ -108,7 +108,7 @@ public class UpdateActivity extends Activity {
 	}
 
 	public void nextToListActivity() {
-		Intent intent = new Intent(this, ListActivitySmb.class);
+		Intent intent = new Intent(this, LANActivity.class);
 		startActivity(intent);
 		finish();
 	}

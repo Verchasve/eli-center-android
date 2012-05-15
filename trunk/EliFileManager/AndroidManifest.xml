@@ -51,10 +51,10 @@
                 <action android:name="com.eli.filemanager.HISTORY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-        </activity>
-        <activity android:name=".ListActivitySmb" android:configChanges="keyboardHidden|orientation">
+        </activity>       
+        <activity android:name=".LANActivity" android:configChanges="keyboardHidden|orientation">
             <intent-filter>
-                <action android:name="com.eli.filemanager.smb.ListActivitySmb" />
+                <action android:name="com.eli.filemanager.LANActivity" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
