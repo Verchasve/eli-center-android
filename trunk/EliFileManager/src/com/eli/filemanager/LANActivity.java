@@ -22,7 +22,6 @@ public class LANActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			processLAN.mProgressDialog.dismiss();
 			processLAN.breakDuringScan();
 			return true;
 		}
