@@ -101,8 +101,8 @@ public class ProcessLAN {
 								.getInetAddresses(); enumIpAddr
 								.hasMoreElements();) {
 							InetAddress inetAddress = enumIpAddr.nextElement();
-							publishProgress("Address : " + inetAddress.getHostAddress()
-									.toString());
+							publishProgress("Address : "
+									+ inetAddress.getHostAddress().toString());
 							if (!inetAddress.isLoopbackAddress()) {
 								publishProgress(inetAddress.getHostAddress()
 										.toString());
