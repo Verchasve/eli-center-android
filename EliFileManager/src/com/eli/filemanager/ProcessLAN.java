@@ -70,6 +70,7 @@ public class ProcessLAN {
 				}
 			}
 		});
+		builder.show();
 	}
 	
 	public void processScan(){
