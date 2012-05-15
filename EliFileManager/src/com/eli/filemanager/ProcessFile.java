@@ -437,7 +437,7 @@ public class ProcessFile {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							String folder = input.getText().toString();
-							if (folder == null && folder.equals("")) {
+							if (folder == null || folder.equals("")) {
 								return;
 							}
 							String path = "";

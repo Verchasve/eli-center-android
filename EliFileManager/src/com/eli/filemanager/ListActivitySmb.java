@@ -47,7 +47,7 @@ public class ListActivitySmb extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		initLocale();
+//		initLocale();
 		setContentView(R.layout.list);
 		process = new ProcessFileSmb(this);
 	}
