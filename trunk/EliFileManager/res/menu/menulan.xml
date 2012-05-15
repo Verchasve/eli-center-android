@@ -2,5 +2,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
     <item android:id="@+id/scan" android:title="Scan"></item>
     <item android:id="@+id/absip" android:title="Absolute IP"></item>
-    <item android:id="@+id/ref" android:title="Refresh"></item>
 </menu>
