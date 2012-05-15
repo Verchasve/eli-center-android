@@ -20,6 +20,7 @@ public class ProcessLAN {
 	LANAdapter adapter;
 	ArrayList<String> listLan;
 	String absoluteIP = "";
+	boolean flag = true; //flag == true la scan all, false la absolute
 	
 	public ProcessLAN(LANActivity activity){
 		this.activity = activity;
