@@ -1,7 +1,10 @@
 package com.eli.filemanager;
 
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,40 +23,40 @@ public class ProcessLAN {
 	LANAdapter adapter;
 	ArrayList<String> listLan;
 	String absoluteIP = "";
-	boolean flag = true; //flag == true la scan all, false la absolute
-	
-	public ProcessLAN(LANActivity activity){
+	boolean flag = true; // flag == true la scan all, false la absolute
+
+	public ProcessLAN(LANActivity activity) {
 		this.activity = activity;
 		initObject();
 	}
-	
-	public void initObject(){
+
+	public void initObject() {
 		listLan = new ArrayList<String>();
-		gridview = (GridView)activity.findViewById(R.id.gridview);
+		gridview = (GridView) activity.findViewById(R.id.gridview);
 	}
-	
-	public void scanAll(){
+
+	public void scanAll() {
 		processScan();
 	}
-	
-	public void refresh(){
+
+	public void refresh() {
 		listLan = new ArrayList<String>();
 		adapter = new LANAdapter(activity, R.layout.landetail, listLan);
 		gridview.setAdapter(adapter);
 	}
-	
-	public void breakDuringScan(){
+
+	public void breakDuringScan() {
 		adapter = new LANAdapter(activity, R.layout.landetail, listLan);
 		gridview.setAdapter(adapter);
 	}
-	
-	public void scanAbsoluteIP(){
+
+	public void scanAbsoluteIP() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		final EditText input = new EditText(activity);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.FILL_PARENT,
-				LinearLayout.LayoutParams.WRAP_CONTENT);			
-		input.setLayoutParams(lp);			
+				LinearLayout.LayoutParams.WRAP_CONTENT);
+		input.setLayoutParams(lp);
 		input.setLines(1);
 		input.setSingleLine(true);
 		builder.setView(input);
@@ -63,23 +66,24 @@ public class ProcessLAN {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String iptxt = input.getText().toString();
-				if(iptxt == null || iptxt.equals("")){
+				if (iptxt == null || iptxt.equals("")) {
 					return;
-				}else{
+				} else {
 					absoluteIP = iptxt;
-					//do something
+					// do something
 				}
 			}
 		});
 		builder.show();
 	}
-	
-	public void processScan(){
-		new AsyncTask<String, String, Void>() {
 
+	AsyncTask<String, String, Void> asyn;
+	public void processScan() {
+		asyn = new AsyncTask<String, String, Void>() {
 			@Override
 			protected void onPreExecute() {
-				mProgressDialog = ProgressDialog.show(activity, "", "Loading...", true);
+				mProgressDialog = ProgressDialog.show(activity, "",
+						"Loading...", true);
 			}
 
 			protected void onProgressUpdate(String... progress) {
@@ -89,18 +93,39 @@ public class ProcessLAN {
 			@Override
 			protected Void doInBackground(String... params) {
 				try {
-					InetAddress localhost = InetAddress.getLocalHost();
-					// this code assumes IPv4 is used
+					InetAddress localhost = null;
+					for (Enumeration<NetworkInterface> en = NetworkInterface
+							.getNetworkInterfaces(); en.hasMoreElements();) {
+						NetworkInterface intf = en.nextElement();
+						for (Enumeration<InetAddress> enumIpAddr = intf
+								.getInetAddresses(); enumIpAddr
+								.hasMoreElements();) {
+							InetAddress inetAddress = enumIpAddr.nextElement();
+							publishProgress("Address : " + inetAddress.getHostAddress()
+									.toString());
+							if (!inetAddress.isLoopbackAddress()) {
+								publishProgress(inetAddress.getHostAddress()
+										.toString());
+								localhost = inetAddress;
+							}
+						}
+					}
 					byte[] ip = localhost.getAddress();
 
 					for (int i = 1; i <= 254; i++) {
 						ip[3] = (byte) i;
 						InetAddress address = InetAddress.getByAddress(ip);
 						if (address.isReachable(1000)) {
-							System.out.println(address + " machine is turned on and can be pinged");
-						} else if (!address.getHostAddress().equals(address.getHostName())) {
+							System.out
+									.println(address
+											+ " machine is turned on and can be pinged");
+							publishProgress(address.toString());
+						} else if (!address.getHostAddress().equals(
+								address.getHostName())) {
 							listLan.add(address.toString());
-							System.out.println(address + " machine is known in a DNS lookup");
+							publishProgress(address.toString());
+							System.out.println(address
+									+ " machine is known in a DNS lookup");
 						}
 					}
 				} catch (Exception e) {
@@ -116,6 +141,7 @@ public class ProcessLAN {
 					refresh();
 				}
 			}
-		}.execute("");
+		};
+		asyn.execute("");
 	}
 }
