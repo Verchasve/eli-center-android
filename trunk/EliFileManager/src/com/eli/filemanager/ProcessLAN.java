@@ -9,6 +9,7 @@ import java.util.Enumeration;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnCancelListener;
 import android.os.AsyncTask;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -78,12 +79,21 @@ public class ProcessLAN {
 	}
 
 	AsyncTask<String, String, Void> asyn;
+	boolean running = true;
 	public void processScan() {
+		running = true;
 		asyn = new AsyncTask<String, String, Void>() {
 			@Override
 			protected void onPreExecute() {
 				mProgressDialog = ProgressDialog.show(activity, "",
 						"Loading...", true);
+				mProgressDialog.setCancelable(true);
+				mProgressDialog.setOnCancelListener(new OnCancelListener() {
+		            @Override
+		            public void onCancel(DialogInterface dialog) {
+		                running = false;
+		            }
+		        });
 			}
 
 			protected void onProgressUpdate(String... progress) {
@@ -93,39 +103,41 @@ public class ProcessLAN {
 			@Override
 			protected Void doInBackground(String... params) {
 				try {
-					InetAddress localhost = null;
-					for (Enumeration<NetworkInterface> en = NetworkInterface
-							.getNetworkInterfaces(); en.hasMoreElements();) {
-						NetworkInterface intf = en.nextElement();
-						for (Enumeration<InetAddress> enumIpAddr = intf
-								.getInetAddresses(); enumIpAddr
-								.hasMoreElements();) {
-							InetAddress inetAddress = enumIpAddr.nextElement();
-							publishProgress("Address : "
-									+ inetAddress.getHostAddress().toString());
-							if (!inetAddress.isLoopbackAddress()) {
-								publishProgress(inetAddress.getHostAddress()
-										.toString());
-								localhost = inetAddress;
+					if(running){
+						InetAddress localhost = null;
+						for (Enumeration<NetworkInterface> en = NetworkInterface
+								.getNetworkInterfaces(); en.hasMoreElements();) {
+							NetworkInterface intf = en.nextElement();
+							for (Enumeration<InetAddress> enumIpAddr = intf
+									.getInetAddresses(); enumIpAddr
+									.hasMoreElements();) {
+								InetAddress inetAddress = enumIpAddr.nextElement();
+								publishProgress("Address : "
+										+ inetAddress.getHostAddress().toString());
+								if (!inetAddress.isLoopbackAddress()) {
+									publishProgress(inetAddress.getHostAddress()
+											.toString());
+									localhost = inetAddress;
+								}
 							}
 						}
-					}
-					byte[] ip = localhost.getAddress();
+						byte[] ip = localhost.getAddress();
 
-					for (int i = 1; i <= 254; i++) {
-						ip[3] = (byte) i;
-						InetAddress address = InetAddress.getByAddress(ip);
-						if (address.isReachable(1000)) {
-							System.out
-									.println(address
-											+ " machine is turned on and can be pinged");
-							publishProgress(address.toString());
-						} else if (!address.getHostAddress().equals(
-								address.getHostName())) {
-							listLan.add(address.toString());
-							publishProgress(address.toString());
-							System.out.println(address
-									+ " machine is known in a DNS lookup");
+						for (int i = 1; i <= 254; i++) {
+							ip[3] = (byte) i;
+							InetAddress address = InetAddress.getByAddress(ip);
+							if (address.isReachable(1000)) {
+								System.out
+										.println(address
+												+ " machine is turned on and can be pinged");
+								publishProgress(address.toString());
+							} else if (!address.getHostAddress().equals(
+									address.getHostName())) {
+								listLan.add(address.toString());
+								publishProgress(address.toString());
+								System.out.println(address
+										+ " machine is known in a DNS lookup");
+							}
 						}
 					}
 				} catch (Exception e) {
@@ -141,6 +153,10 @@ public class ProcessLAN {
 					refresh();
 				}
 			}
+			
+			protected void onCancelled() {
+				running = false;
+			};
 		};
 		asyn.execute("");
 	}

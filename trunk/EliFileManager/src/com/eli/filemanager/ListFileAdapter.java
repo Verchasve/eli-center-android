@@ -92,6 +92,7 @@ public class ListFileAdapter extends ArrayAdapter<Files>{
 		try{
 			icon.setImageDrawable(files.getIcon());
 			if(view.findViewById(R.id.tvChild) != null){
+				System.out.println("ABC");
 				child = (TextView) view.findViewById(R.id.tvChild);
 				child.setText(files.getChildFile());
 			}

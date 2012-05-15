@@ -8,7 +8,9 @@ import java.util.Calendar;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -36,7 +38,7 @@ public class ProcessSearch {
 	ProgressDialog mProgressDialog;
 	public static boolean SUB = false;
 	public static boolean TYPE = false;
-
+	public boolean running = true;
 	SearchActivity activity;
 	private Button search_btn;
 	private Spinner directory, type_search, day_spiner, size_spiner;
@@ -179,12 +181,20 @@ public class ProcessSearch {
 	}
 
 	public void searching() {
+		running = true;
 		new AsyncTask<String, String, Void>() {
 
 			@Override
 			protected void onPreExecute() {
 				mProgressDialog = ProgressDialog.show(activity, "",
 						"Loading...", true);
+				mProgressDialog.setCancelable(true);
+				mProgressDialog.setOnCancelListener(new OnCancelListener() {
+		            @Override
+		            public void onCancel(DialogInterface dialog) {
+		                running = false;
+		            }
+		        });
 			}
 
 			protected void onProgressUpdate(String... progress) {
@@ -193,76 +203,78 @@ public class ProcessSearch {
 
 			@Override
 			protected Void doInBackground(String... params) {
-				array.clear();
-				File file = new File(directory_str);
-				File[] child = file.listFiles();
-				if (child.length == 0) {
-					return null;
-				}
-				Files files = null;
-				for (int i = 0; i < child.length; i++) {
-					if (!file.isHidden()) {
-						if (SUB) {
-							searchInSubFolder(child[i]);
-						} else {
-							if (!TYPE) {// search folder and file
-								if (child[i].isFile()) {
-									String temp = child[i].getName().toString()
-											.toUpperCase();
-									int index = temp.lastIndexOf(".");
-									temp = temp.substring(0, index);
-									if (temp.indexOf(search_str.toUpperCase()) >= 0) {
+				if(running){
+					array.clear();
+					File file = new File(directory_str);
+					File[] child = file.listFiles();
+					if (child.length == 0) {
+						return null;
+					}
+					Files files = null;
+					for (int i = 0; i < child.length; i++) {
+						if (!file.isHidden()) {
+							if (SUB) {
+								searchInSubFolder(child[i]);
+							} else {
+								if (!TYPE) {// search folder and file
+									if (child[i].isFile()) {
+										String temp = child[i].getName().toString()
+												.toUpperCase();
+										int index = temp.lastIndexOf(".");
+										temp = temp.substring(0, index);
+										if (temp.indexOf(search_str.toUpperCase()) >= 0) {
+											files = new Files();
+											files.setName(child[i].getName());
+											if (child[i].isDirectory()) {
+												files.setFolder(true);
+											}
+											files.setChildFile(child[i]
+													.getAbsolutePath());
+											files.setSize(child[i].length() / 1024);
+											files.setModified(child[i]
+													.lastModified());
+											array.add(files);
+										}
+									} else {
+										if (child[i].getName().toString()
+												.toUpperCase()
+												.indexOf(search_str.toUpperCase()) >= 0) {
+											files = new Files();
+											files.setName(child[i].getName());
+											if (child[i].isDirectory()) {
+												files.setFolder(true);
+											}
+											files.setChildFile(child[i]
+													.getAbsolutePath());
+											files.setModified(child[i]
+													.lastModified());
+											array.add(files);
+										}
+									}
+								} else {// search extendsion file (.*)
+									boolean flag = Util.checkExtendFile(child[i]
+											.getName().toString().toUpperCase(),
+											search_str.toUpperCase());
+									if (flag) {
 										files = new Files();
 										files.setName(child[i].getName());
-										if (child[i].isDirectory()) {
-											files.setFolder(true);
-										}
 										files.setChildFile(child[i]
 												.getAbsolutePath());
 										files.setSize(child[i].length() / 1024);
-										files.setModified(child[i]
-												.lastModified());
+										files.setModified(child[i].lastModified());
 										array.add(files);
 									}
-								} else {
-									if (child[i].getName().toString()
-											.toUpperCase()
-											.indexOf(search_str.toUpperCase()) >= 0) {
-										files = new Files();
-										files.setName(child[i].getName());
-										if (child[i].isDirectory()) {
-											files.setFolder(true);
-										}
-										files.setChildFile(child[i]
-												.getAbsolutePath());
-										files.setModified(child[i]
-												.lastModified());
-										array.add(files);
-									}
-								}
-							} else {// search extendsion file (.*)
-								boolean flag = Util.checkExtendFile(child[i]
-										.getName().toString().toUpperCase(),
-										search_str.toUpperCase());
-								if (flag) {
-									files = new Files();
-									files.setName(child[i].getName());
-									files.setChildFile(child[i]
-											.getAbsolutePath());
-									files.setSize(child[i].length() / 1024);
-									files.setModified(child[i].lastModified());
-									array.add(files);
 								}
 							}
+							fectching_str = child[i].getAbsoluteFile().toString();
+							publishProgress(fectching_str);
 						}
-						fectching_str = child[i].getAbsoluteFile().toString();
-						publishProgress(fectching_str);
 					}
+					 if(array.size() > 0){
+						 checkDay();
+						 checkSize();
+					 }
 				}
-				 if(array.size() > 0){
-					 checkDay();
-					 checkSize();
-				 }
 				return null;
 			}
 

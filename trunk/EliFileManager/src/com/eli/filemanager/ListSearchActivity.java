@@ -21,7 +21,7 @@ public class ListSearchActivity extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list_search);		
 		list_search = (ListView)findViewById(R.id.list_search);
-		fileAdapter = new ListFileAdapter(this, R.layout.list_detail,ProcessSearch.array);
+		fileAdapter = new ListFileAdapter(this, R.layout.view_detail,ProcessSearch.array);
 		list_search.setAdapter(fileAdapter);
 		list_search.setOnItemClickListener(onItemClick());
 	}
