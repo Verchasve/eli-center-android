@@ -236,6 +236,10 @@ public class ProcessLAN {
 		try{
 			SmbFile smbFile = new SmbFile(ip,auth);
 			smbFile.connect();
+			SmbFile[] childs = smbFile.listFiles();
+			if(childs.length > 0){
+				analyzeListSMB(childs);
+			}
 		}catch (Exception e) {
 			try{
 				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
