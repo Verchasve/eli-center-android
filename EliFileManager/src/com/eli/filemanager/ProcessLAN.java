@@ -241,7 +241,6 @@ public class ProcessLAN {
 	public void checkValidIP(String ip){
 		try{
 			SmbFile smbFile = new SmbFile(ip,auth);
-			smbFile.connect();
 			SmbFile[] childs = smbFile.listFiles();
 			if(childs.length > 0){
 				analyzeListSMB(childs);
