@@ -18,6 +18,12 @@ public class LANActivity extends Activity {
 		setContentView(R.layout.listlan);
 		processLAN = new ProcessLAN(this);
 	}
+	
+	@Override
+	protected void onResume() {
+		processLAN.refresh();
+		super.onResume();
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

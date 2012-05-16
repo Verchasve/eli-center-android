@@ -69,9 +69,9 @@ public class UpdateActivity extends Activity {
 			Looper.prepare();
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Update new version");
-			builder.setMessage("A new version of EliFileManager is available for update\n"
+			builder.setMessage("A new version of Eli File is available for update\n"
 					+ "Would you like to update ?");
-			builder.setPositiveButton("Ok",
+			builder.setPositiveButton("OK",
 					new AlertDialog.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog,
@@ -108,7 +108,7 @@ public class UpdateActivity extends Activity {
 	}
 
 	public void nextToListActivity() {
-		Intent intent = new Intent(this, ListActivity.class);
+		Intent intent = new Intent(this, LANActivity.class);
 		startActivity(intent);
 		finish();
 	}
