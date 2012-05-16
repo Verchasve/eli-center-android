@@ -1,7 +1,8 @@
 package com.eli.filemanager;
 
-import java.net.URL;
 import java.util.ArrayList;
+
+import com.eli.filemanager.pojo.Files;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -12,14 +13,16 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LANAdapter extends ArrayAdapter<String>{
+public class LANAdapter extends ArrayAdapter<Files>{
 
 	LayoutInflater inflator;
 	int layout;
-	ArrayList<String> array;
+	ArrayList<Files> array;
 	Context context;
+	Drawable drawable;
+	
 	public LANAdapter(Context context, int layout,
-			ArrayList<String> array) {
+			ArrayList<Files> array) {
 		super(context, layout, array);
 		inflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.layout = layout;
@@ -34,16 +37,16 @@ public class LANAdapter extends ArrayAdapter<String>{
 			view = inflator.inflate(layout, null);
 		}
 		
-		String ip = array.get(position);
+		Files ip = array.get(position);
 		TextView iptv = (TextView)view.findViewById(R.id.ip);
 		ImageView icon = (ImageView)view.findViewById(R.id.icon);
 		try{
-			Drawable drawable = context.getResources().getDrawable(R.drawable.computer);
+			drawable = ip.getIcon();
 			icon.setImageDrawable(drawable);
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		iptv.setText(ip);
+		iptv.setText(ip.getName());
 		return super.getView(position, convertView, parent);
 	}
 }
