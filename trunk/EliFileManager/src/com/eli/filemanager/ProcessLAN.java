@@ -7,25 +7,19 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Enumeration;
 
-import com.eli.filemanager.dao.LoadSetting;
-import com.eli.filemanager.pojo.Files;
-import com.eli.util.Util;
-
+import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
-
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.provider.MediaStore.Video.Thumbnails;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+
+import com.eli.filemanager.pojo.Files;
 
 public class ProcessLAN {
 
@@ -38,6 +32,7 @@ public class ProcessLAN {
 	boolean flag = true; // flag == true la scan all, false la absolute
 	ArrayList<String> paths;
 	String path;
+	NtlmPasswordAuthentication auth;
 	
 	//File smb
 	ArrayList<Files> files,folders,list;
@@ -51,11 +46,7 @@ public class ProcessLAN {
 	public void initObject() {
 		gridview = (GridView) activity.findViewById(R.id.gridview);
 		paths = new ArrayList<String>();
-		paths.add("smb://");
-		paths.add("192.168.1.100");
-		
-		getAllListFile(getPath());
-		
+		auth = new NtlmPasswordAuthentication(null,null,null);
 	}
 	
 	public String getPath(){
@@ -63,7 +54,6 @@ public class ProcessLAN {
 		for (String a:paths){
 			path += a;
 		}
-		System.out.println(path);
 		return path;
 	}
 	
@@ -235,11 +225,91 @@ public class ProcessLAN {
 					return;
 				} else {
 					absoluteIP = iptxt;
-					// do something
+					checkValidIP(absoluteIP);
 				}
 			}
 		});
 		builder.show();
+	}
+	
+	public void checkValidIP(String ip){
+		try{
+			SmbFile smbFile = new SmbFile(ip,auth);
+			smbFile.connect();
+		}catch (Exception e) {
+			try{
+				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.FILL_PARENT,
+						LinearLayout.LayoutParams.WRAP_CONTENT);
+				
+				final LinearLayout root = new LinearLayout(activity);
+				root.setLayoutParams(lp);
+				root.setOrientation(LinearLayout.VERTICAL);
+				
+				final EditText username = new EditText(activity);
+				final EditText password = new EditText(activity);
+				
+				username.setLayoutParams(lp);
+				username.setLines(1);
+				username.setSingleLine(true);
+				username.setHint("Username");
+				password.setLayoutParams(lp);
+				password.setLines(1);
+				password.setSingleLine(true);
+				password.setHint("Password");
+				
+				root.addView(username);
+				root.addView(password);
+				
+				builder.setView(root);
+				builder.setTitle("Authentication");
+				builder.setNegativeButton("Cancel", null);
+				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						String user = username.getText().toString();
+						String pass = password.getText().toString();
+						if (user == null) {
+							user = "";
+						}
+						if(pass == null){
+							pass = "";
+						}
+						loginToSharedFolder(user,pass);
+					}
+				});
+				builder.show();
+			}catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public void loginToSharedFolder(String username, String password){
+		try{
+			auth = new NtlmPasswordAuthentication(null, username, password);
+			SmbFile dir = new SmbFile(absoluteIP,auth);
+			SmbFile[] childs = dir.listFiles();
+			if(childs.length > 0){
+				analyzeListSMB(childs);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			checkValidIP(absoluteIP);
+		}
+	}
+	
+	public void analyzeListSMB(SmbFile[] childs){
+		try{
+			//start
+			list = new ArrayList<Files>();
+			
+			//end
+			refresh();
+		}catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	AsyncTask<String, String, Void> asyn;
