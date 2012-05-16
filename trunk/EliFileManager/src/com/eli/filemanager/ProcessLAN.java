@@ -33,7 +33,7 @@ public class ProcessLAN {
 	LANActivity activity;
 	GridView gridview;
 	LANAdapter adapter;
-	String absoluteIP = "";
+	String absoluteIP, username, password = "";
 	boolean flag = true; // flag == true la scan all, false la absolute
 	ArrayList<String> paths;
 	String path;
@@ -258,20 +258,20 @@ public class ProcessLAN {
 				root.setLayoutParams(lp);
 				root.setOrientation(LinearLayout.VERTICAL);
 				
-				final EditText username = new EditText(activity);
-				final EditText password = new EditText(activity);
+				final EditText usernameEt = new EditText(activity);
+				final EditText passwordEt = new EditText(activity);
 				
-				username.setLayoutParams(lp);
-				username.setLines(1);
-				username.setSingleLine(true);
-				username.setHint("Username");
-				password.setLayoutParams(lp);
-				password.setLines(1);
-				password.setSingleLine(true);
-				password.setHint("Password");
+				usernameEt.setLayoutParams(lp);
+				usernameEt.setLines(1);
+				usernameEt.setSingleLine(true);
+				usernameEt.setHint("Username");
+				passwordEt.setLayoutParams(lp);
+				passwordEt.setLines(1);
+				passwordEt.setSingleLine(true);
+				passwordEt.setHint("Password");
 				
-				root.addView(username);
-				root.addView(password);
+				root.addView(usernameEt);
+				root.addView(passwordEt);
 				
 				builder.setView(root);
 				builder.setTitle("Authentication");
@@ -279,14 +279,16 @@ public class ProcessLAN {
 				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						String user = username.getText().toString();
-						String pass = password.getText().toString();
+						String user = usernameEt.getText().toString();
+						String pass = passwordEt.getText().toString();
 						if (user == null) {
 							user = "";
 						}
 						if(pass == null){
 							pass = "";
 						}
+						username = user;
+						password = pass;
 						loginToSharedFolder(user,pass);
 					}
 				});
