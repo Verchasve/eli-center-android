@@ -247,6 +247,7 @@ public class ProcessLAN {
 				analyzeListSMB(childs);
 			}
 		}catch (Exception e) {
+			e.printStackTrace();
 			try{
 				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
