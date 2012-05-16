@@ -21,7 +21,6 @@ public class LANActivity extends Activity {
 	
 	@Override
 	protected void onResume() {
-		processLAN.refresh();
 		super.onResume();
 	}
 
