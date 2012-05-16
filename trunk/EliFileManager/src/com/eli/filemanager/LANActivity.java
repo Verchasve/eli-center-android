@@ -27,7 +27,7 @@ public class LANActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			processLAN.breakDuringScan();
+			processLAN.backButton();
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);

@@ -1,6 +1,8 @@
 package com.eli.filemanager;
 
+import java.io.File;
 import java.net.InetAddress;
+import java.net.MalformedURLException;
 import java.net.NetworkInterface;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,6 +21,9 @@ import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
 import android.provider.MediaStore.Video.Thumbnails;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -33,11 +38,13 @@ public class ProcessLAN {
 	LANActivity activity;
 	GridView gridview;
 	LANAdapter adapter;
-	String absoluteIP, username, password = "";
+	String absoluteIP,username,password;
 	boolean flag = true; // flag == true la scan all, false la absolute
 	ArrayList<String> paths;
 	String path;
 	NtlmPasswordAuthentication auth;
+	SmbFile dirRoot;
+	SmbFile[] childsRoot;
 	
 	//File smb
 	ArrayList<Files> files,folders,list;
@@ -53,6 +60,7 @@ public class ProcessLAN {
 		files = new ArrayList<Files>();
 		folders= new ArrayList<Files>();
 		gridview = (GridView) activity.findViewById(R.id.gridview);
+		gridview.setOnItemClickListener(itemClick());
 		paths = new ArrayList<String>();
 		auth = new NtlmPasswordAuthentication(null,null,null);
 	}
@@ -60,113 +68,35 @@ public class ProcessLAN {
 	public String getPath(){
 		path = "";
 		for (String a:paths){
-			path += a;
+			path += File.separator+a;
 		}
 		return path;
 	}
 	
-	// get files and folders of folder
-	public void getAllListFile(String path) {
-		list = new ArrayList<Files>();
-		try {
-		files = new ArrayList<Files>();
-		folders = new ArrayList<Files>();
-		SmbFile dir = new SmbFile(path);
-		for(SmbFile f:dir.listFiles()){
-			System.out.println(f.getName());
-		}
-//			for (SmbFile f : dir.listFiles()) {
-//				if (f.isFile()) {
-//					Bitmap bitmap = null;
-//					if (Util.checkExtendFile(f.getName(), ".txt")
-//							|| Util.checkExtendFile(f.getName(), ".csv")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.text_file);
-//					}else if (Util.checkExtendFile(f.getName(), ".xml")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.xml_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".flv")
-//							|| Util.checkExtendFile(f.getName(), ".3gp")
-//							|| Util.checkExtendFile(f.getName(), ".avi")) {
-//						bitmap = ThumbnailUtils.createVideoThumbnail(
-//								f.getCanonicalPath(), Thumbnails.MICRO_KIND);
-//						icon = new BitmapDrawable(bitmap);
-//					} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.mp3_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".doc")
-//							|| Util.checkExtendFile(f.getName(), ".docx")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.word_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".ppt")
-//							|| Util.checkExtendFile(f.getName(), ".pptx")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.pptx_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".xls")
-//							|| Util.checkExtendFile(f.getName(), ".xlsx")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.xlsx_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".zip")
-//							|| Util.checkExtendFile(f.getName(), ".rar")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.rar_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".jpg")
-//							|| Util.checkExtendFile(f.getName(), ".jpeg")
-//							|| Util.checkExtendFile(f.getName(), ".png")
-//							|| Util.checkExtendFile(f.getName(), ".bmp")
-//							|| Util.checkExtendFile(f.getName(), ".gif")) {
-//						icon = new BitmapDrawable(bitmap);
-//					} else if (Util.checkExtendFile(f.getName(), ".apk")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.apk_file);
-//					} else if (Util.checkExtendFile(f.getName(), ".exe")) {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.exe_file);
-//					} else {
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.unknown_file);
-//					}
-//					Files ff = new Files();
-//					ff.setIcon(icon);
-//					ff.setName(f.getName());
-//					ff.setFolder(false);
-//					ff.setSize(f.length());
-//					ff.setModified(f.lastModified());
-//					ff.setChildFile(ff.getSize()/(1024)+" KB | "+ Util.format1.format(ff.getModified()));
-//					ff.setPath(f.getCanonicalPath());
-//					files.add(ff);
-//				} else if (f.isDirectory()) {
-//					if(LoadSetting.users.getIcon()==0)
-//						icon = activity.getResources().getDrawable(
-//							R.drawable.folder_blue);
-//					else if(LoadSetting.users.getIcon()==1)
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.folder_blue2);
-//					else if(LoadSetting.users.getIcon()==2)
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.folder_yellow);
-//					else if(LoadSetting.users.getIcon()==3)
-//						icon = activity.getResources().getDrawable(
-//								R.drawable.folder_yellow2);
-//					Files ff = new Files();
-//					ff.setIcon(icon);
-//					ff.setName(f.getName());
-//					ff.setFolder(true);
-//					ff.setPath(f.getCanonicalPath());
-//					folders.add(ff);
-//				}
-//			}
-			sort(files,0);
-			sort(folders,0);
-			list.addAll(folders);
-			list.addAll(files);
-		} catch (NullPointerException e) {
-			list.clear();
-		} catch (Exception e) {
-			e.printStackTrace();
+	public void backButton(){
+		if(paths.size()>0){
+			paths.remove(paths.size()-1);
+			loginToSharedFolder(username, password);
 		}
 	}
 	
+	private OnItemClickListener itemClick(){
+		OnItemClickListener action = new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Files object = (Files) arg0.getItemAtPosition(arg2);
+				paths.add(object.getName());
+				try {
+					loginToSharedFolder(username, password);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		};
+		return action;
+	}
+
 	private void sort(ArrayList<Files> lst,int sort) {
 
 		switch (sort){					
@@ -302,10 +232,10 @@ public class ProcessLAN {
 	public void loginToSharedFolder(String username, String password){
 		try{
 			auth = new NtlmPasswordAuthentication(null, username, password);
-			SmbFile dir = new SmbFile("smb://" + absoluteIP + "",auth);
-			SmbFile[] childs = dir.listFiles();
-			if(childs.length > 0){
-				analyzeListSMB(childs);
+			dirRoot = new SmbFile("smb://" + absoluteIP + getPath(),auth);
+			childsRoot = dirRoot.listFiles();
+			if(childsRoot.length > 0){
+				analyzeListSMB(childsRoot);
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
