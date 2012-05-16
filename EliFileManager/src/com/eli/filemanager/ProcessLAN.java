@@ -240,7 +240,7 @@ public class ProcessLAN {
 	
 	public void checkValidIP(String ip){
 		try{
-			SmbFile smbFile = new SmbFile(ip,auth);
+			SmbFile smbFile = new SmbFile("smb://" + ip + "/",auth);
 			SmbFile[] childs = smbFile.listFiles();
 			if(childs.length > 0){
 				analyzeListSMB(childs);
@@ -299,7 +299,7 @@ public class ProcessLAN {
 	public void loginToSharedFolder(String username, String password){
 		try{
 			auth = new NtlmPasswordAuthentication(null, username, password);
-			SmbFile dir = new SmbFile(absoluteIP,auth);
+			SmbFile dir = new SmbFile("smb://" + absoluteIP + "/",auth);
 			SmbFile[] childs = dir.listFiles();
 			if(childs.length > 0){
 				analyzeListSMB(childs);
