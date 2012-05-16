@@ -13,13 +13,19 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
+import android.provider.MediaStore.Video.Thumbnails;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
+import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
+import com.eli.util.Util;
 
 public class ProcessLAN {
 
@@ -308,8 +314,91 @@ public class ProcessLAN {
 		try{
 			//start
 			list = new ArrayList<Files>();
-			
-			//end
+			for (SmbFile f : childs) {
+				if (f.isFile()) {
+					Bitmap bitmap = null;
+					if (Util.checkExtendFile(f.getName(), ".txt")
+							|| Util.checkExtendFile(f.getName(), ".csv")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.text_file);
+					}else if (Util.checkExtendFile(f.getName(), ".xml")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.xml_file);
+					} else if (Util.checkExtendFile(f.getName(), ".flv")
+							|| Util.checkExtendFile(f.getName(), ".3gp")
+							|| Util.checkExtendFile(f.getName(), ".avi")) {
+						bitmap = ThumbnailUtils.createVideoThumbnail(
+								f.getCanonicalPath(), Thumbnails.MICRO_KIND);
+						icon = new BitmapDrawable(bitmap);
+					} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.mp3_file);
+					} else if (Util.checkExtendFile(f.getName(), ".doc")
+							|| Util.checkExtendFile(f.getName(), ".docx")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.word_file);
+					} else if (Util.checkExtendFile(f.getName(), ".ppt")
+							|| Util.checkExtendFile(f.getName(), ".pptx")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.pptx_file);
+					} else if (Util.checkExtendFile(f.getName(), ".xls")
+							|| Util.checkExtendFile(f.getName(), ".xlsx")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.xlsx_file);
+					} else if (Util.checkExtendFile(f.getName(), ".zip")
+							|| Util.checkExtendFile(f.getName(), ".rar")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.rar_file);
+					} else if (Util.checkExtendFile(f.getName(), ".jpg")
+							|| Util.checkExtendFile(f.getName(), ".jpeg")
+							|| Util.checkExtendFile(f.getName(), ".png")
+							|| Util.checkExtendFile(f.getName(), ".bmp")
+							|| Util.checkExtendFile(f.getName(), ".gif")) {
+						icon = new BitmapDrawable(bitmap);
+					} else if (Util.checkExtendFile(f.getName(), ".apk")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.apk_file);
+					} else if (Util.checkExtendFile(f.getName(), ".exe")) {
+						icon = activity.getResources().getDrawable(
+								R.drawable.exe_file);
+					} else {
+						icon = activity.getResources().getDrawable(
+								R.drawable.unknown_file);
+					}
+					Files ff = new Files();
+					ff.setIcon(icon);
+					ff.setName(f.getName());
+					ff.setFolder(false);
+					ff.setSize(f.length());
+					ff.setModified(f.lastModified());
+					ff.setChildFile(ff.getSize()/(1024)+" KB | "+ Util.format1.format(ff.getModified()));
+					ff.setPath(f.getCanonicalPath());
+					files.add(ff);
+				} else if (f.isDirectory()) {
+					if(LoadSetting.users.getIcon()==0)
+						icon = activity.getResources().getDrawable(
+							R.drawable.folder_blue);
+					else if(LoadSetting.users.getIcon()==1)
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_blue2);
+					else if(LoadSetting.users.getIcon()==2)
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_yellow);
+					else if(LoadSetting.users.getIcon()==3)
+						icon = activity.getResources().getDrawable(
+								R.drawable.folder_yellow2);
+					Files ff = new Files();
+					ff.setIcon(icon);
+					ff.setName(f.getName());
+					ff.setFolder(true);
+					ff.setPath(f.getCanonicalPath());
+					folders.add(ff);
+				}
+			}
+			sort(files,0);
+			sort(folders,0);
+			list.addAll(folders);
+			list.addAll(files);
 			refresh();
 		}catch (Exception e) {
 			e.printStackTrace();
