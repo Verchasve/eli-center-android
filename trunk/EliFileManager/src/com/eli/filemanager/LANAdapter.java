@@ -47,6 +47,6 @@ public class LANAdapter extends ArrayAdapter<Files>{
 			e.printStackTrace(System.out);
 		}
 		iptv.setText(ip.getName());
-		return super.getView(position, convertView, parent);
+		return view;
 	}
 }

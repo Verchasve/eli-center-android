@@ -23,7 +23,6 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 
-import com.eli.filemanager.dao.LoadSetting;
 import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
 
@@ -50,6 +49,9 @@ public class ProcessLAN {
 	}
 
 	public void initObject() {
+		list= new ArrayList<Files>();
+		files = new ArrayList<Files>();
+		folders= new ArrayList<Files>();
 		gridview = (GridView) activity.findViewById(R.id.gridview);
 		paths = new ArrayList<String>();
 		auth = new NtlmPasswordAuthentication(null,null,null);
@@ -201,7 +203,6 @@ public class ProcessLAN {
 	}
 
 	public void refresh() {
-		list = new ArrayList<Files>();
 		adapter = new LANAdapter(activity, R.layout.landetail, list);
 		gridview.setAdapter(adapter);
 	}
@@ -240,7 +241,7 @@ public class ProcessLAN {
 	
 	public void checkValidIP(String ip){
 		try{
-			SmbFile smbFile = new SmbFile("smb://" + ip + "/",auth);
+			SmbFile smbFile = new SmbFile("smb://" + ip + "",auth);
 			SmbFile[] childs = smbFile.listFiles();
 			if(childs.length > 0){
 				analyzeListSMB(childs);
@@ -299,7 +300,7 @@ public class ProcessLAN {
 	public void loginToSharedFolder(String username, String password){
 		try{
 			auth = new NtlmPasswordAuthentication(null, username, password);
-			SmbFile dir = new SmbFile("smb://" + absoluteIP + "/",auth);
+			SmbFile dir = new SmbFile("smb://" + absoluteIP + "",auth);
 			SmbFile[] childs = dir.listFiles();
 			if(childs.length > 0){
 				analyzeListSMB(childs);
@@ -312,8 +313,9 @@ public class ProcessLAN {
 	
 	public void analyzeListSMB(SmbFile[] childs){
 		try{
-			//start
 			list = new ArrayList<Files>();
+			files = new ArrayList<Files>();
+			folders = new ArrayList<Files>();
 			for (SmbFile f : childs) {
 				if (f.isFile()) {
 					Bitmap bitmap = null;
@@ -375,17 +377,7 @@ public class ProcessLAN {
 					ff.setPath(f.getCanonicalPath());
 					files.add(ff);
 				} else if (f.isDirectory()) {
-					if(LoadSetting.users.getIcon()==0)
-						icon = activity.getResources().getDrawable(
-							R.drawable.folder_blue);
-					else if(LoadSetting.users.getIcon()==1)
-						icon = activity.getResources().getDrawable(
-								R.drawable.folder_blue2);
-					else if(LoadSetting.users.getIcon()==2)
-						icon = activity.getResources().getDrawable(
-								R.drawable.folder_yellow);
-					else if(LoadSetting.users.getIcon()==3)
-						icon = activity.getResources().getDrawable(
+					icon = activity.getResources().getDrawable(
 								R.drawable.folder_yellow2);
 					Files ff = new Files();
 					ff.setIcon(icon);
