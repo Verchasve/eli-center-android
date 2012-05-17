@@ -52,4 +52,5 @@ public class LANActivity extends Activity {
 		menuInflater.inflate(R.menu.menulan, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
+	
 }

@@ -10,6 +10,7 @@ import java.util.Comparator;
 import java.util.Enumeration;
 
 import jcifs.smb.NtlmPasswordAuthentication;
+import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -20,13 +21,16 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.eli.filemanager.pojo.Files;
 import com.eli.util.Util;
@@ -49,6 +53,7 @@ public class ProcessLAN {
 	//File smb
 	ArrayList<Files> files,folders,list;
 	Drawable icon;
+	ArrayList<SmbFile> listFileCopy = new ArrayList<SmbFile>();
 
 	public ProcessLAN(LANActivity activity) {
 		this.activity = activity;
@@ -61,6 +66,7 @@ public class ProcessLAN {
 		folders= new ArrayList<Files>();
 		gridview = (GridView) activity.findViewById(R.id.gridview);
 		gridview.setOnItemClickListener(itemClick());
+		gridview.setOnItemLongClickListener(itemLongClick());
 		paths = new ArrayList<String>();
 		auth = new NtlmPasswordAuthentication(null,null,null);
 	}
@@ -413,4 +419,80 @@ public class ProcessLAN {
 		};
 		asyn.execute("");
 	}
+	
+	public void addFileDownload(String pathFile){
+		SmbFile from;
+		try {
+			from = new SmbFile(pathFile);
+			if(listFileCopy.contains(from)){
+				listFileCopy.remove(from);
+			} else {
+				listFileCopy.add(from);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void downloadFile(){
+		if(listFileCopy.size() == 0){
+			Toast.makeText(activity, "No file download!", Toast.LENGTH_SHORT);
+		}
+		for (SmbFile f : listFileCopy) {
+			try {
+				File root = Environment.getExternalStorageDirectory();
+				File sourceFile = new File(root + "/Download", f.getName());
+				SmbFile to;
+				to = new SmbFile(sourceFile.getAbsolutePath());
+				f.copyTo(to);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (SmbException e) {
+				e.printStackTrace();
+			}
+		}
+		refresh();
+	}
+
+	public OnItemLongClickListener itemLongClick() {
+		OnItemLongClickListener longClickListener = new OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Files object = (Files) parent.getItemAtPosition(position);
+				openOptionDialog(object.getName());
+				return true;
+			}
+		};
+		return longClickListener;
+	}
+
+	public void openOptionDialog(final String name) {
+		try {
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					activity);
+			builder.setTitle("Option");
+			builder.setItems(R.array.option_arr_lan,
+					new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							switch (which) {
+							case 0:
+								String urlFile = "smb://" + absoluteIP + getPath() + name;
+								addFileDownload(urlFile);
+								downloadFile();
+								break;
+							default:
+								break;
+							}
+						}
+
+					});
+			builder.setPositiveButton("Cancel", null);
+			builder.show();
+		} catch (Exception e) {
+			e.printStackTrace(System.out);
+		}
+	}
+
 }

@@ -12,6 +12,9 @@
         <item>Detail</item>
         <item>Favorite</item>
     </string-array>
+    <string-array name="option_arr_lan">
+        <item>Download file</item>
+    </string-array>
     <string-array name="directory_arr">
         <item>/mnt</item>
         <item>/mnt/sdcard</item>
