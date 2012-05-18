@@ -42,16 +42,16 @@ public class ProcessLAN {
 	LANActivity activity;
 	GridView gridview;
 	LANAdapter adapter;
-	String absoluteIP,username,password;
+	String absoluteIP, username, password;
 	boolean flag = true; // flag == true la scan all, false la absolute
 	ArrayList<String> paths;
 	String path;
 	NtlmPasswordAuthentication auth;
 	SmbFile dirRoot;
 	SmbFile[] childsRoot;
-	
-	//File smb
-	ArrayList<Files> files,folders,list;
+
+	// File smb
+	ArrayList<Files> files, folders, list;
 	Drawable icon;
 	ArrayList<SmbFile> listFileCopy = new ArrayList<SmbFile>();
 
@@ -61,32 +61,32 @@ public class ProcessLAN {
 	}
 
 	public void initObject() {
-		list= new ArrayList<Files>();
+		list = new ArrayList<Files>();
 		files = new ArrayList<Files>();
-		folders= new ArrayList<Files>();
+		folders = new ArrayList<Files>();
 		gridview = (GridView) activity.findViewById(R.id.gridview);
 		gridview.setOnItemClickListener(itemClick());
 		gridview.setOnItemLongClickListener(itemLongClick());
 		paths = new ArrayList<String>();
-		auth = new NtlmPasswordAuthentication(null,null,null);
+		auth = new NtlmPasswordAuthentication(null, null, null);
 	}
-	
-	public String getPath(){
+
+	public String getPath() {
 		path = "";
-		for (String a:paths){
-			path += File.separator+a;
+		for (String a : paths) {
+			path += File.separator + a;
 		}
 		return path;
 	}
-	
-	public void backButton(){
-		if(paths.size()>0){
-			paths.remove(paths.size()-1);
+
+	public void backButton() {
+		if (paths.size() > 0) {
+			paths.remove(paths.size() - 1);
 			loginToSharedFolder(username, password);
 		}
 	}
-	
-	private OnItemClickListener itemClick(){
+
+	private OnItemClickListener itemClick() {
 		OnItemClickListener action = new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
@@ -103,34 +103,35 @@ public class ProcessLAN {
 		return action;
 	}
 
-	private void sort(ArrayList<Files> lst,int sort) {
+	private void sort(ArrayList<Files> lst, int sort) {
 
-		switch (sort){					
-			case 0:
-				Collections.sort(lst, new Comparator<Files>() {
-						@Override
-						public int compare(Files object1, Files object2) {
-							return object1.getName().toLowerCase()
-									.compareTo(object2.getName().toLowerCase());
-						}
-				});
+		switch (sort) {
+		case 0:
+			Collections.sort(lst, new Comparator<Files>() {
+				@Override
+				public int compare(Files object1, Files object2) {
+					return object1.getName().toLowerCase()
+							.compareTo(object2.getName().toLowerCase());
+				}
+			});
 			break;
-			case 1:
-				Collections.sort(lst, new Comparator<Files>() {
-					@Override
-					public int compare(Files object1, Files object2) {
-						return object1.getSize().compareTo(object2.getSize());
-					}
-				});
-				break;
-			case 2:
-				Collections.sort(lst, new Comparator<Files>() {
-					@Override
-					public int compare(Files object1, Files object2) {
-						return object1.getModified().compareTo(object2.getModified());
-					}
-				});
-				break;
+		case 1:
+			Collections.sort(lst, new Comparator<Files>() {
+				@Override
+				public int compare(Files object1, Files object2) {
+					return object1.getSize().compareTo(object2.getSize());
+				}
+			});
+			break;
+		case 2:
+			Collections.sort(lst, new Comparator<Files>() {
+				@Override
+				public int compare(Files object1, Files object2) {
+					return object1.getModified().compareTo(
+							object2.getModified());
+				}
+			});
+			break;
 		}
 	}
 
@@ -174,29 +175,29 @@ public class ProcessLAN {
 		});
 		builder.show();
 	}
-	
-	public void checkValidIP(String ip){
-		try{
-			SmbFile smbFile = new SmbFile("smb://" + ip + "",auth);
+
+	public void checkValidIP(String ip) {
+		try {
+			SmbFile smbFile = new SmbFile("smb://" + ip + "", auth);
 			SmbFile[] childs = smbFile.listFiles();
-			if(childs.length > 0){
+			if (childs.length > 0) {
 				analyzeListSMB(childs);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			try{
+			try {
 				AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
 						LinearLayout.LayoutParams.FILL_PARENT,
 						LinearLayout.LayoutParams.WRAP_CONTENT);
-				
+
 				final LinearLayout root = new LinearLayout(activity);
 				root.setLayoutParams(lp);
 				root.setOrientation(LinearLayout.VERTICAL);
-				
+
 				final EditText usernameEt = new EditText(activity);
 				final EditText passwordEt = new EditText(activity);
-				
+
 				usernameEt.setLayoutParams(lp);
 				usernameEt.setLines(1);
 				usernameEt.setSingleLine(true);
@@ -205,52 +206,54 @@ public class ProcessLAN {
 				passwordEt.setLines(1);
 				passwordEt.setSingleLine(true);
 				passwordEt.setHint("Password");
-				
+
 				root.addView(usernameEt);
 				root.addView(passwordEt);
-				
+
 				builder.setView(root);
 				builder.setTitle("Authentication");
 				builder.setNegativeButton("Cancel", null);
-				builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						String user = usernameEt.getText().toString();
-						String pass = passwordEt.getText().toString();
-						if (user == null) {
-							user = "";
-						}
-						if(pass == null){
-							pass = "";
-						}
-						username = user;
-						password = pass;
-						loginToSharedFolder(user,pass);
-					}
-				});
+				builder.setPositiveButton("Ok",
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which) {
+								String user = usernameEt.getText().toString();
+								String pass = passwordEt.getText().toString();
+								if (user == null) {
+									user = "";
+								}
+								if (pass == null) {
+									pass = "";
+								}
+								username = user;
+								password = pass;
+								loginToSharedFolder(user, pass);
+							}
+						});
 				builder.show();
-			}catch (Exception ex) {
+			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
 	}
-	
-	public void loginToSharedFolder(String username, String password){
-		try{
+
+	public void loginToSharedFolder(String username, String password) {
+		try {
 			auth = new NtlmPasswordAuthentication(null, username, password);
-			dirRoot = new SmbFile("smb://" + absoluteIP + getPath(),auth);
+			dirRoot = new SmbFile("smb://" + absoluteIP + getPath(), auth);
 			childsRoot = dirRoot.listFiles();
-			if(childsRoot.length > 0){
+			if (childsRoot.length > 0) {
 				analyzeListSMB(childsRoot);
 			}
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			checkValidIP(absoluteIP);
 		}
 	}
-	
-	public void analyzeListSMB(SmbFile[] childs){
-		try{
+
+	public void analyzeListSMB(SmbFile[] childs) {
+		try {
 			list = new ArrayList<Files>();
 			files = new ArrayList<Files>();
 			folders = new ArrayList<Files>();
@@ -261,7 +264,7 @@ public class ProcessLAN {
 							|| Util.checkExtendFile(f.getName(), ".csv")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.text_file);
-					}else if (Util.checkExtendFile(f.getName(), ".xml")) {
+					} else if (Util.checkExtendFile(f.getName(), ".xml")) {
 						icon = activity.getResources().getDrawable(
 								R.drawable.xml_file);
 					} else if (Util.checkExtendFile(f.getName(), ".flv")
@@ -311,12 +314,13 @@ public class ProcessLAN {
 					ff.setFolder(false);
 					ff.setSize(f.length());
 					ff.setModified(f.lastModified());
-					ff.setChildFile(ff.getSize()/(1024)+" KB | "+ Util.format1.format(ff.getModified()));
+					ff.setChildFile(ff.getSize() / (1024) + " KB | "
+							+ Util.format1.format(ff.getModified()));
 					ff.setPath(f.getCanonicalPath());
 					files.add(ff);
 				} else if (f.isDirectory()) {
 					icon = activity.getResources().getDrawable(
-								R.drawable.folder_yellow2);
+							R.drawable.folder_yellow2);
 					Files ff = new Files();
 					ff.setIcon(icon);
 					ff.setName(f.getName());
@@ -325,19 +329,23 @@ public class ProcessLAN {
 					folders.add(ff);
 				}
 			}
-			sort(files,0);
-			sort(folders,0);
+			sort(files, 0);
+			sort(folders, 0);
 			list.addAll(folders);
 			list.addAll(files);
 			refresh();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 	AsyncTask<String, String, Void> asyn;
 	boolean running = true;
+
 	public void processScan() {
+		list = new ArrayList<Files>();
+		adapter = new LANAdapter(activity, R.layout.landetail, list);
+		gridview.setAdapter(adapter);
 		running = true;
 		asyn = new AsyncTask<String, String, Void>() {
 			@Override
@@ -346,11 +354,11 @@ public class ProcessLAN {
 						"Loading...", true);
 				mProgressDialog.setCancelable(true);
 				mProgressDialog.setOnCancelListener(new OnCancelListener() {
-		            @Override
-		            public void onCancel(DialogInterface dialog) {
-		                running = false;
-		            }
-		        });
+					@Override
+					public void onCancel(DialogInterface dialog) {
+						running = false;
+					}
+				});
 			}
 
 			protected void onProgressUpdate(String... progress) {
@@ -360,42 +368,18 @@ public class ProcessLAN {
 			@Override
 			protected Void doInBackground(String... params) {
 				try {
-					if(running){
-						InetAddress localhost = null;
-						for (Enumeration<NetworkInterface> en = NetworkInterface
-								.getNetworkInterfaces(); en.hasMoreElements();) {
-							NetworkInterface intf = en.nextElement();
-							for (Enumeration<InetAddress> enumIpAddr = intf
-									.getInetAddresses(); enumIpAddr
-									.hasMoreElements();) {
-								InetAddress inetAddress = enumIpAddr.nextElement();
-								publishProgress("Address : "
-										+ inetAddress.getHostAddress().toString());
-								if (!inetAddress.isLoopbackAddress()) {
-									publishProgress(inetAddress.getHostAddress()
-											.toString());
-									localhost = inetAddress;
-								}
-							}
-						}
+					if (running) {
+						Files files = null;
+						InetAddress localhost = InetAddress.getLocalHost();
 						byte[] ip = localhost.getAddress();
-						Files f ;
 						for (int i = 1; i <= 254; i++) {
 							ip[3] = (byte) i;
 							InetAddress address = InetAddress.getByAddress(ip);
-							if (address.isReachable(1000)) {
-								System.out
-										.println(address
-												+ " machine is turned on and can be pinged");
-								publishProgress(address.toString());
-							} else if (!address.getHostAddress().equals(
-									address.getHostName())) {
-								f =new Files();
-								f.setName(address.toString());
-								list.add(f);
-								publishProgress(address.toString());
-								System.out.println(address
-										+ " machine is known in a DNS lookup");
+							if (address.isReachable(1100)) {
+								files = new Files();
+								files.setName(address.toString());
+								adapter.notifyDataSetChanged();
+								System.out.println(address + " machine is turned on and can be pinged");
 							}
 						}
 					}
@@ -412,7 +396,7 @@ public class ProcessLAN {
 					refresh();
 				}
 			}
-			
+
 			protected void onCancelled() {
 				running = false;
 			};
