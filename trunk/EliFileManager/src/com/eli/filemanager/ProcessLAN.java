@@ -52,7 +52,7 @@ public class ProcessLAN {
 	Drawable drawable;
 
 	// File smb
-	ArrayList<Files> files, folders, list;
+	ArrayList<Files> files, folders, list, tempListComputer;
 	Drawable icon;
 	ArrayList<SmbFile> listFileCopy = new ArrayList<SmbFile>();
 
@@ -93,7 +93,11 @@ public class ProcessLAN {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Files object = (Files) arg0.getItemAtPosition(arg2);
-				paths.add(object.getName());
+				if(flag){
+					absoluteIP = object.getName();
+				}else{
+					paths.add(object.getName());
+				}
 				try {
 					loginToSharedFolder(username, password);
 				} catch (Exception e) {
@@ -137,6 +141,7 @@ public class ProcessLAN {
 	}
 
 	public void scanAll() {
+		flag = true;
 		processScan();
 	}
 
@@ -151,6 +156,7 @@ public class ProcessLAN {
 	}
 
 	public void scanAbsoluteIP() {
+		flag = false;
 		AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 		final EditText input = new EditText(activity);
 		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
@@ -401,6 +407,7 @@ public class ProcessLAN {
 									drawable = activity.getResources().getDrawable(R.drawable.computer);
 									files.setIcon(drawable);
 									list.add(files);
+									tempListComputer = list;
 									System.out.println(address + " machine is turned on and can be pinged");
 								}
 							}
