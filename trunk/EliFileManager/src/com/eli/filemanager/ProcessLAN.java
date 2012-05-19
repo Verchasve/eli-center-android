@@ -78,16 +78,29 @@ public class ProcessLAN {
 	public String getPath() {
 		path = "";
 		for (String a : paths) {
-			path += File.separator + a;
+			path +=  a+File.separator;
 		}
 		return path;
 	}
 
 	public void backButton() {
-		if (paths.size() > 0) {
-			paths.remove(paths.size() - 1);
-			loginToSharedFolder(username, password);
+		if(flag){
+
+			System.out.println(paths.size());
+			if (paths.size() > 1) {
+				paths.remove(paths.size() - 1);
+				loginToSharedFolder(username, password);
+			}else{
+				list = tempListComputer;
+				refresh();
+			}
+		}else{
+			if (paths.size() > 1) {
+				paths.remove(paths.size() - 1);
+				loginToSharedFolder(username, password);
+			}
 		}
+		
 	}
 
 	private OnItemClickListener itemClick() {
@@ -95,12 +108,8 @@ public class ProcessLAN {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Files object = (Files) arg0.getItemAtPosition(arg2);
-				if(flag){
-					absoluteIP = object.getName();
-				}else{
-					paths.add(object.getName());
-				}
+				Files object = (Files) arg0.getItemAtPosition(arg2);				
+				paths.add(object.getName());
 				try {
 					loginToSharedFolder(username, password);
 				} catch (Exception e) {
@@ -145,6 +154,8 @@ public class ProcessLAN {
 
 	public void scanAll() {
 		flag = true;
+		absoluteIP = "";
+		paths = new ArrayList<String>();
 		processScan();
 	}
 
@@ -179,6 +190,7 @@ public class ProcessLAN {
 					return;
 				} else {
 					absoluteIP = iptxt;
+					paths.add(absoluteIP);
 					checkValidIP(absoluteIP);
 				}
 			}
@@ -251,7 +263,8 @@ public class ProcessLAN {
 	public void loginToSharedFolder(String username, String password) {
 		try {
 			auth = new NtlmPasswordAuthentication(null, username, password);
-			dirRoot = new SmbFile("smb://" + absoluteIP + getPath(), auth);
+			System.out.println("Path: "+getPath());
+			dirRoot = new SmbFile("smb://" +getPath(), auth);
 			childsRoot = dirRoot.listFiles();
 			if (childsRoot.length > 0) {
 				analyzeListSMB(childsRoot);
@@ -358,6 +371,7 @@ public class ProcessLAN {
 					sort(folders, 0);
 					list.addAll(folders);
 					list.addAll(files);
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -368,7 +382,7 @@ public class ProcessLAN {
 			protected void onPostExecute(Void arg) {
 				if (mProgressDialog.isShowing()) {
 					mProgressDialog.dismiss();
-					adapter.notifyDataSetChanged();
+					refresh();
 				}
 			}
 		};
@@ -391,7 +405,7 @@ public class ProcessLAN {
 					@Override
 					public void onCancel(DialogInterface dialog) {
 						running = false;
-						adapter.notifyDataSetChanged();
+						refresh();
 					}
 				});
 			}
@@ -414,8 +428,6 @@ public class ProcessLAN {
 									.hasMoreElements();) {
 								InetAddress inetAddress = enumIpAddr.nextElement();
 								if (!inetAddress.isLoopbackAddress()) {
-									publishProgress(inetAddress.getHostAddress()
-											.toString());
 									localhost = inetAddress;
 								}
 							}
@@ -430,7 +442,9 @@ public class ProcessLAN {
 								System.out.println("I: "+i);
 								if (address.isReachable(1100)) {
 									files = new Files();
-									files.setName(address.toString());
+									String temp = address.toString();
+									temp = temp.substring(1,temp.length());
+									files.setName(temp);
 									drawable = activity.getResources().getDrawable(R.drawable.computer);
 									files.setIcon(drawable);
 									list.add(files);
@@ -450,7 +464,7 @@ public class ProcessLAN {
 			protected void onPostExecute(Void arg) {
 				if (mProgressDialog.isShowing()) {
 					mProgressDialog.dismiss();
-					adapter.notifyDataSetChanged();
+					refresh();
 				}
 			}
 
