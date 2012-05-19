@@ -357,6 +357,7 @@ public class ProcessLAN {
 					@Override
 					public void onCancel(DialogInterface dialog) {
 						running = false;
+						adapter.notifyDataSetChanged();
 					}
 				});
 			}
@@ -368,6 +369,7 @@ public class ProcessLAN {
 			@Override
 			protected Void doInBackground(String... params) {
 				try {
+					publishProgress("Scanning");
 					if (running) {
 						InetAddress localhost = null;
 						for (Enumeration<NetworkInterface> en = NetworkInterface
@@ -377,8 +379,6 @@ public class ProcessLAN {
 									.getInetAddresses(); enumIpAddr
 									.hasMoreElements();) {
 								InetAddress inetAddress = enumIpAddr.nextElement();
-								publishProgress("Address : "
-										+ inetAddress.getHostAddress().toString());
 								if (!inetAddress.isLoopbackAddress()) {
 									publishProgress(inetAddress.getHostAddress()
 											.toString());
@@ -389,13 +389,17 @@ public class ProcessLAN {
 						byte[] ip = localhost.getAddress();
 						Files files = null;
 						for (int i = 1; i <= 254; i++) {
-							ip[3] = (byte) i;
-							InetAddress address = InetAddress.getByAddress(ip);
-							if (address.isReachable(1100)) {
-								files = new Files();
-								files.setName(address.toString());
-								adapter.notifyDataSetChanged();
-								System.out.println(address + " machine is turned on and can be pinged");
+							if(running){
+								System.out.println(running);
+								ip[3] = (byte) i;
+								InetAddress address = InetAddress.getByAddress(ip);
+								System.out.println("I: "+i);
+								if (address.isReachable(1100)) {
+									files = new Files();
+									files.setName(address.toString());
+									list.add(files);
+									System.out.println(address + " machine is turned on and can be pinged");
+								}
 							}
 						}
 					}
@@ -409,7 +413,7 @@ public class ProcessLAN {
 			protected void onPostExecute(Void arg) {
 				if (mProgressDialog.isShowing()) {
 					mProgressDialog.dismiss();
-					refresh();
+					adapter.notifyDataSetChanged();
 				}
 			}
 
