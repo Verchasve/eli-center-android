@@ -70,6 +70,9 @@ public class ProcessLAN {
 		gridview.setOnItemLongClickListener(itemLongClick());
 		paths = new ArrayList<String>();
 		auth = new NtlmPasswordAuthentication(null, null, null);
+		
+		adapter = new LANAdapter(activity, R.layout.landetail, list);
+		gridview.setAdapter(adapter);
 	}
 
 	public String getPath() {
@@ -259,91 +262,117 @@ public class ProcessLAN {
 		}
 	}
 
-	public void analyzeListSMB(SmbFile[] childs) {
-		try {
-			list = new ArrayList<Files>();
-			files = new ArrayList<Files>();
-			folders = new ArrayList<Files>();
-			for (SmbFile f : childs) {
-				if (f.isFile()) {
-					Bitmap bitmap = null;
-					if (Util.checkExtendFile(f.getName(), ".txt")
-							|| Util.checkExtendFile(f.getName(), ".csv")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.text_file);
-					} else if (Util.checkExtendFile(f.getName(), ".xml")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.xml_file);
-					} else if (Util.checkExtendFile(f.getName(), ".flv")
-							|| Util.checkExtendFile(f.getName(), ".3gp")
-							|| Util.checkExtendFile(f.getName(), ".avi")) {
-						bitmap = ThumbnailUtils.createVideoThumbnail(
-								f.getCanonicalPath(), Thumbnails.MICRO_KIND);
-						icon = new BitmapDrawable(bitmap);
-					} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.mp3_file);
-					} else if (Util.checkExtendFile(f.getName(), ".doc")
-							|| Util.checkExtendFile(f.getName(), ".docx")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.word_file);
-					} else if (Util.checkExtendFile(f.getName(), ".ppt")
-							|| Util.checkExtendFile(f.getName(), ".pptx")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.pptx_file);
-					} else if (Util.checkExtendFile(f.getName(), ".xls")
-							|| Util.checkExtendFile(f.getName(), ".xlsx")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.xlsx_file);
-					} else if (Util.checkExtendFile(f.getName(), ".zip")
-							|| Util.checkExtendFile(f.getName(), ".rar")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.rar_file);
-					} else if (Util.checkExtendFile(f.getName(), ".jpg")
-							|| Util.checkExtendFile(f.getName(), ".jpeg")
-							|| Util.checkExtendFile(f.getName(), ".png")
-							|| Util.checkExtendFile(f.getName(), ".bmp")
-							|| Util.checkExtendFile(f.getName(), ".gif")) {
-						icon = new BitmapDrawable(bitmap);
-					} else if (Util.checkExtendFile(f.getName(), ".apk")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.apk_file);
-					} else if (Util.checkExtendFile(f.getName(), ".exe")) {
-						icon = activity.getResources().getDrawable(
-								R.drawable.exe_file);
-					} else {
-						icon = activity.getResources().getDrawable(
-								R.drawable.unknown_file);
+	public void analyzeListSMB(final SmbFile[] childs) {
+		list = new ArrayList<Files>();
+		asyn = new AsyncTask<String, String, Void>() {
+			@Override
+			protected void onPreExecute() {
+				mProgressDialog = ProgressDialog.show(activity, "",
+						"Loading...", true);
+			}
+
+			protected void onProgressUpdate(String... progress) {
+				mProgressDialog.setMessage(progress[0]);
+			}
+
+			@Override
+			protected Void doInBackground(String... params) {
+				publishProgress("Getting files");
+				try {
+					list = new ArrayList<Files>();
+					files = new ArrayList<Files>();
+					folders = new ArrayList<Files>();
+					for (SmbFile f : childs) {
+						if (f.isFile()) {
+							Bitmap bitmap = null;
+							if (Util.checkExtendFile(f.getName(), ".txt")
+									|| Util.checkExtendFile(f.getName(), ".csv")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.text_file);
+							} else if (Util.checkExtendFile(f.getName(), ".xml")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.xml_file);
+							} else if (Util.checkExtendFile(f.getName(), ".flv")
+									|| Util.checkExtendFile(f.getName(), ".3gp")
+									|| Util.checkExtendFile(f.getName(), ".avi")) {
+								bitmap = ThumbnailUtils.createVideoThumbnail(
+										f.getCanonicalPath(), Thumbnails.MICRO_KIND);
+								icon = new BitmapDrawable(bitmap);
+							} else if (Util.checkExtendFile(f.getName(), ".mp3")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.mp3_file);
+							} else if (Util.checkExtendFile(f.getName(), ".doc")
+									|| Util.checkExtendFile(f.getName(), ".docx")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.word_file);
+							} else if (Util.checkExtendFile(f.getName(), ".ppt")
+									|| Util.checkExtendFile(f.getName(), ".pptx")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.pptx_file);
+							} else if (Util.checkExtendFile(f.getName(), ".xls")
+									|| Util.checkExtendFile(f.getName(), ".xlsx")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.xlsx_file);
+							} else if (Util.checkExtendFile(f.getName(), ".zip")
+									|| Util.checkExtendFile(f.getName(), ".rar")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.rar_file);
+							} else if (Util.checkExtendFile(f.getName(), ".jpg")
+									|| Util.checkExtendFile(f.getName(), ".jpeg")
+									|| Util.checkExtendFile(f.getName(), ".png")
+									|| Util.checkExtendFile(f.getName(), ".bmp")
+									|| Util.checkExtendFile(f.getName(), ".gif")) {
+								icon = new BitmapDrawable(bitmap);
+							} else if (Util.checkExtendFile(f.getName(), ".apk")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.apk_file);
+							} else if (Util.checkExtendFile(f.getName(), ".exe")) {
+								icon = activity.getResources().getDrawable(
+										R.drawable.exe_file);
+							} else {
+								icon = activity.getResources().getDrawable(
+										R.drawable.unknown_file);
+							}
+							Files ff = new Files();
+							ff.setIcon(icon);
+							ff.setName(f.getName());
+							ff.setFolder(false);
+							ff.setSize(f.length());
+							ff.setModified(f.lastModified());
+							ff.setChildFile(ff.getSize() / (1024) + " KB | "
+									+ Util.format1.format(ff.getModified()));
+							ff.setPath(f.getCanonicalPath());
+							files.add(ff);
+						} else if (f.isDirectory()) {
+							icon = activity.getResources().getDrawable(
+									R.drawable.folder_yellow2);
+							Files ff = new Files();
+							ff.setIcon(icon);
+							ff.setName(f.getName());
+							ff.setFolder(true);
+							ff.setPath(f.getCanonicalPath());
+							folders.add(ff);
+						}
 					}
-					Files ff = new Files();
-					ff.setIcon(icon);
-					ff.setName(f.getName());
-					ff.setFolder(false);
-					ff.setSize(f.length());
-					ff.setModified(f.lastModified());
-					ff.setChildFile(ff.getSize() / (1024) + " KB | "
-							+ Util.format1.format(ff.getModified()));
-					ff.setPath(f.getCanonicalPath());
-					files.add(ff);
-				} else if (f.isDirectory()) {
-					icon = activity.getResources().getDrawable(
-							R.drawable.folder_yellow2);
-					Files ff = new Files();
-					ff.setIcon(icon);
-					ff.setName(f.getName());
-					ff.setFolder(true);
-					ff.setPath(f.getCanonicalPath());
-					folders.add(ff);
+					sort(files, 0);
+					sort(folders, 0);
+					list.addAll(folders);
+					list.addAll(files);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				return null;
+			}
+
+			@Override
+			protected void onPostExecute(Void arg) {
+				if (mProgressDialog.isShowing()) {
+					mProgressDialog.dismiss();
+					adapter.notifyDataSetChanged();
 				}
 			}
-			sort(files, 0);
-			sort(folders, 0);
-			list.addAll(folders);
-			list.addAll(files);
-			refresh();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		};
+		asyn.execute("");
 	}
 
 	AsyncTask<String, String, Void> asyn;
@@ -351,8 +380,6 @@ public class ProcessLAN {
 
 	public void processScan() {
 		list = new ArrayList<Files>();
-		adapter = new LANAdapter(activity, R.layout.landetail, list);
-		gridview.setAdapter(adapter);
 		running = true;
 		asyn = new AsyncTask<String, String, Void>() {
 			@Override
