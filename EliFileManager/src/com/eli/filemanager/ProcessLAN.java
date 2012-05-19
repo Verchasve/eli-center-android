@@ -369,9 +369,25 @@ public class ProcessLAN {
 			protected Void doInBackground(String... params) {
 				try {
 					if (running) {
-						Files files = null;
-						InetAddress localhost = InetAddress.getLocalHost();
+						InetAddress localhost = null;
+						for (Enumeration<NetworkInterface> en = NetworkInterface
+								.getNetworkInterfaces(); en.hasMoreElements();) {
+							NetworkInterface intf = en.nextElement();
+							for (Enumeration<InetAddress> enumIpAddr = intf
+									.getInetAddresses(); enumIpAddr
+									.hasMoreElements();) {
+								InetAddress inetAddress = enumIpAddr.nextElement();
+								publishProgress("Address : "
+										+ inetAddress.getHostAddress().toString());
+								if (!inetAddress.isLoopbackAddress()) {
+									publishProgress(inetAddress.getHostAddress()
+											.toString());
+									localhost = inetAddress;
+								}
+							}
+						}
 						byte[] ip = localhost.getAddress();
+						Files files = null;
 						for (int i = 1; i <= 254; i++) {
 							ip[3] = (byte) i;
 							InetAddress address = InetAddress.getByAddress(ip);
