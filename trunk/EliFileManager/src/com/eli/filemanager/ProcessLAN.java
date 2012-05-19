@@ -49,6 +49,7 @@ public class ProcessLAN {
 	NtlmPasswordAuthentication auth;
 	SmbFile dirRoot;
 	SmbFile[] childsRoot;
+	Drawable drawable;
 
 	// File smb
 	ArrayList<Files> files, folders, list;
@@ -397,6 +398,8 @@ public class ProcessLAN {
 								if (address.isReachable(1100)) {
 									files = new Files();
 									files.setName(address.toString());
+									drawable = activity.getResources().getDrawable(R.drawable.computer);
+									files.setIcon(drawable);
 									list.add(files);
 									System.out.println(address + " machine is turned on and can be pinged");
 								}
