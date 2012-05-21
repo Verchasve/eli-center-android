@@ -510,11 +510,11 @@ public class ProcessLAN {
 				if(smbFile.isFile()){
 					File fileDownload = new File("/mnt/sdcard/download", smbFile.getName());
 					copyFile(smbFile, fileDownload);
-					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT);
+					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT).show();
 				} else if(smbFile.isDirectory()){
 					File fileDownload = new File("/mnt/sdcard/download", smbFile.getName());
 					copyDirectory(smbFile, fileDownload);
-					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT);
+					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT).show();
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
