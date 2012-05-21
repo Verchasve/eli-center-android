@@ -117,15 +117,16 @@ public class ProcessLAN {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Files object = (Files) arg0.getItemAtPosition(arg2);				
-				paths.add(object.getName());
-				try {
-					loginToSharedFolder(username, password);
-					address.setText(getPath());
-				} catch (Exception e) {
-					e.printStackTrace();
+				Files object = (Files) arg0.getItemAtPosition(arg2);		
+				if(object.isFolder()){
+					paths.add(object.getName());
+					try {
+						loginToSharedFolder(username, password);
+						address.setText(getPath());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-				
 			}
 		};
 		return action;
@@ -456,6 +457,7 @@ public class ProcessLAN {
 									String temp = address.toString();
 									temp = temp.substring(1,temp.length());
 									files.setName(temp);
+									files.setFolder(true);
 									drawable = activity.getResources().getDrawable(R.drawable.computer);
 									files.setIcon(drawable);
 									list.add(files);
