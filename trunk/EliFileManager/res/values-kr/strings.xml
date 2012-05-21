@@ -108,4 +108,5 @@
         <item>50000</item>
         <item>100000</item>
     </string-array>
+    <string name="switch_to">로 전환</string>
 </resources>

@@ -108,7 +108,7 @@ public class UpdateActivity extends Activity {
 	}
 
 	public void nextToListActivity() {
-		Intent intent = new Intent(this, LANActivity.class);
+		Intent intent = new Intent(this, ListActivity.class);
 		startActivity(intent);
 		finish();
 	}

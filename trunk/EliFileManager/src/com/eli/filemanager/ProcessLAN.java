@@ -15,6 +15,7 @@ import jcifs.smb.SmbFile;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -550,4 +551,9 @@ public class ProcessLAN {
 		}
 	}
 
+	public void switchTo() {
+		Intent intent = new Intent(activity,ListActivity.class);
+		activity.startActivity(intent);
+		activity.finish();
+	}
 }
