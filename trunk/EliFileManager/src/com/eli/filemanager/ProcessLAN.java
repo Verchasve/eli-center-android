@@ -1,9 +1,13 @@
 package com.eli.filemanager;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.NetworkInterface;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,6 +16,7 @@ import java.util.Enumeration;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbException;
 import jcifs.smb.SmbFile;
+import jcifs.smb.SmbFileInputStream;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -22,7 +27,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.provider.MediaStore.Video.Thumbnails;
 import android.view.View;
 import android.widget.AdapterView;
@@ -57,7 +61,7 @@ public class ProcessLAN {
 	// File smb
 	ArrayList<Files> files, folders, list, tempListComputer;
 	Drawable icon;
-	ArrayList<SmbFile> listFileCopy = new ArrayList<SmbFile>();
+	ArrayList<String> listFileCopy = new ArrayList<String>();
 
 	public ProcessLAN(LANActivity activity) {
 		this.activity = activity;
@@ -483,16 +487,10 @@ public class ProcessLAN {
 	}
 	
 	public void addFileDownload(String pathFile){
-		SmbFile from;
-		try {
-			from = new SmbFile(pathFile);
-			if(listFileCopy.contains(from)){
-				listFileCopy.remove(from);
-			} else {
-				listFileCopy.add(from);
-			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+		if(listFileCopy.contains(pathFile)){
+			listFileCopy.remove(pathFile);
+		} else {
+			listFileCopy.add(pathFile);
 		}
 	}
 	
@@ -500,16 +498,31 @@ public class ProcessLAN {
 		if(listFileCopy.size() == 0){
 			Toast.makeText(activity, "No file download!", Toast.LENGTH_SHORT);
 		}
-		for (SmbFile f : listFileCopy) {
+		File fParent = new File("/mnt/sdcard/download");
+		if(!fParent.exists()){
+			fParent.mkdir();
+		}
+		for (String fileName : listFileCopy) {
 			try {
-				File root = Environment.getExternalStorageDirectory();
-				File sourceFile = new File(root + "/download", f.getName());
-				SmbFile to;
-				to = new SmbFile(sourceFile.getAbsolutePath());
-				f.copyTo(to);
+				SmbFile smbFile = new SmbFile(fileName);
+				if(smbFile.isFile()){
+					File fileDownload = new File("/mnt/sdcard/download", smbFile.getName());
+					copyFile(smbFile, fileDownload);
+					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT);
+				} else if(smbFile.isDirectory()){
+					File fileDownload = new File("/mnt/sdcard/download", smbFile.getName());
+					copyDirectory(smbFile, fileDownload);
+					Toast.makeText(activity, "Download file successfull", Toast.LENGTH_SHORT);
+				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (SmbException e) {
+				e.printStackTrace();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
@@ -557,6 +570,33 @@ public class ProcessLAN {
 		}
 	}
 
+	// copy file
+	public void copyFile(SmbFile fileSource, File filePaste)
+			throws IOException {
+		FileOutputStream out = new FileOutputStream(filePaste);
+		SmbFileInputStream in = new SmbFileInputStream(fileSource.getCanonicalPath());
+		int n;
+		while(( n = in.read()) > 0 )
+		{
+			out.write(n);
+		}
+	}
+
+	// copy directory
+	public void copyDirectory(SmbFile fileSource, File filePaste)
+			throws IOException {
+		if (fileSource.isDirectory()) {
+			if (!filePaste.exists()) {
+				filePaste.mkdirs();
+			}
+			String[] children = fileSource.list();
+			for (int i = 0; i < children.length; i++) {
+				copyDirectory(new SmbFile(fileSource, children[i]), new File(filePaste, children[i]));
+			}
+		} else {
+			copyFile(fileSource, filePaste);
+		}
+	}
 	public void switchTo() {
 		Intent intent = new Intent(activity,ListActivity.class);
 		activity.startActivity(intent);
