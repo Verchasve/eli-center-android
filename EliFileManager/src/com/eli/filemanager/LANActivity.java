@@ -42,6 +42,9 @@ public class LANActivity extends Activity {
 			case R.id.absip:
 				processLAN.scanAbsoluteIP();
 				break;	
+			case R.id.back:
+				processLAN.switchTo();
+				break;	
 		}
 		return super.onOptionsItemSelected(item);
 	}

@@ -1269,4 +1269,10 @@ public class ProcessFile {
 		return false;
 	}
 
+	public void switchTo() {
+		Intent intent = new Intent(activity,LANActivity.class);
+		activity.startActivity(intent);
+		activity.finish();
+	}
+
 }

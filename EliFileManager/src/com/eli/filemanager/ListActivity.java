@@ -195,8 +195,8 @@ public class ListActivity extends Activity {
 			process.setting();
 			finish();
 			return true;
-		case R.id.history:
-			process.history();
+		case R.id.switch_to:
+			process.switchTo();
 			return true;
 		case R.id.multiSelect:
 			if(process.isMultiSelect == false){

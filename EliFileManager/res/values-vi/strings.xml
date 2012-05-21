@@ -108,4 +108,5 @@
         <item>50000</item>
         <item>100000</item>
     </string-array>
+    <string name="switch_to">Chuyển sang</string>
 </resources>

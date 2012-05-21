@@ -25,8 +25,8 @@
 	            android:title="@string/setting"/>
 	        <item android:id="@+id/sort"
 			    android:title="@string/sort"/>
-	        <item android:id="@+id/history"
-			    android:title="@string/history"/>
+	        <item android:id="@+id/switch_to"
+			    android:title="@string/switch_to"/>
 	    </menu>
     </item>
 </menu>

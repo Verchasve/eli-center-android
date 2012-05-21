@@ -111,4 +111,5 @@
         <item>50000</item>
         <item>100000</item>
     </string-array>
+	<string name="switch_to">Switch to</string>
 </resources>
