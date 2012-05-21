@@ -574,12 +574,17 @@ public class ProcessLAN {
 	public void copyFile(SmbFile fileSource, File filePaste)
 			throws IOException {
 		FileOutputStream out = new FileOutputStream(filePaste);
-		SmbFileInputStream in = new SmbFileInputStream(fileSource.getCanonicalPath());
-		int n;
+		SmbFileInputStream in = new SmbFileInputStream(fileSource);
+		byte[] buf = new byte[1024];
+		in.read(buf);
+		do {
+			out.write(buf);
+		} while (in.read(buf) != -1);
+		/*int n;
 		while(( n = in.read()) > 0 )
 		{
 			out.write(n);
-		}
+		}*/
 	}
 
 	// copy directory
