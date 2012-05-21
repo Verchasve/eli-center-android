@@ -15,8 +15,8 @@ import jcifs.smb.SmbFile;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -31,6 +31,7 @@ import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.eli.filemanager.pojo.Files;
@@ -51,6 +52,7 @@ public class ProcessLAN {
 	SmbFile dirRoot;
 	SmbFile[] childsRoot;
 	Drawable drawable;
+	TextView address;
 
 	// File smb
 	ArrayList<Files> files, folders, list, tempListComputer;
@@ -66,6 +68,7 @@ public class ProcessLAN {
 		list = new ArrayList<Files>();
 		files = new ArrayList<Files>();
 		folders = new ArrayList<Files>();
+		address = (TextView) activity.findViewById(R.id.idAddress);
 		gridview = (GridView) activity.findViewById(R.id.gridview);
 		gridview.setOnItemClickListener(itemClick());
 		gridview.setOnItemLongClickListener(itemLongClick());
@@ -74,6 +77,7 @@ public class ProcessLAN {
 		
 		adapter = new LANAdapter(activity, R.layout.landetail, list);
 		gridview.setAdapter(adapter);
+		address.setText("Choose Machine to connect");
 	}
 
 	public String getPath() {
@@ -113,9 +117,11 @@ public class ProcessLAN {
 				paths.add(object.getName());
 				try {
 					loginToSharedFolder(username, password);
+					address.setText(getPath());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 			}
 		};
 		return action;
