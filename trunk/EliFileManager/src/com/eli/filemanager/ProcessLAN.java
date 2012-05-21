@@ -582,11 +582,6 @@ public class ProcessLAN {
 		do {
 			out.write(buf);
 		} while (in.read(buf) != -1);
-		/*int n;
-		while(( n = in.read()) > 0 )
-		{
-			out.write(n);
-		}*/
 	}
 
 	// copy directory
