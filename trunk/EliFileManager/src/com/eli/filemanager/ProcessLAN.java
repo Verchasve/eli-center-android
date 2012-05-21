@@ -503,7 +503,7 @@ public class ProcessLAN {
 		for (SmbFile f : listFileCopy) {
 			try {
 				File root = Environment.getExternalStorageDirectory();
-				File sourceFile = new File(root + "/Download", f.getName());
+				File sourceFile = new File(root + "/download", f.getName());
 				SmbFile to;
 				to = new SmbFile(sourceFile.getAbsolutePath());
 				f.copyTo(to);
