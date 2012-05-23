@@ -5,58 +5,98 @@
     android:versionName="2.3" >
 
     <uses-sdk android:minSdkVersion="8" />
-	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	<uses-permission android:name="android.permission.INTERNET"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name" >
         <activity
             android:name=".UpdateActivity"
-            android:label="@string/app_name"
-            android:configChanges="locale|keyboardHidden|orientation" >
+            android:configChanges="locale|keyboardHidden|orientation"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="@string/app_name"
-            android:configChanges="locale|keyboardHidden|orientation" >
+            android:configChanges="locale|keyboardHidden|orientation"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.LISTACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" android:configChanges="locale|keyboardHidden|orientation">
+        <activity
+            android:name=".SearchActivity"
+            android:configChanges="locale|keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="com.eli.filemanager.SEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".SettingActivity" android:configChanges="locale|keyboardHidden|orientation">
+        <activity
+            android:name=".SettingActivity"
+            android:configChanges="locale|keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="com.eli.filemanager.SETTING" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListSearchActivity" android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".ListSearchActivity"
+            android:configChanges="keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="com.eli.filemanager.LISTSEARCH" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".HistoryActivity" android:configChanges="keyboardHidden|orientation">
+        <activity
+            android:name=".HistoryActivity"
+            android:configChanges="keyboardHidden|orientation" >
             <intent-filter>
                 <action android:name="com.eli.filemanager.HISTORY" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>       
-        <activity android:name=".LANActivity" android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <action android:name="com.eli.filemanager.LANActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LANActivity"
+            android:configChanges="keyboardHidden|orientation" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.LANActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FtpClientActivity" >
+        </activity>
+        <activity android:name=".MainActivity" >
+        </activity>
+        <activity android:name=".MyUploadActivity" >
+        </activity>
+        <activity android:name=".MyDownloadActivity" >
+        </activity>
+        <activity android:name=".MyFilesActivity" >
+        </activity>
+        <activity android:name="ftp.action.LogoutActivity" >
+        </activity>
+        <activity android:name=".MainActivity2" >
+        </activity>
+        <activity android:name=".AddHostActivity" />
+        <activity android:name=".EditHostActivity" />
+        <activity android:name=".DownloadActivity" >
+        </activity>
+        <activity android:name=".UploadActivity" >
+        </activity>
     </application>
+
 </manifest>
