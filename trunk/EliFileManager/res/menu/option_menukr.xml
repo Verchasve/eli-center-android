@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/downloadkr" android:title="@string/downloadkr" android:icon="@drawable/download"/>
+    <item android:id="@+id/new_folderkr" android:title="@string/newfolderkr" android:icon="@drawable/folder_new"/>
+    <item android:id="@+id/deletekr" android:title="@string/deletekr" android:icon="@drawable/deletered"/>
+    <item android:id="@+id/changeviewkr" android:title="@string/changeviewkr" android:icon="@drawable/chang_view"/>
+    <item android:id="@+id/sortkr" android:title="@string/sortkr" android:icon="@drawable/sort"/>
+</menu>

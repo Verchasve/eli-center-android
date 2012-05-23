@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:id="@+id/downloadvn" android:title="@string/downloadvn" android:icon="@drawable/download"/>
+    <item android:id="@+id/new_foldervn" android:title="@string/newfoldervn" android:icon="@drawable/folder_new"/>
+    <item android:id="@+id/deletevn" android:title="@string/deletevn" android:icon="@drawable/deletered"/>
+    <item android:id="@+id/changeviewvn" android:title="@string/changeviewvn" android:icon="@drawable/chang_view"/>
+    <item android:id="@+id/sortvn" android:title="@string/sortvn" android:icon="@drawable/sort"/>
+</menu>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+<item android:id="@+id/upload" android:title="@string/upload" android:icon="@drawable/upload"/>
+    <item android:id="@+id/new_folder_upload" android:title="@string/newfolder" android:icon="@drawable/folder_new"/>
+    <item android:id="@+id/copy_upload" android:title="@string/copy" android:icon="@drawable/copy"/>
+     <item android:id="@+id/past_upload" android:title="@string/past" android:icon="@drawable/paste"/>
+     <item android:id="@+id/updelete" android:title="@string/delete" android:icon="@drawable/deletered"/>
+    <item android:id="@+id/changeview_upload" android:title="@string/changeview" android:icon="@drawable/chang_view"/>
+    <item android:id="@+id/sort_upload" android:title="@string/sort" android:icon="@drawable/sort"/>
+</menu>
