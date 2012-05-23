@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+     <TextView
+            android:id="@+id/edithostName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+       <EditText
+           android:inputType="textFilter"
+            android:id="@+id/txteditHost"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+            <requestFocus />
+        </EditText>  
+        
+        <TextView
+            android:id="@+id/editPort"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:inputType="textFilter"
+            android:id="@+id/txteditPort"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </EditText> 
+    	<TextView
+            android:id="@+id/editUsername"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:inputType="textFilter"
+            android:id="@+id/txteditUserName"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+            
+        </EditText>        
+        <TextView
+            android:id="@+id/editPass"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>        
+        <EditText
+            android:id="@+id/txteditPass"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"/>
+
+
+     <!--  <TextView
+            android:id="@+id/editlocalDir"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />        
+        <EditText
+            android:id="@+id/txteditLocalDir"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/>
+         <TextView
+            android:id="@+id/editremoteDir"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />        
+        <EditText
+            android:id="@+id/txteditRemoteDir"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"/> -->
+        
+        <!--  <TableRow
+            android:id="@+id/tableRowActive"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+             <RadioButton
+                 android:id="@+id/radioButtonActive"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="RadioButton" />
+
+             <RadioButton
+                 android:id="@+id/radioButtonInActive"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text="RadioButton" />
+            
+         </TableRow> -->
+
+      <!--   <TableRow
+            android:id="@+id/tableRowedit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/editbuttonSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/editbuttoncancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </TableRow> -->
+
+</LinearLayout>

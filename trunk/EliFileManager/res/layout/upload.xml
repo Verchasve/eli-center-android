@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+   
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+		<!-- <LinearLayout
+            android:id="@+id/controls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="horizontal"
+             >
+
+           
+
+            <Button
+                android:id="@+id/bntUpload"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:text="Upload" />
+            
+            <Button
+                android:id="@+id/bntNewFolder"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                style="@drawable/bt_new"
+                />
+        </LinearLayout> -->
+        <RelativeLayout
+            android:id="@+id/locationLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" 
+            android:layout_below="@+id/controls">
+
+            <EditText
+                android:inputType="textFilter"
+                android:id="@+id/locaton"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"                
+                android:layout_alignRight="@+id/bntGo"
+                android:hint="Location" 
+                android:textSize="15sp"/>
+
+            <!-- <Button
+                android:id="@+id/bntGo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Go" /> -->
+
+            <Button
+                android:id="@+id/buttonGoUpload"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignBaseline="@+id/locaton"
+                android:layout_alignBottom="@+id/locaton"
+                android:layout_alignRight="@+id/locaton"
+                android:background="@drawable/button_go" />
+
+            <Button
+                android:id="@+id/buttonUpload"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/locaton"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/locaton"
+                android:background="@drawable/button_upload" />
+                
+        </RelativeLayout>
+
+            <LinearLayout android:layout_alignParentBottom="true"
+		        android:layout_centerHorizontal="true" android:layout_marginBottom="58px"
+		        android:layout_height="80px" android:layout_width="250px"
+		        android:id="@+id/lin_progress_barup" android:visibility="invisible">
+		        <ProgressBar android:id="@+id/ProgressBar01up"
+		            android:layout_width="wrap_content" android:layout_height="wrap_content"></ProgressBar>
+		        <TextView android:id="@+id/tv_waitingup" android:layout_height="fill_parent"
+		            android:layout_width="fill_parent" android:gravity="center_vertical"
+		            android:textStyle="bold" android:text="Waiting..."
+		            android:layout_marginLeft="10px" android:textSize="30px"
+		            android:textColor="#32CD32"></TextView>
+		    </LinearLayout>
+		    
+             <TextView
+             android:id="@+id/tv_tb"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentLeft="true"
+             android:layout_below="@+id/locationLayout"
+             android:text="TextView" />
+        <ListView
+            android:id="@+id/lstFile"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/locationLayout" >
+        </ListView>
+
+        <GridView android:id="@+id/gridUpload"
+        android:layout_width="match_parent" 
+        android:layout_height="wrap_content"
+        android:numColumns="auto_fit"
+        android:layout_below="@+id/locationLayout"
+        android:visibility="invisible"
+        android:horizontalSpacing="10dp"
+        android:verticalSpacing="10dp">
+        
+    </GridView>
+    </RelativeLayout>
+
+</LinearLayout>
