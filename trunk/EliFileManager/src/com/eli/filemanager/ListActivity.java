@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Locale;
 
+import org.apache.commons.net.ftp.FTPClient;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,6 +43,7 @@ import com.eli.util.Util;
 
 public class ListActivity extends Activity {
 
+	int mode = 0;
 	ProcessFile process;
 
 	@Override
@@ -172,6 +175,7 @@ public class ListActivity extends Activity {
 			process.createFolder();
 			return true;
 		case R.id.sort:
+			mode = 1;
 			registerForContextMenu(getCurrentFocus());
 			openContextMenu(getCurrentFocus());
 			return true;
@@ -196,7 +200,9 @@ public class ListActivity extends Activity {
 			finish();
 			return true;
 		case R.id.switch_to:
-			process.switchTo();
+			mode = 2;
+			registerForContextMenu(getCurrentFocus());
+			openContextMenu(getCurrentFocus());
 			return true;
 		case R.id.multiSelect:
 			if(process.isMultiSelect == false){
@@ -369,7 +375,17 @@ public class ListActivity extends Activity {
 	                                ContextMenuInfo menuInfo) {
 	    super.onCreateContextMenu(menu, v, menuInfo);
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.sorting, menu);
+	    switch (mode) {
+		case 1:
+			inflater.inflate(R.menu.sorting, menu);
+			break;
+		case 2:
+			inflater.inflate(R.menu.switchto, menu);
+			break;
+		default:
+			break;
+		}
+	    
 	}
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
@@ -385,6 +401,21 @@ public class ListActivity extends Activity {
 		case R.id.contextMenuSortingName:
 			process.sortType = 0;
 			refresh();
+			break;
+		case R.id.local:
+			Intent intentLocal = new Intent(this,ListActivity.class);
+			startActivity(intentLocal);
+			finish();
+			break;
+		case R.id.lan:
+			Intent intentLan = new Intent(this,LANActivity.class);
+			startActivity(intentLan);
+			finish();
+			break;
+		case R.id.ftp:
+			Intent intentFTP = new Intent(this,FTPClient.class);
+			startActivity(intentFTP);
+			finish();
 			break;
 		default:
 			break;
