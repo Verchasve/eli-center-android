@@ -413,7 +413,7 @@ public class ListActivity extends Activity {
 			finish();
 			break;
 		case R.id.ftp:
-			Intent intentFTP = new Intent(this,FTPClient.class);
+			Intent intentFTP = new Intent(this,FtpClientActivity.class);
 			startActivity(intentFTP);
 			finish();
 			break;

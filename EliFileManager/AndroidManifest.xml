@@ -78,24 +78,80 @@
             </intent-filter>
         </activity>
         <activity android:name=".FtpClientActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.FtpClientActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".MainActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.MainActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".MyUploadActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.MyUploadActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".MyDownloadActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.MyDownloadActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".MyFilesActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.MyFilesActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name="ftp.action.LogoutActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.ftp.action.LogoutActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".MainActivity2" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.MainActivity2" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".AddHostActivity" />
-        <activity android:name=".EditHostActivity" />
+        	<intent-filter>
+                <action android:name="com.eli.filemanager.AddHostActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        <activity android:name=".EditHostActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.EditHostActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>        
         <activity android:name=".DownloadActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.DownloadActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity android:name=".UploadActivity" >
+            <intent-filter>
+                <action android:name="com.eli.filemanager.UploadActivity" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
