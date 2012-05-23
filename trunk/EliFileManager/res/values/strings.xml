@@ -26,13 +26,13 @@
     <string-array name="background_arr">
         <item>Black</item>
         <item>Gray</item>
-        <item>Blue</item> 
-        <item>Cyan</item> 
-        <item>Orange</item> 
-        <item>Green</item> 
-        <item>Dark Green</item> 
+        <item>Blue</item>
+        <item>Cyan</item>
+        <item>Orange</item>
+        <item>Green</item>
+        <item>Dark Green</item>
     </string-array>
-    <string-array name="view_arr">        
+    <string-array name="view_arr">
         <item>GridView</item>
         <item>ListView</item>
         <item>Detail</item>
@@ -42,12 +42,13 @@
         <item>Korean</item>
         <item>Vietnamese</item>
     </string-array>
-	<string-array name="icon_arr">
+    <string-array name="icon_arr">
         <item>Blue 1</item>
         <item>Blue 2</item>
         <item>Yellow 1</item>
         <item>Yellow 2</item>
     </string-array>
+
     <string name="new_folder">New folder</string>
     <string name="multiSelect">Multi Select</string>
     <string name="changeView">Change View</string>
@@ -67,33 +68,29 @@
     <string name="type">Type</string>
     <string name="backgroundcolor">Background Color</string>
     <string name="displaystyle">Display Style</string>
-    
     <string name="saving">Saving</string>
     <string name="downloading">Downloading</string>
     <string name="loading">Loading</string>
-	<string name="language">Language</string>
-	<string name="choosebgcolor">Choose a color background</string>
-	<string name="choosedisplay">Choose a display style</string>
-	<string name="chooselanguage">Choose a language</string>
-	<string name="chooseIcon">Choose a icon</string>
-	<string name="option">Option</string>
-	<string name="inclcude">Include sub folder</string>
-	
-	<string name="name">Name</string>
-	<string name="lastmodified">Last modified</string>
-	<string name="size">Size</string>
-	<string name="sort">Sort</string>
-	<string name="refresh">Refresh</string>
-	
-	<string name="bookmark">Bookmarks</string>
-	
-	<string name="sizeless">Size less than (KB)</string>
-	<string name="dayago">Last modified (day ago)</string>
-	<string name="history">History</string>
-	<string name="clear">Clear</string>
-	
-	<string-array name="day_arr">
-	    <item></item>
+    <string name="language">Language</string>
+    <string name="choosebgcolor">Choose a color background</string>
+    <string name="choosedisplay">Choose a display style</string>
+    <string name="chooselanguage">Choose a language</string>
+    <string name="chooseIcon">Choose a icon</string>
+    <string name="option">Option</string>
+    <string name="inclcude">Include sub folder</string>
+    <string name="name">Name</string>
+    <string name="lastmodified">Last modified</string>
+    <string name="size">Size</string>
+    <string name="sort">Sort</string>
+    <string name="refresh">Refresh</string>
+    <string name="bookmark">Bookmarks</string>
+    <string name="sizeless">Size less than (KB)</string>
+    <string name="dayago">Last modified (day ago)</string>
+    <string name="history">History</string>
+    <string name="clear">Clear</string>
+
+    <string-array name="day_arr">
+        <item></item>
         <item>A week ago</item>
         <item>Two weeks ago</item>
         <item>Three weeks ago</item>
@@ -103,13 +100,35 @@
         <item>Nine months ago</item>
         <item>Twelve months ago</item>
     </string-array>
-    
-	<string-array name="size_arr">
+    <string-array name="size_arr">
         <item></item>
         <item>5000</item>
         <item>20000</item>
         <item>50000</item>
         <item>100000</item>
     </string-array>
-	<string name="switch_to">Switch to</string>
+
+    <string name="switch_to">Switch to</string>
+    <string name="download">Download</string>
+    <string name="newfolder"> New folder</string>
+    <string name="past">Paste</string>
+    <string name="changeview">Change view</string>
+    <string name="upload">Upload</string>
+    <string name="downloadvn">Tải xuống</string>
+    <string name="newfoldervn">Thư mục mới</string>
+    <string name="pastvn">Dán</string>
+    <string name="changeviewvn">Đổi giao diện</string>
+    <string name="uploadvn">Tải lên</string>
+    <string name="deletevn">Xóa</string>
+    <string name="copyvn">Chép</string>
+    <string name="sortvn">Sắp xếp</string>
+    <string name="downloadkr">다운로드</string>
+    <string name="newfolderkr">새폴더</string>
+    <string name="pastkr">붙여넣기</string>
+    <string name="changeviewkr">화면 변경</string>
+    <string name="uploadkr">업로드</string>
+    <string name="deletekr">지우다</string>
+    <string name="copykr">복사</string>
+    <string name="sortkr">정렬</string>
+
 </resources>
