@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+	<!-- <TableRow
+        android:id="@+id/tableRow11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageuploadCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert_copy" />
+        <TextView
+            android:id="@+id/iduploadcopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Copy" android:paddingLeft="15dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow> -->
+    <TableRow
+        android:id="@+id/tableRowcopy1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageRenameCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert_rename" />
+
+        <TextView
+            android:id="@+id/idrenameCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rename" android:paddingLeft="15dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRowCopy2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+         <ImageView
+            android:id="@+id/imageDeleteCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert_delete" />
+         
+        <TextView
+            android:id="@+id/iddeleteCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delete" android:paddingLeft="15dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/tableRowCopy3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+         <ImageView
+            android:id="@+id/imageDetailCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/alert_detail" />
+         
+        <TextView
+            android:id="@+id/iddetailCopy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detail" android:paddingLeft="15dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </TableRow>
+
+</LinearLayout>

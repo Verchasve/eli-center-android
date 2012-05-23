@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#fff"
+    android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/locationLayouta"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:inputType="textFilter"
+                android:id="@+id/locatons"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"                
+                android:layout_alignRight="@+id/bntGos"
+                android:hint="Locations" />
+
+            <Button
+                android:id="@+id/bntGos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="Gos" />
+        </RelativeLayout>
+        
+    <GridView android:id="@+id/grid"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent"
+        android:numColumns="3"
+        android:background="#000000">
+        
+    </GridView>
+</LinearLayout>
