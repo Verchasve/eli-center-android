@@ -93,7 +93,9 @@ public class MySqlDataAccessHelper implements Serializable{
 
 	public void close() {
 		try {
-			this.connection.close();
+			if(connection!=null){
+				this.connection.close();
+			}
 		} catch (SQLException ex) {
 			Logger.getLogger(MySqlDataAccessHelper.class.getName()).log(
 					Level.SEVERE, null, ex);
