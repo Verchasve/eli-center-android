@@ -47,7 +47,7 @@ public class ProcessLAN {
 	ProgressDialog mProgressDialog;
 	LANActivity activity;
 	GridView gridview;
-	LANAdapter adapter;
+	ExtendAdapter adapter;
 	String absoluteIP, username, password;
 	boolean flag = true; // flag == true la scan all, false la absolute
 	ArrayList<String> paths;
@@ -79,7 +79,7 @@ public class ProcessLAN {
 		paths = new ArrayList<String>();
 		auth = new NtlmPasswordAuthentication(null, null, null);
 		
-		adapter = new LANAdapter(activity, R.layout.landetail, list);
+		adapter = new ExtendAdapter(activity, R.layout.extenddetail, list);
 		gridview.setAdapter(adapter);
 		address.setText("Choose Machine to connect");
 	}
@@ -172,12 +172,12 @@ public class ProcessLAN {
 	}
 
 	public void refresh() {
-		adapter = new LANAdapter(activity, R.layout.landetail, list);
+		adapter = new ExtendAdapter(activity, R.layout.extenddetail, list);
 		gridview.setAdapter(adapter);
 	}
 
 	public void breakDuringScan() {
-		adapter = new LANAdapter(activity, R.layout.landetail, list);
+		adapter = new ExtendAdapter(activity, R.layout.extenddetail, list);
 		gridview.setAdapter(adapter);
 	}
 

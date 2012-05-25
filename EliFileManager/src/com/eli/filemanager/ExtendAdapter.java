@@ -13,7 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class LANAdapter extends ArrayAdapter<Files>{
+public class ExtendAdapter extends ArrayAdapter<Files>{
 
 	LayoutInflater inflator;
 	int layout;
@@ -21,7 +21,7 @@ public class LANAdapter extends ArrayAdapter<Files>{
 	Context context;
 	Drawable drawable;
 	
-	public LANAdapter(Context context, int layout,
+	public ExtendAdapter(Context context, int layout,
 			ArrayList<Files> array) {
 		super(context, layout, array);
 		inflator = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -37,16 +37,16 @@ public class LANAdapter extends ArrayAdapter<Files>{
 			view = inflator.inflate(layout, null);
 		}
 		
-		Files ip = array.get(position);
-		TextView iptv = (TextView)view.findViewById(R.id.ip);
+		Files item = array.get(position);
+		TextView iptv = (TextView)view.findViewById(R.id.name);
 		ImageView icon = (ImageView)view.findViewById(R.id.icon);
 		try{
-			drawable = ip.getIcon();
+			drawable = item.getIcon();
 			icon.setImageDrawable(drawable);
 		}catch (Exception e) {
 			e.printStackTrace(System.out);
 		}
-		iptv.setText(ip.getName());
+		iptv.setText(item.getName());
 		return view;
 	}
 }
