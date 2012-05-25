@@ -3,4 +3,5 @@
     <item android:id="@+id/local" android:title="Local"/>
 	<item android:id="@+id/lan" android:title="Lan"/>
 	<item android:id="@+id/ftp" android:title="FTP"/>
+	<item android:id="@+id/bluetooth" android:title="Bluetooth"/>
 </menu>

@@ -417,6 +417,11 @@ public class ListActivity extends Activity {
 			startActivity(intentFTP);
 			finish();
 			break;
+		case R.id.bluetooth:
+			Intent intentBluetooth = new Intent(this,BluetoothActivity.class);
+			startActivity(intentBluetooth);
+			finish();
+			break;
 		default:
 			break;
 		}
