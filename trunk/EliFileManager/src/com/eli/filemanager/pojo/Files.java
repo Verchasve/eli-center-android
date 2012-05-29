@@ -1,6 +1,7 @@
 package com.eli.filemanager.pojo;
 
 
+import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Parcel;
@@ -15,6 +16,7 @@ public class Files{
 	private String childFile;
 	private Long modified;
 	private String path;
+	private BluetoothDevice bluetooth;
 	
 	public Files(){}
 	
@@ -73,5 +75,13 @@ public class Files{
 
 	public String getPath() {
 		return path;
+	}
+
+	public void setBluetooth(BluetoothDevice bluetooth) {
+		this.bluetooth = bluetooth;
+	}
+
+	public BluetoothDevice getBluetooth() {
+		return bluetooth;
 	}
 }
