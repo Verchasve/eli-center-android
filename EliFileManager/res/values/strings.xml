@@ -131,4 +131,21 @@
     <string name="copykr">복사</string>
     <string name="sortkr">정렬</string>
 
+	<string-array name="switchto_arr">
+        <item>Local</item>
+        <item>LAN</item>
+        <item>FTP</item>
+        <item>Bluetooth</item>
+    </string-array>
+	
+	<!--  DeviceListActivity -->
+    <string name="scanning">Scanning for devices...</string>
+    <string name="select_device">Select a device to connect</string>
+    <string name="none_paired">No devices have been paired</string>
+    <string name="none_found">No devices found</string>
+    <string name="title_paired_devices">Paired Devices</string>
+    <string name="title_other_devices">Other Available Devices</string>
+    <string name="button_scan">Scan for devices</string>
+	<string name="bluetooth_dont_support">Device does not support Bluetooth</string>
+	<string name="title_bluetooth">Manager Bluetooth</string>
 </resources>
