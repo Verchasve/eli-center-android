@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlListBluetooth"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/listview"
+    android:orientation="vertical"
+    android:padding="10dp" >
+
+    <ImageView
+        android:id="@+id/ivDeviceBluetooth"
+        android:layout_width="50sp"
+        android:layout_height="40sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/bt_device" />
+
+    <TextView
+        android:id="@+id/tvNameDeviceBluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivDeviceBluetooth"
+        android:layout_toRightOf="@+id/ivDeviceBluetooth"
+        android:text="Name Device"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvAddressDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvNameDeviceBluetooth"
+        android:layout_below="@+id/tvNameDeviceBluetooth"
+        android:text="TextView" />
+
+</RelativeLayout>

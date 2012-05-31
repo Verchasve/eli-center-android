@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30sp"
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="24sp"
+            android:layout_height="24sp"
+            android:src="@drawable/bluetooth_icon"/>
+        
+        <TextView
+            android:id="@+id/tvStateBluetooth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="@string/title_bluetooth"
+            android:paddingLeft="10sp"/>
+    </LinearLayout>
+
+    <TextView android:id="@+id/title_paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_paired_devices"
+        android:visibility="visible"
+        android:background="#666"
+        android:textColor="#fff"
+        android:paddingLeft="5dp"
+        android:height="25sp"
+        android:gravity="center_vertical"/>
+    <ListView android:id="@+id/paired_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+    <TextView android:id="@+id/title_new_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/title_other_devices"
+        android:visibility="visible"
+        android:background="#666"
+        android:textColor="#fff"
+        android:paddingLeft="5dp"
+        android:height="25sp"
+        android:gravity="center_vertical"/>
+    <ListView android:id="@+id/new_devices"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"/>
+
+</LinearLayout>
