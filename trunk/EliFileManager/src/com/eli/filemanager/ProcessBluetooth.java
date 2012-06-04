@@ -3,6 +3,8 @@ package com.eli.filemanager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Set;
 import java.util.UUID;
@@ -11,6 +13,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -46,6 +49,8 @@ public class ProcessBluetooth {
     ArrayList<Files> mNewDevicesArray;
     
     private ConnectThread mConnectThread;
+    private ConnectedThread mConnectedThread;
+    private AcceptThread mAcceptThead;
     
     public Handler handler = new Handler();
     protected static ProgressDialog dialog;
@@ -66,6 +71,10 @@ public class ProcessBluetooth {
 		newDevicesListView.setOnItemClickListener(itemDeviceClick());
 		
 		getDevice();
+		if (mAcceptThead == null) {
+			mAcceptThead = new AcceptThread();
+			mAcceptThead.start();
+        }
 	}
 	
 	AsyncTask<String, String, Void> asyn;
@@ -77,6 +86,29 @@ public class ProcessBluetooth {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Files file = (Files) arg0.getItemAtPosition(arg2);
+				BluetoothDevice device = file.getBluetooth();
+				Method m;
+				try {
+					m = device.getClass().getMethod("createBond", (Class[])null);
+					m.invoke(device, (Object[])null);
+				} catch (SecurityException e) {
+					e.printStackTrace();
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					e.printStackTrace();
+				} catch (IllegalAccessException e) {
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					e.printStackTrace();
+				}
+
+				int bondState = device.getBondState();
+				if (bondState == BluetoothDevice.BOND_NONE || bondState == BluetoothDevice.BOND_BONDING)
+				{
+				    pairDevice(device);
+				}
+				
 				mConnectThread = new ConnectThread(file.getBluetooth());
 				mConnectThread.start();
 			}
@@ -245,6 +277,48 @@ public class ProcessBluetooth {
 
 	    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)tmDevice.hashCode() << 32) | tmSerial.hashCode());
 	    return deviceUuid;
+	}
+	
+	private class AcceptThread extends Thread {
+	    private final BluetoothServerSocket mmServerSocket;
+	    private UUID MY_UUID = null;
+
+	    public AcceptThread() {
+	    	MY_UUID = createUUID();
+	        BluetoothServerSocket tmp = null;
+	        try {
+	            tmp = mBtAdapter.listenUsingRfcommWithServiceRecord("AcceptThread", MY_UUID);
+	        } catch (IOException e) { }
+	        mmServerSocket = tmp;
+	    }
+
+	    public void run() {
+	        BluetoothSocket socket = null;
+	        while (true) {
+	            try {
+	                socket = mmServerSocket.accept();
+	            } catch (IOException e) {
+	                break;
+	            }
+	            if (socket != null) {
+	            	mConnectedThread = new ConnectedThread(socket);
+	            	mConnectedThread.start();
+	                try {
+						mmServerSocket.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+	                break;
+	            }
+	        }
+	    }
+
+	    /** Will cancel the listening socket, and cause the thread to finish */
+	    public void cancel() {
+	        try {
+	            mmServerSocket.close();
+	        } catch (IOException e) { }
+	    }
 	}
 	
 	private class ConnectThread extends Thread {
