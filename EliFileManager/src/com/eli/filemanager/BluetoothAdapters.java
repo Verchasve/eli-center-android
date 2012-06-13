@@ -1,11 +1,9 @@
 package com.eli.filemanager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import com.eli.filemanager.pojo.Files;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
