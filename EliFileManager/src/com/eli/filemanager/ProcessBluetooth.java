@@ -50,11 +50,12 @@ public class ProcessBluetooth {
     
     private ConnectThread mConnectThread;
     private ConnectedThread mConnectedThread;
-    private AcceptThread mAcceptThead;
     
     public Handler handler = new Handler();
     protected static ProgressDialog dialog;
     BluetoothSocket socket;
+    
+    private static final int REQUEST_ENABLE_BT = 3;
     
 	public ProcessBluetooth(BluetoothActivity activity ) {
 		this.activity = activity;
@@ -62,6 +63,19 @@ public class ProcessBluetooth {
 	}
 	
 	private void initObject() {
+		
+		mBtAdapter = BluetoothAdapter.getDefaultAdapter();
+		if (mBtAdapter == null) {
+			Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
+        	activity.findViewById(R.id.scan_bluetooth).setEnabled(false);
+        	return;
+        }
+		
+		if (!mBtAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            activity.startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        }
+		
 		mPairedDevicesArray = new ArrayList<Files>();
 		mNewDevicesArray = new ArrayList<Files>();
 		
@@ -71,10 +85,6 @@ public class ProcessBluetooth {
 		newDevicesListView.setOnItemClickListener(itemDeviceClick());
 		
 		getDevice();
-		if (mAcceptThead == null) {
-			mAcceptThead = new AcceptThread();
-			mAcceptThead.start();
-        }
 	}
 	
 	AsyncTask<String, String, Void> asyn;
@@ -207,17 +217,6 @@ public class ProcessBluetooth {
 	}
 	
 	public void getDevice() {
-		mBtAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (mBtAdapter == null) {
-        	activity.findViewById(R.id.scan_bluetooth).setEnabled(false);
-        	return;
-        }
-        
-        if (!mBtAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            activity.startActivityForResult(enableBtIntent, 1);
-        }
-		
      // Register for broadcasts when a device is discovered
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
         activity.registerReceiver(mReceiver, filter);
@@ -279,7 +278,7 @@ public class ProcessBluetooth {
 	    return deviceUuid;
 	}
 	
-	private class AcceptThread extends Thread {
+	/*private class AcceptThread extends Thread {
 	    private final BluetoothServerSocket mmServerSocket;
 	    private UUID MY_UUID = null;
 
@@ -313,13 +312,12 @@ public class ProcessBluetooth {
 	        }
 	    }
 
-	    /** Will cancel the listening socket, and cause the thread to finish */
 	    public void cancel() {
 	        try {
 	            mmServerSocket.close();
 	        } catch (IOException e) { }
 	    }
-	}
+	}*/
 	
 	private class ConnectThread extends Thread {
 	    private final BluetoothSocket mmSocket;
