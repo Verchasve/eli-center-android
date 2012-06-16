@@ -13,7 +13,6 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -54,9 +53,9 @@ public class ProcessBluetooth {
     public Handler handler = new Handler();
     protected static ProgressDialog dialog;
     BluetoothSocket socket;
-    
+
     private static final int REQUEST_ENABLE_BT = 3;
-    
+
 	public ProcessBluetooth(BluetoothActivity activity ) {
 		this.activity = activity;
 		initObject();
@@ -67,7 +66,9 @@ public class ProcessBluetooth {
 		mBtAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (mBtAdapter == null) {
 			Toast.makeText(activity, "Bluetooth is not available", Toast.LENGTH_LONG).show();
-        	activity.findViewById(R.id.scan_bluetooth).setEnabled(false);
+			Intent intent0 = new Intent(activity,ListActivity.class);
+			activity.startActivity(intent0);
+			activity.finish();
         	return;
         }
 		
@@ -345,6 +346,8 @@ public class ProcessBluetooth {
 	            } catch (IOException closeException) { }
 	            return;
 	        }
+	        mConnectedThread = new ConnectedThread(mmSocket);
+	        mConnectedThread.start();
 	    }
 	 
 	    public void cancel() {
@@ -407,4 +410,5 @@ public class ProcessBluetooth {
 	        } catch (IOException e) { }
 	    }
 	}
+
 }
