@@ -56,6 +56,14 @@ public class BluetoothActivity extends Activity{
 
         // Unregister broadcast listeners
         this.unregisterReceiver(processBT.mReceiver);
+        
+        processBT.destroy();
     }
 	
+	@Override
+	protected void onResume() {
+		processBT.resume();
+		super.onResume();
+	}
+
 }
